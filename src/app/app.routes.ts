@@ -23,5 +23,5 @@ export const routes: Routes = [
             { path: "", component: HomeComponent, pathMatch: "full" },
         ]
     },
-    { path: "**", redirectTo: "barrier/login", pathMatch: "full" }
+    { path: "**", redirectTo: "", pathMatch: "full" }
 ];
