@@ -1,7 +1,7 @@
 @if (!sessionAccount) {
 
     @if (isSavedUser) {
-        <h1>Willkommen zurück</h1>
+        <h1>{{ 'page.auth.lastUsers.title' | translate }}</h1>
     
         <div class="past-user-list">
             @for (user of lastUsers.slice().reverse(); track $index) {
@@ -17,7 +17,7 @@
                 <div class="avatar">
                     <span></span>
                 </div>
-                <h3>{{ 'Anderer Benutzer' }}</h3>
+                <h3>{{ 'page.auth.lastUsers.otherUser.label' | translate }}</h3>
             </a>
         </div>
     }

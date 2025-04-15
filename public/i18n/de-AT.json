@@ -1,11 +1,16 @@
 {
     "page": {
         "auth": {
+            "lastUsers": {
+                "title": "Willkommen zurück",
+                "otherUser.label": "Anderer Benutzer"
+            },
             "login": {
                 "title": "Anmelden",
                 "username.label": "Benutzername",
                 "password.label": "Password",
                 "forgotPassword.label": "Passwort vergessen?",
+                "rememberMe.label": "Benutzername speichern",
                 "login.button": "Login"
             },
             "totp": {
