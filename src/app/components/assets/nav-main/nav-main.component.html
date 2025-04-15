@@ -1,1 +1,60 @@
-<p>nav-main works!</p>
+<nav>
+    <div class="left">
+        <ul>
+            <li>
+                <a routerLink="/">
+                    <fa-icon [icon]="fa.faHome" />
+                    {{ 'asset.nav.page.home.label' | translate }}
+                </a>
+            </li>
+            <li>
+                <a routerLink="/">
+                    <fa-icon [icon]="fa.faUserFriends" />
+                    {{ 'asset.nav.page.friends.label' | translate }}
+                </a>
+            </li>
+            <li>
+                <a routerLink="/">
+                    <fa-icon [icon]="fa.faUserGroup" />
+                    {{ 'asset.nav.page.groups.label' | translate }}
+                </a>
+            </li>
+            <li>
+                <a routerLink="/">
+                    <fa-icon [icon]="fa.faPen" />
+                    {{ 'asset.nav.page.newGame.label' | translate }}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="right">
+        <span class="user" tabindex="0" (click)="toggleUserMenu()" (keydown.enter)="toggleUserMenu()" (keydown.space)="toggleUserMenu()">
+            <p>{{ account?.username }}</p>
+            <div class="avatar">
+                <img [src]="account?.avatar" *ngIf="account?.avatar"/>
+            </div>
+        </span>
+        <div class="usermenu" id="usermenu" @fade *ngIf="isUserMenuOpen" (blur)="isUserMenuOpen = false">
+            <ul>
+                <li>
+                    <a routerLink="/profile">
+                        <fa-icon [icon]="fa.faUser" />
+                        {{ 'asset.nav.usermenu.profile.label' | translate }}
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/">
+                        <fa-icon [icon]="fa.faGear" />
+                        {{ 'asset.nav.usermenu.settings.label' | translate }}
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/barrier/logout">
+                        <fa-icon [icon]="fa.faRightFromBracket" />
+                        {{ 'asset.nav.usermenu.logout.label' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

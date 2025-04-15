@@ -1,4 +1,19 @@
 {
+    "asset": {
+        "nav": {
+            "page": {
+                "home.label": "Startseite",
+                "friends.label": "Freunde",
+                "groups.label": "Gruppen",
+                "newGame.label": "Neues Spiel"
+            },
+            "usermenu": {
+                "profile.label": "Profil",
+                "settings.label": "Einstellungen",
+                "logout.label": "Abmelden"
+            }
+        }
+    },
     "page": {
         "auth": {
             "lastUsers": {

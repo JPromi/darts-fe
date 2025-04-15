@@ -1,2 +1,4 @@
-<asset-nav-main></asset-nav-main>
-<router-outlet></router-outlet>
+@if (isLoggedIn) {
+    <asset-nav-main></asset-nav-main>
+    <router-outlet></router-outlet>
+}
