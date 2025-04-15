@@ -17,6 +17,7 @@ nav {
     z-index: 1000;
     padding: 0 2rem;
     box-sizing: border-box;
+    backdrop-filter: blur(100px) saturate(150%) brightness(100%);
 
     .left {
         display: flex;
