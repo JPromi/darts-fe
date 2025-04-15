@@ -36,8 +36,8 @@
                 <div class="input-container">
                     <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" name="password" autocomplete="current-password" [(ngModel)]="loginObject.password" required>
                     <button type="button" (click)="isPasswordVisible = !isPasswordVisible">
-                        <span *ngIf="!isPasswordVisible">EYE</span>
-                        <span *ngIf="isPasswordVisible">NOT EYE</span>
+                        <fa-icon *ngIf="!isPasswordVisible" [icon]="fa.faEye"></fa-icon>
+                        <fa-icon *ngIf="isPasswordVisible" [icon]="fa.faEyeSlash"></fa-icon>
                     </button>
                 </div>
             </div>
