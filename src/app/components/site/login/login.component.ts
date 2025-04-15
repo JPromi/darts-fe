@@ -9,6 +9,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { PastUser } from '../../../entities/pastUser';
 import { CookieService } from 'ngx-cookie-service';
+import { LoStorageService } from '../../../services/local/lo-storage.service';
+import { environment } from '../../../../environments/environment';
+import { SessionAccountResponse } from '../../../dtos/sessionAccountResponse';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +29,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private cookieService: CookieService,
+    private loStorageService: LoStorageService,
   ) { }
 
   public loginObject: Login = new Login();
@@ -35,8 +39,12 @@ export class LoginComponent implements OnInit {
   public isSavedUser: boolean = false;
   public lastUsers: PastUser[] = [];
 
+  public sessionAccount?: SessionAccountResponse
+
   ngOnInit(): void {
     this.getLastUsers();
+
+    this.getSession();
   }
 
   public login() {
@@ -52,6 +60,8 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
         if(response.totpRequired) {
           this.router.navigate(['/barrier/login/totp']);
+        } else {
+          this.getSession();
         }
       },
       (error) => {
@@ -78,6 +88,20 @@ export class LoginComponent implements OnInit {
   }
 
   private setSession(loginResponse: LoginResponse) {
-    this.cookieService.set('b2h.darts.session', loginResponse.token, 0, '/', '.jpromi.com', true, 'Strict');
+    document.cookie = `b2h.darts.session=${loginResponse.token};domain=${environment.rootUrl};path=/;max-age=${60*60*24*365};secure=true;SameSite=Lax`;
+    localStorage.setItem('b2h.darts.session', loginResponse.token);
+  }
+
+  private getSession() {
+    this.authService.session().subscribe(
+      (response) => {
+        this.loStorageService.setSessionAccount(response);
+        this.sessionAccount = response;
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        
+      }
+    );
   }
 }

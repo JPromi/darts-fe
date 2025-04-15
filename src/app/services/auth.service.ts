@@ -4,6 +4,7 @@ import { LoginRequest } from '../dtos/loginRequest';
 import { Observable } from 'rxjs';
 import { LoginResponse } from '../dtos/loginResponse';
 import { environment } from '../../environments/environment';
+import { SessionAccountResponse } from '../dtos/sessionAccountResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,13 @@ export class AuthService {
 
   public login(request: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${environment.baseUrl}/auth`, request, { withCredentials: true });
+  }
+
+  public session(): Observable<SessionAccountResponse> {
+    return this.http.get<SessionAccountResponse>(`${environment.baseUrl}/auth/session`, { withCredentials: true });
+  }
+
+  public logout(): Observable<void> {
+    return this.http.delete<void>(`${environment.baseUrl}/auth`, { withCredentials: true });
   }
 }
