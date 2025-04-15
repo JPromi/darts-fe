@@ -6,7 +6,12 @@
                 "username.label": "Benutzername",
                 "password.label": "Password",
                 "forgotPassword.label": "Passwort vergessen?",
-                "login.button": "Anmelden"
+                "login.button": "Login"
+            },
+            "totp": {
+                "title": "TOTP",
+                "totp.label": "TOTP",
+                "login.button": "Login"
             }
         }
     }

@@ -19,6 +19,10 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${environment.baseUrl}/auth`, request, { withCredentials: true });
   }
 
+  public loginTotp(request: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.baseUrl}/auth/totp`, request, { withCredentials: true });
+  }
+
   public loginSession(): Observable<LoginResponse> {
     return this.http.get<LoginResponse>(`${environment.baseUrl}/auth`, { withCredentials: true });
   }

@@ -43,7 +43,7 @@
             </div>
     
             <a [routerLink]="['forget']">{{ 'page.auth.login.forgotPassword.label' | translate }}</a>
-            <!-- Error -->
+            
             <span class="error" *ngIf="loginResponse && loginResponse.error">
                 <p>{{ loginResponse.error }}</p>
             </span>
