@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^19.2.6",
     "@angular/platform-browser-dynamic": "^19.2.6",
     "@angular/router": "^19.2.6",
+    "@fortawesome/angular-fontawesome": "^1.0.0",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^16.0.1",
     "ngx-cookie-service": "^19.1.2",

@@ -13,6 +13,8 @@ import { LoStorageService } from '../../../services/local/lo-storage.service';
 import { environment } from '../../../../environments/environment';
 import { SessionAccountResponse } from '../../../dtos/sessionAccountResponse';
 import { LoAuthService } from '../../../services/local/lo-auth.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import * as fa from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,8 @@ import { LoAuthService } from '../../../services/local/lo-auth.service';
     FormsModule,
     RouterModule,
     TranslateModule,
-    CommonModule
+    CommonModule,
+    FontAwesomeModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -32,6 +35,8 @@ export class LoginComponent implements OnInit {
     private loAuthService: LoAuthService,
     private loStorageService: LoStorageService,
   ) { }
+
+  fa = fa;
 
   public loginObject: Login = new Login();
   public loginResponse?: LoginResponse;

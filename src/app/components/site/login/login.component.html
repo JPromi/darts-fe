@@ -44,7 +44,15 @@
     
             <a [routerLink]="['forget']">{{ 'page.auth.login.forgotPassword.label' | translate }}</a>
 
-            <input type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="loginObject.rememberMe">
+            <div class="long">
+                <span class="checkbox">
+                    <span [class.checked]="loginObject.rememberMe">
+                        <fa-icon [icon]="fa.faCheck"></fa-icon>
+                    </span>
+                    <input type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="loginObject.rememberMe">
+                </span>
+                <label for="rememberMe">Remember Me?</label>
+            </div>
             
             <span class="error" *ngIf="loginResponse && loginResponse.error">
                 <p>{{ loginResponse.error }}</p>
