@@ -10,7 +10,7 @@
                 "username.label": "Benutzername",
                 "password.label": "Password",
                 "forgotPassword.label": "Passwort vergessen?",
-                "rememberMe.label": "Benutzername speichern",
+                "rememberMe.label": "Benutzer speichern?",
                 "login.button": "Login"
             },
             "totp": {
