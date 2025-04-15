@@ -1,0 +1,13 @@
+{
+    "page": {
+        "auth": {
+            "login": {
+                "title": "Anmelden",
+                "username.label": "Benutzername",
+                "password.label": "Password",
+                "forgotPassword.label": "Passwort vergessen?",
+                "login.button": "Anmelden"
+            }
+        }
+    }
+}
