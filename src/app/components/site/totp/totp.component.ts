@@ -7,6 +7,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { CommonModule } from '@angular/common';
+import { LoAuthService } from '../../../services/local/lo-auth.service';
+import { SessionAccountResponse } from '../../../dtos/sessionAccountResponse';
 
 @Component({
   selector: 'app-totp',
@@ -25,6 +27,7 @@ export class TotpComponent {
     private authService: AuthService,
     private router: Router,
     private loStorageService: LoStorageService,
+    private loAuthService: LoAuthService,
   ) { }
   
   public totp: string = '';
@@ -52,6 +55,7 @@ export class TotpComponent {
   private getSession() {
     this.authService.session().subscribe(
       (response) => {
+        this.rememberMe(response);
         this.loStorageService.setSessionAccount(response);
         this.router.navigate(['/']);
       },
@@ -60,5 +64,15 @@ export class TotpComponent {
       }
     );
   }
+
+  private rememberMe(session: SessionAccountResponse) {
+    console.log('remember me check');
+    var remember= this.loAuthService.isRememberMeTmp();
+    if (remember) {
+      console.log('remember me');
+      this.loAuthService.setRememberMe(session);
+      this.loAuthService.setRememberMeTmp(false);
+    }
+  } 
   
 }

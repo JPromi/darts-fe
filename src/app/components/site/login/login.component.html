@@ -4,7 +4,7 @@
         <h1>Willkommen zurück</h1>
     
         <div class="past-user-list">
-            @for (user of lastUsers; track $index) {
+            @for (user of lastUsers.slice().reverse(); track $index) {
                 <a tabindex="0" (click)="selectUser(user)" (keydown.enter)="selectUser(user)" (keydown.space)="selectUser(user)">
                     <div class="avatar">
                         <img *ngIf="user.avatar" [src]="user.avatar">
@@ -43,6 +43,8 @@
             </div>
     
             <a [routerLink]="['forget']">{{ 'page.auth.login.forgotPassword.label' | translate }}</a>
+
+            <input type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="loginObject.rememberMe">
             
             <span class="error" *ngIf="loginResponse && loginResponse.error">
                 <p>{{ loginResponse.error }}</p>

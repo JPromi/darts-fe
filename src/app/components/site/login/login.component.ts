@@ -12,6 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoStorageService } from '../../../services/local/lo-storage.service';
 import { environment } from '../../../../environments/environment';
 import { SessionAccountResponse } from '../../../dtos/sessionAccountResponse';
+import { LoAuthService } from '../../../services/local/lo-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cookieService: CookieService,
+    private loAuthService: LoAuthService,
     private loStorageService: LoStorageService,
   ) { }
 
@@ -59,6 +60,7 @@ export class LoginComponent implements OnInit {
         this.loginResponse = response;
         this.isLoading = false;
         if(response.totpRequired) {
+          this.loAuthService.setRememberMeTmp(this.loginObject.rememberMe);
           this.router.navigate(['/barrier/login/totp']);
         } else {
           this.getSession();
@@ -77,14 +79,21 @@ export class LoginComponent implements OnInit {
   }
 
   private getLastUsers() {
-    const lastUsers = localStorage.getItem('b2h.darts.lastUsers');
+    const lastUsers = this.loAuthService.getLastUsers();
     if (lastUsers) {
-      const lastUsersArray = JSON.parse(lastUsers);
-      if (lastUsersArray.length > 0) {
-        this.lastUsers = lastUsersArray;
+      if (lastUsers.length > 0) {
+        this.lastUsers = lastUsers;
         this.isSavedUser = true;
       }
     }
+    // const lastUsers = localStorage.getItem('b2h.darts.lastUsers');
+    // if (lastUsers) {
+    //   const lastUsersArray = JSON.parse(lastUsers);
+    //   if (lastUsersArray.length > 0) {
+    //     this.lastUsers = lastUsersArray;
+    //     this.isSavedUser = true;
+    //   }
+    // }
   }
 
   private setSession(loginResponse: LoginResponse) {
@@ -95,6 +104,7 @@ export class LoginComponent implements OnInit {
   private getSession() {
     this.authService.session().subscribe(
       (response) => {
+        if(this.loginObject.rememberMe) this.loAuthService.setRememberMe(response);
         this.loStorageService.setSessionAccount(response);
         this.sessionAccount = response;
         this.router.navigate(['/']);
