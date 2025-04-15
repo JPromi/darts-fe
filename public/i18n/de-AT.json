@@ -3,7 +3,6 @@
         "nav": {
             "page": {
                 "home.label": "Startseite",
-                "friends.label": "Freunde",
                 "groups.label": "Gruppen",
                 "newGame.label": "Neues Spiel"
             },
