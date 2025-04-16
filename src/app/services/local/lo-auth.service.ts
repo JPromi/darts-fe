@@ -19,6 +19,10 @@ export class LoAuthService {
     const existingUser = lastUsers.find(user => user.uuid === session.uuid);
     if (!existingUser) {
       lastUsers.push(user);
+    } else {
+      const index = lastUsers.indexOf(existingUser);
+      lastUsers.splice(index, 1);
+      lastUsers.push(user);
     }
     if (lastUsers.length > 5) {
       lastUsers.shift();
