@@ -31,6 +31,9 @@
                 "title": "TOTP",
                 "totp.label": "TOTP",
                 "login.button": "Login"
+            },
+            "logout": {
+                "logout.text": "Abmelden"
             }
         }
     }
