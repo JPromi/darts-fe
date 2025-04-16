@@ -124,6 +124,10 @@
                 background-color: var(--background-secondary);
                 border: 1px solid var(--border);
 
+                &:focus-within {
+                    outline: 1px solid var(--primary);
+                }
+
                 input {
                     position: absolute;
                     top: 0;
