@@ -5,11 +5,13 @@ import { LoStorageService } from '../../../services/local/lo-storage.service';
 import { ProfileResponse } from '../../../dtos/profileResponse';
 import { ProfileService } from '../../../services/profile.service';
 import { CommonModule } from '@angular/common';
+import { ErrorPageComponent } from '../../assets/error-page/error-page.component';
 
 @Component({
   selector: 'app-profile',
   imports: [
-    CommonModule
+    CommonModule,
+    ErrorPageComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
@@ -23,8 +25,8 @@ export class ProfileComponent implements OnInit {
 
   public isOwnProfile = false;
   public sessionAccount: SessionAccountResponse | null = null;
-
-  public profie!: ProfileResponse;
+  public errorCode!: number;
+  public profile!: ProfileResponse;
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
@@ -53,10 +55,11 @@ export class ProfileComponent implements OnInit {
   private getProfile(username: string) {
     this.profileService.getProfile(username).subscribe(
       (response) => {
-        this.profie = response;
+        this.profile = response;
       },
       (error) => {
-        console.log(error);
+        console.error(error);
+        this.errorCode = error.status;
       }
     );
   }

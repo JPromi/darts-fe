@@ -1,15 +1,19 @@
-@if (profie) {
+@if (profile) {
     <section class="header">
         <div class="banner">
-            <img [src]="profie.banner">
+            <img [src]="profile.banner">
         </div>
         <div class="top">
             <div class="avatar">
-                <img [src]="profie.avatar" *ngIf="profie.avatar"/>
+                <img [src]="profile.avatar" *ngIf="profile.avatar"/>
             </div>
             <div class="name">
-                <h2>{{ profie.username }}</h2>
+                <h2>{{ profile.username }}</h2>
             </div>
         </div>
     </section>
+}
+
+@if (errorCode) {
+    <error-page [errorCode]="errorCode" />
 }
