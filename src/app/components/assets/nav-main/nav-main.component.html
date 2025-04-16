@@ -1,6 +1,15 @@
 <nav>
     <div class="left">
-        <ul>
+        <button
+            (click)="isMobileMenuOpen = !isMobileMenuOpen"
+            (keydown.enter)="isMobileMenuOpen = !isMobileMenuOpen"
+            (keydown.space)="isMobileMenuOpen = !isMobileMenuOpen"
+            class="veggi-burger"
+            [class.active]="isMobileMenuOpen">
+            <span></span>
+            <span></span>
+        </button>
+        <ul *ngIf="!isMobile || (isMobile && isMobileMenuOpen)" @fade id="mobilemenu">
             <li>
                 <a routerLink="/" class="highlight">
                     <fa-icon [icon]="fa.faPen" />
@@ -22,12 +31,12 @@
         </ul>
     </div>
     <div class="right">
-        <span class="user" tabindex="0" (click)="toggleUserMenu()" (keydown.enter)="toggleUserMenu()" (keydown.space)="toggleUserMenu()">
+        <button class="user" (click)="toggleUserMenu()" (keydown.enter)="toggleUserMenu()" (keydown.space)="toggleUserMenu()">
             <p>{{ account?.username }}</p>
             <div class="avatar">
                 <img [src]="account?.avatar" *ngIf="account?.avatar"/>
             </div>
-        </span>
+        </button>
         <div class="usermenu" id="usermenu" @fade *ngIf="isUserMenuOpen" (blur)="isUserMenuOpen = false">
             <ul>
                 <li>

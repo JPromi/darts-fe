@@ -52,9 +52,12 @@ export class NavMainComponent implements OnInit {
   public account: SessionAccountResponse | null = null;
 
   public isUserMenuOpen = false;
+  public isMobileMenuOpen = false;
+  public isMobile = false;
 
   ngOnInit(): void {
     this.getAccount();
+    this.isMobile = window.innerWidth <= 768;
   }
 
   public toggleUserMenu() {
@@ -77,5 +80,23 @@ export class NavMainComponent implements OnInit {
         this.isUserMenuOpen = false;
       }
     }
+
+    if(this.isMobileMenuOpen && this.isMobile) {
+      const mobileMenuElement = this.elementRef.nativeElement.querySelector('#mobilemenu');
+      if (mobileMenuElement && !mobileMenuElement.contains(event.target)) {
+        this.isMobileMenuOpen = false;
+      }
+    }
   }
+
+  @HostListener('window:resize', ['$event'])
+  private onResize(event: Event) {
+    const width = window.innerWidth;
+    if (width <= 768) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+  }
+
 }

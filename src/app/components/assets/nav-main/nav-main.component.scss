@@ -22,6 +22,52 @@ nav {
         display: flex;
         align-items: center;
 
+        .veggi-burger {
+            display: none;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            width: 48px;
+            height: 48px;
+            box-sizing: border-box;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                position: absolute;
+                width: 18px;
+                height: 2px;
+                background-color: var(--text);
+                border-radius: 1rem;
+                transition: transform 150ms ease-in-out 75ms, rotate 150ms ease-in-out;
+
+                &:nth-child(1) {
+                    transform: translateY(-4px);
+                }
+
+                &:nth-child(2) {
+                    transform: translateY(4px);
+                }
+            }
+
+            &.active {
+                span {
+                    transition: transform 150ms ease-in-out, rotate 150ms ease-in-out 75ms;
+
+                    &:nth-child(1) {
+                        transform: translateY(0);
+                        rotate: 45deg;
+                    }
+
+                    &:nth-child(2) {
+                        transform: translateY(0);
+                        rotate: -45deg;
+                    }
+                }
+            }
+        }
+
         ul {
             display: flex;
             align-items: center;
@@ -69,6 +115,15 @@ nav {
             height: 3rem;
             gap: .75rem;
             cursor: pointer;
+            background-color: transparent;
+            border: none;
+            color: var(--text);
+
+            p {
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--text);
+            }
 
             .avatar {
                 width: 2.5rem;
@@ -140,4 +195,69 @@ nav {
             }
         }
     }
+}
+
+@media screen and (max-width: 768px) {
+    nav {
+        width: calc(100% - 1rem);
+        padding: 0 .5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 1rem;
+        height: 4rem;
+
+        .left {
+
+            .veggi-burger {
+                display: flex;
+            }
+
+            ul {
+                position: absolute;
+                bottom: -1rem;
+                transform: translateY(100%);
+                left: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                width: calc(100vw - 1rem);
+                background-color: var(--background-secondary);
+                box-sizing: border-box;
+                padding: 1rem;
+                border-radius: .5rem;
+                box-shadow: 0 0 1rem var(--shadow-background);
+                z-index: 1000;
+
+                li {
+                    width: 100%;
+                }
+                
+            }
+        }
+
+        .right {
+            .user {
+                gap: .5rem;
+
+                .avatar {
+                    width: 2.25rem;
+                    height: 2.25rem;
+                }
+            }
+
+            .usermenu {
+                padding: .5rem;
+                border-radius: .25rem;
+
+                ul {
+                    li {
+                        a {
+                            font-size: .9rem;
+                            padding: .5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 }
