@@ -6,7 +6,7 @@ nav {
     max-width: 80rem;
     width: calc(100% - 2rem);
     height: 5rem;
-    background-color: #ffffff10;
+    background-color: #1d1e2b20;
     // margin: 2rem auto;
     top: 1rem;
     left: 50%;
@@ -16,7 +16,7 @@ nav {
     z-index: 1000;
     padding: 0 1.4rem;
     box-sizing: border-box;
-    backdrop-filter: blur(100px) saturate(150%) brightness(100%);
+    backdrop-filter: blur(100px) saturate(150%) brightness(50%);
 
     .left {
         display: flex;

@@ -5,6 +5,7 @@ import { TotpComponent } from './components/site/totp/totp.component';
 import { MainRouterComponent } from './components/routes/main-router/main-router.component';
 import { HomeComponent } from './components/site/home/home.component';
 import { LogoutComponent } from './components/site/logout/logout.component';
+import { ProfileComponent } from './components/site/profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -21,6 +22,8 @@ export const routes: Routes = [
         component: MainRouterComponent,
         children: [
             { path: "", component: HomeComponent, pathMatch: "full" },
+            { path: "profile", component: ProfileComponent, pathMatch: "full" },
+            { path: "profile/:username", component: ProfileComponent, pathMatch: "full" },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }

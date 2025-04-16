@@ -1,0 +1,15 @@
+@if (profie) {
+    <section class="header">
+        <div class="banner">
+            <img [src]="profie.banner">
+        </div>
+        <div class="top">
+            <div class="avatar">
+                <img [src]="profie.avatar" *ngIf="profie.avatar"/>
+            </div>
+            <div class="name">
+                <h2>{{ profie.username }}</h2>
+            </div>
+        </div>
+    </section>
+}
