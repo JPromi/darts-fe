@@ -1,1 +1,67 @@
-<p>setting-account-account works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="top">
+        <div class="banner">
+            <div class="options">
+                <button>
+                    <fa-icon [icon]="fa.faCamera"/>
+                </button>
+                <button>
+                    <fa-icon [icon]="fa.faXmark"/>
+                </button>
+            </div>
+            <div class="container">
+                <img [src]="'https://api.dev.jpromi.com/api/files/b89c1bb8-9957-404a-ae0c-7f6ce577c954/b2h-darts_12730580513400491627183-536x354.jpg'">
+            </div>
+        </div>
+        <div class="avatar">
+            <div class="options">
+                <button>
+                    <fa-icon [icon]="fa.faCamera"/>
+                </button>
+                <button>
+                    <fa-icon [icon]="fa.faXmark"/>
+                </button>
+            </div>
+            <div class="container">
+                <img [src]="'https://api.dev.jpromi.com/api/files/b89c1bb8-9957-404a-ae0c-7f6ce577c954/b2h-darts_12730580513400491627183-536x354.jpg'">
+            </div>
+        </div>
+    </div>
+
+    <h3>{{ 'page.settings.profile.general.title' | translate }}</h3>
+
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'username', label: 'page.settings.profile.general.username.label' | translate }" />
+    
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'description', label: 'page.settings.profile.general.description.label' | translate, type: 'textarea' }" />
+    
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'country', label: 'page.settings.profile.general.country.label' | translate }" />
+
+    <h3>{{ 'page.settings.profile.links.title' | translate }}</h3>
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_web', label: 'page.settings.profile.links.website.label' | translate }"></ng-container>
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_x', label: 'page.settings.profile.links.x.label' | translate }"></ng-container>
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_instagram', label: 'page.settings.profile.links.instagram.label' | translate }"></ng-container>
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_github', label: 'page.settings.profile.links.github.label' | translate }"></ng-container>
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_youtube', label: 'page.settings.profile.links.youtube.label' | translate }"></ng-container>
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_twitch', label: 'page.settings.profile.links.twitch.label' | translate }"></ng-container>
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_facebook', label: 'page.settings.profile.links.facebook.label' | translate }"></ng-container>
+
+    <button type="submit" [disabled]="form.invalid">asd</button>
+
+    <!-- TEMPLATE -->
+    <ng-template #formInput let-name="name" let-label="label" let-type="type">
+        <div class="input-container" [class.error]="form.get(name)?.errors && form.get(name)?.touched">
+            <div class="input">
+                <label [for]="name">{{ label }}</label>
+                @if (type !== 'textarea') {
+                    <input [type]="type ? type : 'text'" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" />
+                }
+                @if (type === 'textarea') {
+                    <textarea [id]="name" [name]="name" [formControlName]="name" autocomplete="off"></textarea>
+                }
+            </div>
+            <p *ngIf="form.get(name)?.errors && form.get(name)?.touched" class="error-msg">
+            error.translation
+            </p>
+        </div>
+    </ng-template>
+</form>

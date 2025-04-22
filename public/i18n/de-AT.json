@@ -45,6 +45,24 @@
                     "title": "Informationen",
                     "version.label": "Version {{version}}"
                 }
+            },
+            "profile": {
+                "general": {
+                    "title": "Allgemein",
+                    "username.label": "Benutzername",
+                    "description.label": "Beschreibung",
+                    "country.label": "Land"
+                },
+                "links": {
+                    "title": "Links",
+                    "website.label": "Webseite",
+                    "x.label": "X",
+                    "instagram.label": "Instagram",
+                    "twitch.label": "Twitch",
+                    "youtube.label": "YouTube",
+                    "facebook.label": "Facebook",
+                    "github.label": "GitHub"
+                }
             }
         }
     }
