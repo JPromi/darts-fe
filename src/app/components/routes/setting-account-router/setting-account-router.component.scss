@@ -13,6 +13,7 @@
     aside {
         width: 100%;
         max-width: 12rem;
+        position: relative;
 
         nav {
             display: flex;
@@ -20,6 +21,10 @@
             border-right: 1px solid var(--border);
             // padding: 0 1rem;
             height: calc(100% - 2rem);
+            top: var(--nav-height);
+            position: sticky;
+            width: 12rem;
+            height: calc(100vmin - var(--nav-height) - 2rem);
 
             h1 {
                 font-size: 1.5rem;
