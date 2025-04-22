@@ -8,7 +8,7 @@
         flex-direction: column;
         width: 100%;
         max-width: 50rem;
-        margin: 0 auto;
+        margin: 0 auto 5rem auto;
         gap: 1rem;
 
         .top {
@@ -163,6 +163,51 @@
                         color: var(--error);
                         opacity: 1;
                     }
+                }
+            }
+        }
+
+        .selection-block {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+
+            label {
+                display: flex;
+                padding: .25rem .5rem;
+                border-radius: .25rem;
+                cursor: pointer;
+                transition: background-color 150ms ease-in-out;
+
+                input {
+                    display: none;
+                }
+
+                &.active {
+                    background-color: var(--primary);
+                }
+            }
+        }
+
+        .btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+
+            button {
+                width: 7.5rem;
+                height: 2.5rem;
+                border-radius: .25rem;
+                background-color: var(--primary);
+                color: var(--text);
+                font-size: 1rem;
+                font-weight: 500;
+                border: none;
+                cursor: pointer;
+                transition: background-color 150ms ease-in-out;
+
+                &:hover {
+                    opacity: .9;
                 }
             }
         }

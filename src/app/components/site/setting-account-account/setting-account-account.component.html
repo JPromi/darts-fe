@@ -45,7 +45,26 @@
     <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_twitch', label: 'page.settings.profile.links.twitch.label' | translate }"></ng-container>
     <ng-container *ngTemplateOutlet="formInput; context: { name: 'l_facebook', label: 'page.settings.profile.links.facebook.label' | translate }"></ng-container>
 
-    <button type="submit" [disabled]="form.invalid">asd</button>
+    <h3>{{ 'page.settings.profile.visibility.title' | translate }}</h3>
+    <div class="selection-block">
+        <label for="visibility_public" [class.active]="form.get('visibility')?.value === profileVisibilityEnum.PUBLIC">
+            <input type="radio" id="visibility_public" name="visibility" [value]="profileVisibilityEnum.PUBLIC" formControlName="visibility" />
+            <p>{{ 'page.settings.profile.visibility.public.label' | translate }}</p>
+        </label>
+        <label for="visibility_firends" [class.active]="form.get('visibility')?.value === profileVisibilityEnum.FRIENDS">
+            <input type="radio" id="visibility_firends" name="visibility" [value]="profileVisibilityEnum.FRIENDS" formControlName="visibility" />
+            <p>{{ 'page.settings.profile.visibility.friends.label' | translate }}</p>
+        </label>
+        <label for="visibility_private" [class.active]="form.get('visibility')?.value === profileVisibilityEnum.PRIVATE">
+            <input type="radio" id="visibility_private" name="visibility" [value]="profileVisibilityEnum.PRIVATE" formControlName="visibility" />
+            <p>{{ 'page.settings.profile.visibility.private.label' | translate }}</p>
+        </label>
+    </div>
+
+    <div class="btns">
+        <button type="submit" [disabled]="form.invalid">{{ 'page.settings.profile.buttons.save.button' | translate }}</button>
+    </div>
+
 
     <!-- TEMPLATE -->
     <ng-template #formInput let-name="name" let-label="label" let-type="type">

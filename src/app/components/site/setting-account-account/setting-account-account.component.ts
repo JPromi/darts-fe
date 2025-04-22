@@ -4,6 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProfileVisibilityEnum } from '../../../enums/profileVisibilityEnum';
 
 @Component({
   selector: 'app-setting-account-account',
@@ -20,6 +21,8 @@ import { TranslateModule } from '@ngx-translate/core';
 export class SettingAccountAccountComponent implements OnInit {
   fa = fa;
 
+  profileVisibilityEnum = ProfileVisibilityEnum;
+
   form: FormGroup = new FormGroup(
     {
       // avatar: new FormControl(),
@@ -27,6 +30,7 @@ export class SettingAccountAccountComponent implements OnInit {
       username: new FormControl<string>("",  [Validators.required]),
       description: new FormControl<string>(""),
       country: new FormControl<string>(""),
+      visibility: new FormControl<ProfileVisibilityEnum>(ProfileVisibilityEnum.PUBLIC),
       l_web: new FormControl<string>(""),
       l_x: new FormControl<string>(""),
       l_instagram: new FormControl<string>(""),
