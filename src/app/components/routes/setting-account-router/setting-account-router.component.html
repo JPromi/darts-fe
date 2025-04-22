@@ -1,0 +1,28 @@
+<aside>
+    <nav>
+        <h1>Einstellungen</h1>
+        <ul>
+            <li>
+                <a [routerLink]="['/', 'settings', 'account']" routerLinkActive="active">
+                    <fa-icon [icon]="fa.faUser" />
+                    <p>Account</p>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/', 'settings', 'profile']" routerLinkActive="active">
+                    <fa-icon [icon]="fa.faCircleUser" />
+                    <p>Profil</p>
+                </a>
+            </li>
+        </ul>
+
+        <div class="informations">
+            <h6>Informationen</h6>
+            <p>Version: v1.0.0</p>
+            <p>by <a href="https://jpromi.com">JPromi</a></p>
+        </div>
+    </nav>
+</aside>
+<main>
+    <router-outlet></router-outlet>
+</main>

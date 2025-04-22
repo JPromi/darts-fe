@@ -6,6 +6,8 @@ import { MainRouterComponent } from './components/routes/main-router/main-router
 import { HomeComponent } from './components/site/home/home.component';
 import { LogoutComponent } from './components/site/logout/logout.component';
 import { ProfileComponent } from './components/site/profile/profile.component';
+import { SettingAccountRouterComponent } from './components/routes/setting-account-router/setting-account-router.component';
+import { SettingAccountAccountComponent } from './components/site/setting-account-account/setting-account-account.component';
 
 export const routes: Routes = [
     {
@@ -24,6 +26,14 @@ export const routes: Routes = [
             { path: "", component: HomeComponent, pathMatch: "full" },
             { path: "profile", component: ProfileComponent, pathMatch: "full" },
             { path: "profile/:username", component: ProfileComponent, pathMatch: "full" },
+            { 
+                path: "settings",
+                component: SettingAccountRouterComponent,
+                children: [
+                    { path: "", redirectTo: "profile", pathMatch: "full" },
+                    { path: "profile", component: SettingAccountAccountComponent, pathMatch: "full" },
+                ]
+            },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }
