@@ -35,6 +35,17 @@
             "logout": {
                 "logout.text": "Abmelden"
             }
+        },
+        "settings": {
+            "menu": {
+                "title": "Einstellungen",
+                "account.label": "Konto",
+                "profile.label": "Profil",
+                "informations": {
+                    "title": "Informationen",
+                    "version.label": "Version {{version}}"
+                }
+            }
         }
     }
 }
