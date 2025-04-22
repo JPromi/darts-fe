@@ -73,8 +73,7 @@
                 <label [for]="name">{{ label }}</label>
                 @if (type !== 'textarea') {
                     <input [type]="type ? type : 'text'" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" />
-                }
-                @if (type === 'textarea') {
+                } @else {
                     <textarea [id]="name" [name]="name" [formControlName]="name" autocomplete="off"></textarea>
                 }
             </div>
