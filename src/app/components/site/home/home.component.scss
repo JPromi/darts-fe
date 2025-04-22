@@ -5,6 +5,8 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 100vmin;
+    box-sizing: border-box;
 
     section.banner {
         display: flex;
