@@ -1,17 +1,17 @@
 <aside>
     <nav>
-        <h1>Einstellungen</h1>
+        <h1>{{ 'page.settings.menu.title' | translate }}</h1>
         <ul>
             <li>
                 <a [routerLink]="['/', 'settings', 'account']" routerLinkActive="active">
                     <fa-icon [icon]="fa.faUser" />
-                    <p>Account</p>
+                    <p>{{ 'page.settings.menu.account.label' | translate }}</p>
                 </a>
             </li>
             <li>
                 <a [routerLink]="['/', 'settings', 'profile']" routerLinkActive="active">
                     <fa-icon [icon]="fa.faCircleUser" />
-                    <p>Profil</p>
+                    <p>{{ 'page.settings.menu.profile.label' | translate }}</p>
                 </a>
             </li>
         </ul>
