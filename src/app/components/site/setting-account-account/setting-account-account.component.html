@@ -1,13 +1,4 @@
-<!--
-ToDo:
-- firstname
-- lastname
-- e-mail address
-- Password
-- TOTP
-- Delete account
--->
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form [formGroup]="form" (ngSubmit)="submit()" *ngIf="isLoaded">
 
     <h3>{{ 'page.settings.account.general.title' | translate }}</h3>
 
@@ -21,20 +12,20 @@ ToDo:
     <ng-container *ngTemplateOutlet="formInput; context: { name: 'passwordConfirm', label: 'page.settings.account.password.passwordConfirm.label' | translate, type: 'password' }" />
 
     <div class="btns">
-        <button type="submit" [disabled]="form.invalid">{{ 'page.settings.account.buttons.save.button' | translate }}</button>
+        <button type="submit" [disabled]="form.invalid && isUpdating">{{ 'page.settings.account.buttons.save.button' | translate }}</button>
     </div>
 
 
     <!-- TEMPLATE -->
     <ng-template #formInput let-name="name" let-label="label" let-type="type">
         <div class="input-container" [class.error]="form.get(name)?.errors && form.get(name)?.touched">
-            <div class="input">
+            <div class="input" [class.disabled]="isUpdating">
                 <label [for]="name">{{ label }}</label>
                 @if (type !== 'textarea') {
                     <div class="input-content">
-                        <input [type]="type ? type : 'text'" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" #inputField />
+                        <input [type]="type ? type : 'text'" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" #inputField [disabled]="isUpdating" />
                         @if (type === 'password') {
-                            <button (click)="inputField.type = inputField.type === 'password' ? 'text' : 'password'">
+                            <button (click)="inputField.type = inputField.type === 'password' ? 'text' : 'password'" type="button" [disabled]="isUpdating">
                                 <fa-icon [icon]="fa.faEye" *ngIf="inputField.type === 'password'"/>
                                 <fa-icon [icon]="fa.faEyeSlash" *ngIf="inputField.type !== 'password'"/>
                             </button>
@@ -42,7 +33,7 @@ ToDo:
                     </div>
                 } @else {
                     <div class="input-content">
-                        <textarea [id]="name" [name]="name" [formControlName]="name" autocomplete="off"></textarea>
+                        <textarea [id]="name" [name]="name" [formControlName]="name" autocomplete="off" [disabled]="isUpdating"></textarea>
                     </div>
                 }
             </div>

@@ -34,6 +34,8 @@ export class SettingAccountProfileComponent implements OnInit {
   profileVisibilityEnum = ProfileVisibilityEnum;
 
   profile: SettingProfile = new SettingProfile();
+  isLoaded: boolean = false;
+  isUpdating: boolean = false;
 
   form: FormGroup = new FormGroup(
     {
@@ -108,6 +110,7 @@ export class SettingAccountProfileComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
+      this.isUpdating = true;
       this.profile.username = this.form.value.username;
       this.profile.description = this.form.value.description;
       this.profile.country = this.form.value.country;
@@ -122,6 +125,7 @@ export class SettingAccountProfileComponent implements OnInit {
       
       this.settingsService.updateProfileSettings(this.profile).subscribe({
         next: () => {
+          this.isUpdating = false;
           console.log("Profile updated successfully");
         },
         error: (error) => {
@@ -132,6 +136,7 @@ export class SettingAccountProfileComponent implements OnInit {
   }
 
   private getProfile() {
+    this.isLoaded = false;
     this.settingsService.getProfileSettings().subscribe({
       next: (profile) => {
         this.profile = profile;
@@ -150,6 +155,7 @@ export class SettingAccountProfileComponent implements OnInit {
           l_twitch: profile.links.twitch,
           l_facebook: profile.links.facebook,
         });
+        this.isLoaded = true;
       },
       error: (error) => {
         console.error(error);
