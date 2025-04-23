@@ -80,7 +80,7 @@
                 }
             </div>
             <p *ngIf="form.get(name)?.errors && form.get(name)?.touched" class="error-msg">
-            error.translation
+            {{ `asset.form.error.${getFirstErrorKey(name)}` | translate }}
             </p>
         </div>
     </ng-template>

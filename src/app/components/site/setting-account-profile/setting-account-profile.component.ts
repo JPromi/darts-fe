@@ -97,6 +97,15 @@ export class SettingAccountProfileComponent implements OnInit {
     });
   }
 
+  getFirstErrorKey(controlName: string | null | undefined): string | null {
+    if(controlName) {
+      const errors = this.form.get(controlName)?.errors;
+      return errors ? Object.keys(errors)[0] : null;
+    } else {
+      return null;
+    }
+  }
+
   submit() {
     if (this.form.valid) {
       this.profile.username = this.form.value.username;

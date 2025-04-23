@@ -11,6 +11,13 @@
                 "settings.label": "Einstellungen",
                 "logout.label": "Abmelden"
             }
+        },
+        "form": {
+            "error": {
+                "required": "Dieses Feld ist erforderlich",
+                "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+                "passwordMismatch": "Die Passwörter stimmen nicht überein"
+            }
         }
     },
     "page": {
@@ -44,6 +51,23 @@
                 "informations": {
                     "title": "Informationen",
                     "version.label": "Version {{version}}"
+                }
+            },
+            "account": {
+                "general": {
+                    "title": "Allgemein",
+                    "firstName.label": "Vorname",
+                    "lastName.label": "Nachname",
+                    "email.label": "E-Mail"
+                },
+                "password": {
+                    "title": "Passwort",
+                    "passwordOld.label": "Altes Passwort",
+                    "passwordNew.label": "Neues Passwort",
+                    "passwordConfirm.label": "Passwort bestätigen"
+                },
+                "buttons": {
+                    "save.button": "Speichern"
                 }
             },
             "profile": {
