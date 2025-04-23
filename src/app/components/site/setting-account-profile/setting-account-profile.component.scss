@@ -217,3 +217,22 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    :host {
+        form {
+            .top {
+                .avatar {
+                    width: 7.5rem;
+                    height: 7.5rem;
+                    margin-bottom: -3.75rem;
+                    transform: translate(1rem, -50%);
+                }
+            }
+
+            .input-container {
+                max-width: 100%;
+            }
+        }
+    }
+}
