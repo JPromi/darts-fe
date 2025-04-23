@@ -7,7 +7,7 @@ import { HomeComponent } from './components/site/home/home.component';
 import { LogoutComponent } from './components/site/logout/logout.component';
 import { ProfileComponent } from './components/site/profile/profile.component';
 import { SettingAccountRouterComponent } from './components/routes/setting-account-router/setting-account-router.component';
-import { SettingAccountAccountComponent } from './components/site/setting-account-account/setting-account-account.component';
+import { SettingAccountProfileComponent } from './components/site/setting-account-profile/setting-account-profile.component';
 
 export const routes: Routes = [
     {
@@ -31,7 +31,7 @@ export const routes: Routes = [
                 component: SettingAccountRouterComponent,
                 children: [
                     { path: "", redirectTo: "profile", pathMatch: "full" },
-                    { path: "profile", component: SettingAccountAccountComponent, pathMatch: "full" },
+                    { path: "profile", component: SettingAccountProfileComponent, pathMatch: "full" },
                 ]
             },
         ]

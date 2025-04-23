@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { FileService } from '../../../services/file.service';
 
 @Component({
-  selector: 'app-setting-account-account',
+  selector: 'app-setting-account-profile',
   imports: [
     FormsModule,
     CommonModule,
@@ -19,10 +19,10 @@ import { FileService } from '../../../services/file.service';
     ReactiveFormsModule,
     TranslateModule
   ],
-  templateUrl: './setting-account-account.component.html',
-  styleUrl: './setting-account-account.component.scss'
+  templateUrl: './setting-account-profile.component.html',
+  styleUrl: './setting-account-profile.component.scss'
 })
-export class SettingAccountAccountComponent implements OnInit {
+export class SettingAccountProfileComponent implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
