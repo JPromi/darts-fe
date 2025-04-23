@@ -1,9 +1,12 @@
 :host {
     width: 100%;
-    min-height: 100dvh;
     height: fit-content;
     display: flex;
     flex-direction: column;
     background-color: var(--background);
     color: var(--text);
+
+    @supports (-moz-appearance: none) and (not (-moz-appearance: none)) {
+        min-height: 100vh; 
+    }
 }
