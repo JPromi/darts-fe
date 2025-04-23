@@ -2,28 +2,30 @@
     <div class="top">
         <div class="banner">
             <div class="options">
-                <button>
+                <button type="button" (click)="uploadBanner.click()" (keydown.space.enter)="uploadBanner.click()">
                     <fa-icon [icon]="fa.faCamera"/>
                 </button>
-                <button>
+                <button *ngIf="profile.banner" type="button" (click)="removeBanner()">
                     <fa-icon [icon]="fa.faXmark"/>
                 </button>
+                <input #uploadBanner type="file" name="banner" id="banner" accept="image/*" (change)="updateBanner($event)">
             </div>
             <div class="container">
-                <img [src]="'https://api.dev.jpromi.com/api/files/b89c1bb8-9957-404a-ae0c-7f6ce577c954/b2h-darts_12730580513400491627183-536x354.jpg'">
+                <img *ngIf="profile?.banner" [src]="profile.banner?.url">
             </div>
         </div>
         <div class="avatar">
             <div class="options">
-                <button>
+                <button type="button" (click)="avatarBanner.click()" (keydown.space.enter)="avatarBanner.click()">
                     <fa-icon [icon]="fa.faCamera"/>
                 </button>
-                <button>
+                <button *ngIf="profile.avatar" type="button" (click)="removeAvatar()">
                     <fa-icon [icon]="fa.faXmark"/>
                 </button>
+                <input #avatarBanner type="file" name="avatar" id="avatar" accept="image/*" (change)="updateAvatar($event)">
             </div>
             <div class="container">
-                <img [src]="'https://api.dev.jpromi.com/api/files/b89c1bb8-9957-404a-ae0c-7f6ce577c954/b2h-darts_12730580513400491627183-536x354.jpg'">
+                <img *ngIf="profile?.avatar" [src]="profile.avatar?.url">
             </div>
         </div>
     </div>
@@ -51,8 +53,8 @@
             <input type="radio" id="visibility_public" name="visibility" [value]="profileVisibilityEnum.PUBLIC" formControlName="visibility" />
             <p>{{ 'page.settings.profile.visibility.public.label' | translate }}</p>
         </label>
-        <label for="visibility_firends" [class.active]="form.get('visibility')?.value === profileVisibilityEnum.FRIENDS">
-            <input type="radio" id="visibility_firends" name="visibility" [value]="profileVisibilityEnum.FRIENDS" formControlName="visibility" />
+        <label for="visibility_firends" [class.active]="form.get('visibility')?.value === profileVisibilityEnum.FRIENDS_ONLY">
+            <input type="radio" id="visibility_firends" name="visibility" [value]="profileVisibilityEnum.FRIENDS_ONLY" formControlName="visibility" />
             <p>{{ 'page.settings.profile.visibility.friends.label' | translate }}</p>
         </label>
         <label for="visibility_private" [class.active]="form.get('visibility')?.value === profileVisibilityEnum.PRIVATE">

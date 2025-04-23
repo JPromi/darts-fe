@@ -5,6 +5,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileVisibilityEnum } from '../../../enums/profileVisibilityEnum';
+import { SettingsService } from '../../../services/settings.service';
+import { SettingProfile } from '../../../entities/settingProfile';
+import { Observable } from 'rxjs';
+import { FileService } from '../../../services/file.service';
 
 @Component({
   selector: 'app-setting-account-account',
@@ -19,14 +23,20 @@ import { ProfileVisibilityEnum } from '../../../enums/profileVisibilityEnum';
   styleUrl: './setting-account-account.component.scss'
 })
 export class SettingAccountAccountComponent implements OnInit {
+
+  constructor(
+    private settingsService: SettingsService,
+    private fileService: FileService,
+  ) { }
+
   fa = fa;
 
   profileVisibilityEnum = ProfileVisibilityEnum;
 
+  profile: SettingProfile = new SettingProfile();
+
   form: FormGroup = new FormGroup(
     {
-      // avatar: new FormControl(),
-      // banner: new FormControl(),
       username: new FormControl<string>("",  [Validators.required]),
       description: new FormControl<string>(""),
       country: new FormControl<string>(""),
@@ -42,11 +52,99 @@ export class SettingAccountAccountComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    console.log(this.form.get('username')?.errors?.['required']);
+    this.getProfile();
+  }
+
+  updateAvatar(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if(file) {
+      this.fileService.uploadImage(file).subscribe(
+        (response) => {
+          this.profile.avatar = response;
+        },
+        (error) => {
+          console.error("Error uploading file", error);
+        }
+      );
+    }
+  }
+
+  removeAvatar() {
+    this.profile.avatar = null;
+    this.form.patchValue({
+      avatar: null
+    });
+  }
+
+  updateBanner(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if(file) {
+      this.fileService.uploadImage(file).subscribe(
+        (response) => {
+          this.profile.banner = response;
+        },
+        (error) => {
+          console.error("Error uploading file", error);
+        }
+      );
+    }
+  }
+
+  removeBanner() {
+    this.profile.banner = null;
+    this.form.patchValue({
+      banner: null
+    });
   }
 
   submit() {
-    console.log(this.form.get('username')?.errors);
-    console.log(this.form.value);
+    if (this.form.valid) {
+      this.profile.username = this.form.value.username;
+      this.profile.description = this.form.value.description;
+      this.profile.country = this.form.value.country;
+      this.profile.visibility = this.form.value.visibility;
+      this.profile.links.web = this.form.value.l_web;
+      this.profile.links.x = this.form.value.l_x;
+      this.profile.links.instagram = this.form.value.l_instagram;
+      this.profile.links.github = this.form.value.l_github;
+      this.profile.links.youtube = this.form.value.l_youtube;
+      this.profile.links.twitch = this.form.value.l_twitch;
+      this.profile.links.facebook = this.form.value.l_facebook;
+      
+      this.settingsService.updateProfileSettings(this.profile).subscribe({
+        next: () => {
+          console.log("Profile updated successfully");
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+    }
+  }
+
+  private getProfile() {
+    this.settingsService.getProfileSettings().subscribe({
+      next: (profile) => {
+        this.profile = profile;
+        this.form.patchValue({
+          avatar: profile.avatar?.filename,
+          banner: profile.banner?.filename,
+          username: profile.username,
+          description: profile.description,
+          country: profile.country,
+          visibility: profile.visibility,
+          l_web: profile.links.web,
+          l_x: profile.links.x,
+          l_instagram: profile.links.instagram,
+          l_github: profile.links.github,
+          l_youtube: profile.links.youtube,
+          l_twitch: profile.links.twitch,
+          l_facebook: profile.links.facebook,
+        });
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 }
