@@ -60,7 +60,7 @@ export class SettingAccountProfileComponent implements OnInit {
   updateAvatar(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if(file) {
-      this.fileService.uploadImage(file).subscribe(
+      this.fileService.uploadImage(file, 512).subscribe(
         (response) => {
           this.profile.avatar = response;
         },
