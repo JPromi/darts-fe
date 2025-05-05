@@ -18,6 +18,31 @@
                 "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
                 "passwordMismatch": "Die Passwörter stimmen nicht überein"
             }
+        },
+        "error": {
+            "text": {
+                "home.button": "Zurück zur Startseite"
+            },
+            "default": {
+                "title": "Error",
+                "message": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+            },
+            "c401": {
+                "title": "Nicht autorisiert",
+                "message": "Sie sind nicht berechtigt, auf diese Seite zuzugreifen. Bitte melden Sie sich an."
+            },
+            "c403": {
+                "title": "Zugriff verweigert",
+                "message": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
+            },
+            "c404": {
+                "title": "Seite nicht gefunden",
+                "message": "Die angeforderte Seite existiert nicht oder wurde entfernt."
+            },
+            "c504": {
+                "title": "Gateway Timeout",
+                "message": "Der Server hat nicht rechtzeitig auf die Anfrage geantwortet."
+            }
         }
     },
     "page": {
