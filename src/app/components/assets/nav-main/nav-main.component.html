@@ -11,7 +11,7 @@
         </button>
         <ul *ngIf="!isMobile || (isMobile && isMobileMenuOpen)" @fade id="mobilemenu">
             <li>
-                <a routerLink="/" class="highlight">
+                <a routerLink="/game/new" class="highlight">
                     <fa-icon [icon]="fa.faPen" />
                     {{ 'asset.nav.page.newGame.label' | translate }}
                 </a>

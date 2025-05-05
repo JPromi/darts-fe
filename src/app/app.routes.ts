@@ -9,6 +9,7 @@ import { ProfileComponent } from './components/site/profile/profile.component';
 import { SettingAccountRouterComponent } from './components/routes/setting-account-router/setting-account-router.component';
 import { SettingAccountProfileComponent } from './components/site/setting-account-profile/setting-account-profile.component';
 import { SettingAccountAccountComponent } from './components/site/setting-account-account/setting-account-account.component';
+import { GameInputComponent } from './components/site/game-input/game-input.component';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,12 @@ export const routes: Routes = [
             { path: "login", component: LoginComponent, pathMatch: "full" },
             { path: "login/totp", component: TotpComponent, pathMatch: "full" },
             { path: "logout", component: LogoutComponent, pathMatch: "full" },
+        ]
+    },
+    {
+        path: "game/active",
+        children: [
+            { path: "", component: GameInputComponent, pathMatch: "full" },
         ]
     },
     {
