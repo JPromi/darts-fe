@@ -122,6 +122,18 @@
                     "save.button": "Speichern"
                 }
             }
+        },
+        "game": {
+            "active": {
+                "input": {
+                    "round.label": "Runde",
+                    "gameTime.label": "Spielzeit",
+                    "miss.button": "Miss",
+                    "single.button": "Single",
+                    "double.button": "Double",
+                    "triple.button": "Triple"
+                }
+            }
         }
     }
 }

@@ -7,6 +7,9 @@ import { GameTypeEnum } from '../../../enums/gameTypeEnum';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { GameThrowMultiplierEnum } from '../../../enums/gameThrowMultiplierEnum';
+import { ActiveGamePlayerResponse } from '../../../dtos/activeGamePlayerResponse';
+import { GameThrow } from '../../../entities/gameThrow';
+import { GameThrowTypeEnum } from '../../../enums/gameThtowTypeEnum';
 
 @Component({
   selector: 'app-game-input',
@@ -66,6 +69,14 @@ export class GameInputComponent implements OnInit, OnDestroy {
     this.game.currentTurn = 5;
     this.game.gameType = GameTypeEnum.CLASSIC;
     this.game.gameTypeClassicPoints = 101;
+    this.game.gameTypeClassicInType = "single";
+    this.game.gameTypeClassicOutType = "double";
+    this.game.players = [
+      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000001", 1, "Player 1", "https://placehold.co/128", [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 158, 38.5, false, false, false),
+      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000002", 2, "Player 2", "https://placehold.co/128", [new GameThrow(10, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 456, 58.5, true, false, false),
+      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000003", 3, "Player 3", "https://placehold.co/128", [new GameThrow(18, GameThrowMultiplierEnum.TRIPPLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 65, 100.5, false, false, false),
+    ]
+    this.sortPlayers();
 
     this.gameTime();
   }
@@ -104,5 +115,17 @@ export class GameInputComponent implements OnInit, OnDestroy {
         this.currentGameTime = hours + minutes + ":" + seconds;
       }
     }, 1000);
+  }
+
+  private sortPlayers() {
+    this.game.players.sort((a, b) => {
+      if (a.isCurrentPlayer && !b.isCurrentPlayer) {
+        return -1;
+      } else if (!a.isCurrentPlayer && b.isCurrentPlayer) {
+        return 1;
+      } else {
+        return a.order - b.order;
+      }
+    });
   }
 }

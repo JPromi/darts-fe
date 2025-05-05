@@ -3,6 +3,7 @@ import { GameThrow } from "../entities/gameThrow";
 export class ActiveGamePlayerResponse {
     constructor (
         public uuid: string = "",
+        public order: number = 0,
         public username: string = "",
         public avatar: string | null = null,
         public throws: GameThrow[] = [],
