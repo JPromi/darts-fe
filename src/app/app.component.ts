@@ -62,7 +62,11 @@ export class AppComponent implements AfterViewInit, OnInit {
       (error) => {
         this.isLoading = false;
         this.loStorageService.setSessionAccount(null);
-        this.loStorageService.setErrorCodeFromResponse(error);
+        if(error.status.toString().startsWith('4')) {
+          this._navigate('/barrier/login', ['/barrier/logout']);
+        } else {
+          this.loStorageService.setErrorCodeFromResponse(error);
+        }
       }
     );
   }
