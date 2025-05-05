@@ -4,17 +4,21 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './services/auth.service';
 import { LoStorageService } from './services/local/lo-storage.service';
 import { CommonModule } from '@angular/common';
+import { ErrorPageComponent } from './components/assets/error-page/error-page.component';
+import { SplashScreenComponent } from './components/assets/splash-screen/splash-screen.component';
 
 @Component({
     selector: 'app-root',
     imports: [
       RouterOutlet,
-      CommonModule
+      CommonModule,
+      ErrorPageComponent,
+      SplashScreenComponent
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
   title = 'Darts';
 
   constructor(
@@ -29,9 +33,20 @@ export class AppComponent implements AfterViewInit {
   }
 
   public isLoading: boolean = true;
+  public errorCode: number | null = null;
+
+  ngOnInit(): void {
+    this.loStorageService.errorCode$.subscribe((errorCode) => {
+      this.errorCode = errorCode;
+    });
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {this.redirectTotp()}, 0);
+  }
+
+  public isError(code: number): boolean {
+    return code.toString().startsWith('4') || code.toString().startsWith('5');
   }
 
   private redirectTotp() {
@@ -47,6 +62,7 @@ export class AppComponent implements AfterViewInit {
       (error) => {
         this.isLoading = false;
         this.loStorageService.setSessionAccount(null);
+        this.loStorageService.setErrorCodeFromResponse(error);
       }
     );
   }
