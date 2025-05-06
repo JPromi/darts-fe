@@ -407,19 +407,46 @@
             aside {
                 padding: 1rem;
                 box-sizing: border-box;
+                margin-bottom: var(--device-bottom);
 
                 .content {
                     // height: calc(50rem - 2rem);
                     border: 1px solid var(--border);
                     border-radius: .5rem;
                     box-shadow: 0 0 1rem var(--shadow-background);
+                    padding-bottom: 0;
                 }
             }
         }
     }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1024px) {
+    :host {
+        .container {
+            flex-direction: column;
+
+            aside {
+                width: 100%;
+                padding: 0;
+                z-index: 1;
+                height: 55vh;
+
+                .content {
+                    height: 100%;
+                    width: 100%;
+                    border: none;
+                    border-radius: 0;
+                    border-top: 1px solid var(--border);
+                    box-shadow: 0 -.5rem 1.5rem var(--shadow-background);
+                }
+            }
+        }
+    }
+    
+}
+
+@media screen and (max-width: 700px) {
     :host {
         header {
             height: 3rem;
@@ -461,20 +488,10 @@
         }
 
         .container {
-            flex-direction: column;
 
             aside {
-                width: 100%;
-                padding: 0;
-                z-index: 1;
 
                 .content {
-                    height: 100%;
-                    width: 100%;
-                    border: none;
-                    border-radius: 0;
-                    border-top: 1px solid var(--border);
-                    box-shadow: 0 -.5rem 1.5rem var(--shadow-background);
 
                     .options {
                         padding: .5rem;
