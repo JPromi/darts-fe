@@ -92,7 +92,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   public isButtonDisabled(key: number): boolean {
-    if(this.multiplier === GameThrowMultiplierEnum.TRIPPLE && key == 25) {
+    if(this.multiplier === GameThrowMultiplierEnum.TRIPLE && key == 25) {
       return true;
     } else {
       return false;
