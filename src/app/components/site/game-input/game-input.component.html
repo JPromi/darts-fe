@@ -47,6 +47,13 @@
                     <button>
                         <fa-icon [icon]="fa.faRotateLeft" />
                     </button>
+                    <button *ngIf="!isOnStartFullscreen" (click)="toggleFullscreen()">
+                        @if (isFullscreen) {
+                            <fa-icon [icon]="fa.faDownLeftAndUpRightToCenter" />
+                        } @else {
+                            <fa-icon [icon]="fa.faUpRightAndDownLeftFromCenter" />
+                        }
+                    </button>
                 </div>
                 <div class="input-toggle">
                     <button (click)="inputType = 'keys'" [class.active]="inputType == 'keys'">

@@ -36,6 +36,8 @@ export class GameInputComponent implements OnInit, OnDestroy {
   currentGameTime = "";
   inputType = "keys"; // keys, board
   multiplier: GameThrowMultiplierEnum = GameThrowMultiplierEnum.SINGLE;
+  isOnStartFullscreen = false;
+  isFullscreen = false;
   keys = [
     { key: "1", value: 1 },
     { key: "2", value: 2 },
@@ -78,6 +80,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
     ]
     this.sortPlayers();
 
+    this.checkIsFullscreen();
     this.gameTime();
   }
 
@@ -100,7 +103,20 @@ export class GameInputComponent implements OnInit, OnDestroy {
     if(keyValue === 25 && this.multiplier === GameThrowMultiplierEnum.TRIPPLE) {
       this.multiplier = GameThrowMultiplierEnum.SINGLE;
     }
+    if(keyValue === 0) {
+      this.multiplier = GameThrowMultiplierEnum.SINGLE;
+    }
     this.multiplier = GameThrowMultiplierEnum.SINGLE;
+  }
+
+  public toggleFullscreen() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+      this.isFullscreen = false;
+    } else {
+      document.documentElement.requestFullscreen();
+      this.isFullscreen = true;
+    }
   }
 
   private gameTime() {
@@ -127,5 +143,13 @@ export class GameInputComponent implements OnInit, OnDestroy {
         return a.order - b.order;
       }
     });
+  }
+
+  private checkIsFullscreen() {
+    if(window.innerWidth == screen.width && window.innerHeight == screen.height) {
+      this.isOnStartFullscreen = true;
+    } else {
+      this.isOnStartFullscreen = false;
+    }
   }
 }
