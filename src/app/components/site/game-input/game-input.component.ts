@@ -76,7 +76,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
     this.game.players = [
       new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000001", 1, "Player 1", "https://placehold.co/128", [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 158, 38.5, false, false, false),
       new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000002", 2, "Player 2", "https://placehold.co/128", [new GameThrow(10, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 456, 58.5, true, false, false),
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000003", 3, "Player 3", "https://placehold.co/128", [new GameThrow(18, GameThrowMultiplierEnum.TRIPPLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 65, 100.5, false, false, false),
+      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000003", 3, "Player 3", "https://placehold.co/128", [new GameThrow(18, GameThrowMultiplierEnum.TRIPLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 65, 100.5, false, false, false),
     ]
     this.sortPlayers();
 
@@ -100,7 +100,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   public pointsInput(keyValue: number): void {
-    if(keyValue === 25 && this.multiplier === GameThrowMultiplierEnum.TRIPPLE) {
+    if(keyValue === 25 && this.multiplier === GameThrowMultiplierEnum.TRIPLE) {
       this.multiplier = GameThrowMultiplierEnum.SINGLE;
     }
     if(keyValue === 0) {
