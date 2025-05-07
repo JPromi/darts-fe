@@ -408,12 +408,29 @@
                 box-sizing: border-box;
                 margin-bottom: var(--device-bottom);
 
+
                 .content {
                     // height: calc(50rem - 2rem);
                     border: 1px solid var(--border);
                     border-radius: .5rem;
                     box-shadow: 0 0 1rem var(--shadow-background);
                     padding-bottom: 0;
+
+                    .input {
+                        .keys {
+                            .list {
+                                button {
+                                    p {
+                                        font-size: 2.5vh;
+                                    }
+                                    h6 {
+                                        font-size: 10vh;
+                                        line-height: 5vh;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
