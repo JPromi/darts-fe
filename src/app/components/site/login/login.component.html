@@ -20,9 +20,7 @@
                 <h3>{{ 'page.auth.lastUsers.otherUser.label' | translate }}</h3>
             </a>
         </div>
-    }
-
-    @if (!isSavedUser) {
+    } @else {
         <h1>{{ 'page.auth.login.title' | translate }}</h1>
     
         <form>
