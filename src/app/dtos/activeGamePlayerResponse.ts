@@ -9,6 +9,7 @@ export class ActiveGamePlayerResponse {
         public throws: GameThrow[] = [],
         public hints: GameThrow[] = [],
         public score: number = 0,
+        public highscore: number = 0,
         public average: number = 0,
         public isCurrentPlayer: boolean = false,
         public isEliminated: boolean = false,

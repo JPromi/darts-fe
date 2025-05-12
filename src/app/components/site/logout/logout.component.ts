@@ -4,7 +4,7 @@ import { LoStorageService } from '../../../services/local/lo-storage.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { LoadingComponent } from '../../assets/loading/loading.component';
-import { LoadingType } from '../../enums/loadingType';
+import { LoadingType } from '../../../enums/loadingType';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({

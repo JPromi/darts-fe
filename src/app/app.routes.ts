@@ -10,6 +10,7 @@ import { SettingAccountRouterComponent } from './components/routes/setting-accou
 import { SettingAccountProfileComponent } from './components/site/setting-account-profile/setting-account-profile.component';
 import { SettingAccountAccountComponent } from './components/site/setting-account-account/setting-account-account.component';
 import { GameInputComponent } from './components/site/game-input/game-input.component';
+import { GroupListComponent } from './components/site/group-list/group-list.component';
 
 export const routes: Routes = [
     {
@@ -43,6 +44,8 @@ export const routes: Routes = [
                     { path: "account", component: SettingAccountAccountComponent, pathMatch: "full" },
                 ]
             },
+            { path: "group", component: GroupListComponent, pathMatch: "full" },
+            { path: "group/:uuid", component: GroupListComponent, pathMatch: "full" },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }
