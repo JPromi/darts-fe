@@ -30,7 +30,47 @@
                                 <h3>{{ player.order }}</h3>
                             </div>
                         </div>
-                        <h2>{{ player.score }}</h2>
+                        <div class="score">
+                            <h2>{{ player.score }}</h2>
+                        </div>
+                    </div>
+                    <div class="throws">
+                        @for (_ of [].constructor(3); track $index) {
+                            <div class="throw">
+                                <span class="field">{{ $index + 1 }}</span>
+                                @if (player.throws[$index]) {
+                                    @switch (player.throws[$index].type) {
+                                        @case (gameThrowTypeEnum.POINTS) {
+                                            <p>{{ getReadablePoints(player.throws[$index]) }}</p>
+                                        }
+                                        @case (gameThrowTypeEnum.MISS) {
+                                            <p>{{ 'page.game.active.player.points.miss.text' | translate }}</p>
+                                        }
+                                        @case (gameThrowTypeEnum.ABORT) {
+                                            <span class="abort"></span>
+                                        }
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="extended-informations">
+                        <div class="block">
+                            <h3>{{ 'page.game.active.player.extendedInformations.highscore.label' | translate }}</h3>
+                            <p>{{ player.highscore }}</p>
+                        </div>
+                        <div class="block">
+                            <h3>{{ 'page.game.active.player.extendedInformations.hint.label' | translate }}</h3>
+                            <span class="hint">
+                                @for (hint of player.hints; track $index) {
+                                    <p>{{ getReadablePoints(hint) }}</p>
+                                }
+                            </span>
+                        </div>
+                        <div class="block">
+                            <h3>{{ 'page.game.active.player.extendedInformations.average.label' | translate }}</h3>
+                            <p>{{ player.average }}</p>
+                        </div>
                     </div>
                 </div>
             }
@@ -224,6 +264,7 @@
 
 </div>
 
+<!-- [ aside ] - multiplier -->
 <ng-template #pointsAdditional>
     <div class="list additional">
         <button class="large" (click)="pointsInput(0)">

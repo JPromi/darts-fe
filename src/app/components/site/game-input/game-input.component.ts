@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ActiveGameResponse } from '../../../dtos/activeGameResponse';
 import { GameTypeEnum } from '../../../enums/gameTypeEnum';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -10,6 +10,7 @@ import { GameThrowMultiplierEnum } from '../../../enums/gameThrowMultiplierEnum'
 import { ActiveGamePlayerResponse } from '../../../dtos/activeGamePlayerResponse';
 import { GameThrow } from '../../../entities/gameThrow';
 import { GameThrowTypeEnum } from '../../../enums/gameThtowTypeEnum';
+import { LoGameCalculationService } from '../../../services/local/lo-game-calculation.service';
 
 @Component({
   selector: 'app-game-input',
@@ -25,11 +26,13 @@ import { GameThrowTypeEnum } from '../../../enums/gameThtowTypeEnum';
 export class GameInputComponent implements OnInit, OnDestroy {
 
   constructor(
-
+    private loGameCalculationService: LoGameCalculationService,
+    private translate: TranslateService
   ) { }
 
   fa = fa;
   gameThrowMultiplierEnum = GameThrowMultiplierEnum;
+  gameThrowTypeEnum = GameThrowTypeEnum;
 
   game: ActiveGameResponse = new ActiveGameResponse();
 
@@ -74,9 +77,9 @@ export class GameInputComponent implements OnInit, OnDestroy {
     this.game.gameTypeClassicInType = "single";
     this.game.gameTypeClassicOutType = "double";
     this.game.players = [
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000001", 1, "Player 1", "https://placehold.co/128", [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 158, 38.5, false, false, false),
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000002", 2, "Player 2", "https://placehold.co/128", [new GameThrow(10, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 456, 58.5, true, false, false),
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000003", 3, "Player 3", "https://placehold.co/128", [new GameThrow(18, GameThrowMultiplierEnum.TRIPLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 65, 100.5, false, false, false),
+      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000001", 1, "Player 1 with a really long name", "https://placehold.co/128", [new GameThrow(1, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 158, 38.5, 150, false, false, false),
+      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000002", 2, "Player 2", "https://placehold.co/128", [new GameThrow(10, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS),new GameThrow(0, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.MISS),new GameThrow(0, GameThrowMultiplierEnum.NONE, 0, GameThrowTypeEnum.ABORT)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 456, 58.5, 3, true, false, false),
+      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000003", 3, "Player 3", "https://placehold.co/128", [new GameThrow(18, GameThrowMultiplierEnum.TRIPLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 65, 100.5, 180, false, true, false),
     ]
     this.sortPlayers();
 
@@ -119,6 +122,23 @@ export class GameInputComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getReadablePoints(gameThrow: GameThrow): string {
+
+    switch (gameThrow.type) {
+      case GameThrowTypeEnum.POINTS:
+        return `${this.loGameCalculationService.getThrowMultiplierChar(gameThrow.multiplier)}${gameThrow.point}`;
+        break;
+
+      case GameThrowTypeEnum.MISS:
+        return this.translate.instant("page.game.active.player.points.miss.text");
+        break;
+
+      default:
+        return "";
+        break;
+    }
+  }
+
   private gameTime() {
     this.currentGameTimeInterval = setInterval(() => {
       const now = new Date();
@@ -146,7 +166,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   private checkIsFullscreen() {
-    if(window.innerWidth == screen.width && window.innerHeight == screen.height) {
+    if((window.innerWidth == screen.width && window.innerHeight == screen.height) || !document.fullscreenEnabled) {
       this.isOnStartFullscreen = true;
     } else {
       this.isOnStartFullscreen = false;
