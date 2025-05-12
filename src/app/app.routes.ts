@@ -11,12 +11,14 @@ import { SettingAccountProfileComponent } from './components/site/setting-accoun
 import { SettingAccountAccountComponent } from './components/site/setting-account-account/setting-account-account.component';
 import { GameInputComponent } from './components/site/game-input/game-input.component';
 import { GroupListComponent } from './components/site/group-list/group-list.component';
+import { RegisterComponent } from './components/site/register/register.component';
 
 export const routes: Routes = [
     {
         path: "barrier",
         component: AuthRouterComponent,
         children: [
+            { path: "register", component: RegisterComponent, pathMatch: "full" },
             { path: "login", component: LoginComponent, pathMatch: "full" },
             { path: "login/totp", component: TotpComponent, pathMatch: "full" },
             { path: "logout", component: LogoutComponent, pathMatch: "full" },

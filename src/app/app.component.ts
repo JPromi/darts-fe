@@ -50,25 +50,29 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   private redirectTotp() {
-    this.authService.loginSession().subscribe(
-      (response) => {
-        if (response.totpRequired) {
+    if(!this.router.url.startsWith('/barrier')) {
+      this.authService.loginSession().subscribe(
+        (response) => {
+          if (response.totpRequired) {
+            this.isLoading = false;
+            this._navigate('/barrier/login/totp', ['/barrier/logout']);
+          } else {
+            this.getSession();
+          }
+        },
+        (error) => {
           this.isLoading = false;
-          this._navigate('/barrier/login/totp', ['/barrier/logout']);
-        } else {
-          this.getSession();
+          this.loStorageService.setSessionAccount(null);
+          if(error.status.toString().startsWith('4')) {
+            this._navigate('/barrier/login', ['/barrier/logout']);
+          } else {
+            this.loStorageService.setErrorCodeFromResponse(error);
+          }
         }
-      },
-      (error) => {
-        this.isLoading = false;
-        this.loStorageService.setSessionAccount(null);
-        if(error.status.toString().startsWith('4')) {
-          this._navigate('/barrier/login', ['/barrier/logout']);
-        } else {
-          this.loStorageService.setErrorCodeFromResponse(error);
-        }
-      }
-    );
+      );
+    } else {
+      this.isLoading = false;
+    }
   }
 
   private getSession() {

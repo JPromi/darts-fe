@@ -1,1 +1,44 @@
-<p>register works!</p>
+<form [formGroup]="registrationForm">
+    <h1>{{ 'page.auth.registration.title' | translate }}</h1>
+
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'username', label: 'page.auth.registration.username.label' | translate }" />
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'firstName', label: 'page.auth.registration.firstName.label' | translate }" />
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'lastName', label: 'page.auth.registration.lastName.label' | translate }" />
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'email', label: 'page.auth.registration.email.label' | translate }" />
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'password', label: 'page.auth.registration.password.label' | translate, type: 'password' }" />
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'passwordConfirm', label: 'page.auth.registration.passwordConfirm.label' | translate, type: 'password' }" />
+    <ng-container *ngTemplateOutlet="formInput; context: { name: 'birthdate', label: 'page.auth.registration.dateOfBirth.label' | translate, type: 'date' }" />
+
+    <button type="submit" [disabled]="registrationForm.invalid && isSending" (click)="onSubmit()">{{ 'page.auth.registration.submit.button' | translate }}</button>
+
+    <!-- TEMPLATE -->
+    <ng-template #formInput let-name="name" let-label="label" let-type="type">
+        <div class="input-container" [class.error]="registrationForm.get(name)?.errors && registrationForm.get(name)?.touched">
+            <div class="input" [class.disabled]="isSending">
+                <label [for]="name">{{ label }}</label>
+                @if (type == 'text' || type == 'password' || type == undefined) {
+                    <div class="input-content">
+                        <input [type]="type ? type : 'text'" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" #inputField [disabled]="isSending" />
+                        @if (type === 'password') {
+                            <button (click)="inputField.type = inputField.type === 'password' ? 'text' : 'password'" type="button" [disabled]="isSending">
+                                <fa-icon [icon]="fa.faEye" *ngIf="inputField.type === 'password'"/>
+                                <fa-icon [icon]="fa.faEyeSlash" *ngIf="inputField.type !== 'password'"/>
+                            </button>
+                        }
+                    </div>
+                } @else if (type == 'textarea') {
+                    <div class="input-content">
+                        <textarea [id]="name" [name]="name" [formControlName]="name" autocomplete="off" [disabled]="isSending"></textarea>
+                    </div>
+                } @else if (type == 'date') {
+                    <div class="input-content">
+                        <input [type]="type" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" [disabled]="isSending" />
+                    </div>
+                }
+            </div>
+            <p *ngIf="registrationForm.get(name)?.errors && registrationForm.get(name)?.touched" class="error-msg">
+            {{ `asset.form.error.${getFirstErrorKey(name)}` | translate }}
+            </p>
+        </div>
+    </ng-template>
+</form>

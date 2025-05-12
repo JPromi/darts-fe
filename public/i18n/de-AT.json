@@ -66,6 +66,17 @@
             },
             "logout": {
                 "logout.text": "Abmelden"
+            },
+            "registration": {
+                "title": "Registrierung",
+                "username.label": "Benutzername",
+                "firstName.label": "Vorname",
+                "lastName.label": "Nachname",
+                "email.label": "E-Mail",
+                "password.label": "Passwort",
+                "passwordConfirm.label": "Passwort bestätigen",
+                "dateOfBirth.label": "Geburtsdatum",
+                "submit.button": "Registrieren"
             }
         },
         "settings": {
