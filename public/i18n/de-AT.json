@@ -132,6 +132,16 @@
                     "single.button": "Single",
                     "double.button": "Double",
                     "triple.button": "Triple"
+                },
+                "player": {
+                    "extendedInformations": {
+                        "highscore.label": "Highscore",
+                        "hint.label": "Tipps",
+                        "average.label": "Durchschnitt"
+                    },
+                    "points": {
+                        "miss.text": "Miss"
+                    }
                 }
             }
         }
