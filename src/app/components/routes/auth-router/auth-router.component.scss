@@ -53,3 +53,21 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    :host {
+        header {
+            height: 3rem;
+            padding: 0 1rem;
+        }
+
+        .container {
+            .content {
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                min-width: 100%;
+            }
+        }
+    }
+}

@@ -111,3 +111,24 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    :host {
+        form {
+            gap: 1.5rem;
+            
+            & > div {
+
+                input {
+                    width: 100%;
+                    font-size: 1rem;
+                }
+            }
+
+            & > button {
+                padding: .5rem 0;
+            }
+        }
+    }
+    
+}
