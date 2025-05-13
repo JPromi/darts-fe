@@ -1,13 +1,31 @@
 <form [formGroup]="registrationForm">
     <h1>{{ 'page.auth.registration.title' | translate }}</h1>
 
-    <ng-container *ngTemplateOutlet="formInput; context: { name: 'username', label: 'page.auth.registration.username.label' | translate }" />
-    <ng-container *ngTemplateOutlet="formInput; context: { name: 'firstName', label: 'page.auth.registration.firstName.label' | translate }" />
-    <ng-container *ngTemplateOutlet="formInput; context: { name: 'lastName', label: 'page.auth.registration.lastName.label' | translate }" />
-    <ng-container *ngTemplateOutlet="formInput; context: { name: 'email', label: 'page.auth.registration.email.label' | translate }" />
-    <ng-container *ngTemplateOutlet="formInput; context: { name: 'password', label: 'page.auth.registration.password.label' | translate, type: 'password' }" />
-    <ng-container *ngTemplateOutlet="formInput; context: { name: 'passwordConfirm', label: 'page.auth.registration.passwordConfirm.label' | translate, type: 'password' }" />
-    <ng-container *ngTemplateOutlet="formInput; context: { name: 'birthdate', label: 'page.auth.registration.dateOfBirth.label' | translate, type: 'date' }" />
+    <div class="group">
+        <h2>{{ 'page.auth.registration.general.title' | translate }}</h2>
+        <div class="list">
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'username', label: 'page.auth.registration.general.username.label' | translate }" />
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'email', label: 'page.auth.registration.general.email.label' | translate }" />
+        </div>
+    </div>
+
+    <div class="group">
+        <h2>{{ 'page.auth.registration.personalData.title' | translate }}</h2>
+        <div class="list">
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'firstName', label: 'page.auth.registration.personalData.firstName.label' | translate }" />
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'lastName', label: 'page.auth.registration.personalData.lastName.label' | translate }" />
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'birthdate', label: 'page.auth.registration.personalData.dateOfBirth.label' | translate, type: 'date' }" />
+        </div>
+    </div>
+
+    <div class="group">
+        <h2>{{ 'page.auth.registration.password.title' | translate }}</h2>
+        <div class="list">
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'password', label: 'page.auth.registration.password.password.label' | translate, type: 'password' }" />
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'passwordConfirm', label: 'page.auth.registration.password.passwordConfirm.label' | translate, type: 'password' }" />
+        </div>
+    </div>
+
 
     <button type="submit" [disabled]="registrationForm.invalid && isSending" (click)="onSubmit()">{{ 'page.auth.registration.submit.button' | translate }}</button>
 

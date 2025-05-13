@@ -69,13 +69,22 @@
             },
             "registration": {
                 "title": "Registrierung",
-                "username.label": "Benutzername",
-                "firstName.label": "Vorname",
-                "lastName.label": "Nachname",
-                "email.label": "E-Mail",
-                "password.label": "Passwort",
-                "passwordConfirm.label": "Passwort bestätigen",
-                "dateOfBirth.label": "Geburtsdatum",
+                "general": {
+                    "title": "Allgemein",
+                    "username.label": "Benutzername",
+                    "email.label": "E-Mail"
+                },
+                "personalData": {
+                    "title": "Persönliche Daten",
+                    "firstName.label": "Vorname",
+                    "lastName.label": "Nachname",
+                    "dateOfBirth.label": "Geburtsdatum"
+                },
+                "password": {
+                    "title": "Passwort",
+                    "password.label": "Passwort",
+                    "passwordConfirm.label": "Passwort bestätigen"
+                },
                 "submit.button": "Registrieren"
             }
         },

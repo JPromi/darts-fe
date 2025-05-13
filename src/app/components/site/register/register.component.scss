@@ -1,8 +1,33 @@
 :host {
+    width: 45rem;
+
     form {
         display: flex;
         flex-direction: column;
         gap: 1rem;
+
+        .group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            
+            h2 {
+                font-size: .9rem;
+                font-weight: 500;
+                color: var(--text);
+                border-bottom: 1px solid var(--border);
+                width: 100%;
+                opacity: .5;
+                padding-bottom: .25rem;
+            }
+
+            .list {
+                display: grid;
+                gap: 1rem;
+                grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+            }
+        }
 
         .input-container {
             display: flex;
@@ -112,8 +137,10 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
     :host {
+        width: 100%;
+
         form {
             gap: 1.5rem;
             
