@@ -1,0 +1,19 @@
+@if (profile) {
+    <section class="header">
+        <div class="banner">
+            <img [src]="profile.banner">
+        </div>
+        <div class="top">
+            <div class="avatar">
+                <img [src]="profile.avatar" *ngIf="profile.avatar"/>
+            </div>
+            <div class="name">
+                <h2>{{ profile.username }}</h2>
+            </div>
+        </div>
+    </section>
+}
+
+@if (errorCode) {
+    <error-page [errorCode]="errorCode" />
+}

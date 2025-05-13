@@ -1,0 +1,19 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { RegistrationRequest } from '../dtos/registrationRequest';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RegisterService {
+
+  constructor(
+    private http: HttpClient,
+  ) { }
+
+  public register(request: RegistrationRequest): Observable<any> {
+    return this.http.post<any>(`${environment.baseUrl}/auth/register`, request, { withCredentials: true });
+  }
+}

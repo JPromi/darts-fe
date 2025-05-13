@@ -1,0 +1,33 @@
+<header class="options">
+    <!--
+    - Search bar
+    - Create new group button
+    -->
+    <div>
+        <div class="input">
+            <input type="search" name="searchGroup" />
+            <fa-icon [icon]="fa.faSearch"/>
+        </div>
+    </div>
+    <div>
+        <button>
+            <!-- <p>Neue Gruppe</p> -->
+            <fa-icon [icon]="fa.faAdd"/>
+        </button>
+        <button>
+            <!-- <p>Ausstehende Einladungen</p> -->
+            <fa-icon [icon]="fa.faClockRotateLeft"/>
+        </button>
+        <button>
+            <!-- <p>Gruppe mit eEinladungslink Beitreten</p> -->
+            <fa-icon [icon]="fa.faUserPlus"/>
+        </button>
+    </div>
+</header>
+<main class="list">
+    @for (group of groups; track $index) {
+        <a [routerLink]="[group.uuid]">
+            {{ group.name }}
+        </a>
+    }
+</main>

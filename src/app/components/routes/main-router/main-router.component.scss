@@ -1,0 +1,9 @@
+:host {
+    width: 100%;
+    height: fit-content;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background);
+    color: var(--text);
+}
