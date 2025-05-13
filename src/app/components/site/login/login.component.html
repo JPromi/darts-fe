@@ -20,9 +20,7 @@
                 <h3>{{ 'page.auth.lastUsers.otherUser.label' | translate }}</h3>
             </a>
         </div>
-    }
-
-    @if (!isSavedUser) {
+    } @else {
         <h1>{{ 'page.auth.login.title' | translate }}</h1>
     
         <form>
@@ -58,6 +56,8 @@
                 <p>{{ loginResponse.error }}</p>
             </span>
             <button (click)="login()">{{ 'page.auth.login.login.button' | translate }}</button>
+
+            <a routerLink="/barrier/register">Noch keinen Account?</a>
         </form>
     }
 

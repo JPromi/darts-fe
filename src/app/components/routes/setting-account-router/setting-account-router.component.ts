@@ -3,6 +3,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import * as fa from '@fortawesome/free-solid-svg-icons';
+import { buildInfo } from '../../../../generated/build-info';
 
 @Component({
   selector: 'app-setting-account-router',
@@ -17,4 +18,5 @@ import * as fa from '@fortawesome/free-solid-svg-icons';
 })
 export class SettingAccountRouterComponent {
   fa = fa;
+  buildInfo = buildInfo;
 }

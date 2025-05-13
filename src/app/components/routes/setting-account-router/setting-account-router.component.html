@@ -18,7 +18,8 @@
 
         <div class="informations">
             <h6>{{ 'page.settings.menu.informations.title' | translate }}</h6>
-            <p>{{ 'page.settings.menu.informations.version.label' | translate: { version: 'v1.0.0'} }}</p>
+            <p>{{ 'page.settings.menu.informations.version.label' | translate: { version: buildInfo.version } }}</p>
+            <p>{{ 'page.settings.menu.informations.buildDate.label' | translate: { version: buildInfo.buildDate } }}</p>
             <p>by <a href="https://jpromi.com">JPromi</a></p>
         </div>
     </nav>
