@@ -95,8 +95,8 @@
                 "profile.label": "Profil",
                 "informations": {
                     "title": "Informationen",
-                    "version.label": "Version {{version}}",
-                    "buildDate.label": "Build-Datum {{buildDate}}"
+                    "version.label": "Version:",
+                    "buildDate.label": "Build date:"
                 }
             },
             "account": {
