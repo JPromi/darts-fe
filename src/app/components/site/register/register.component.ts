@@ -36,7 +36,7 @@ export class RegisterComponent {
       email: new FormControl<string>("", [Validators.required, Validators.email]),
       firstName: new FormControl<string>("", [Validators.required]),
       lastName: new FormControl<string>("", [Validators.required]),
-      dateOfBirth: new FormControl<Date>(new Date(), [Validators.required]),
+      dateOfBirth: new FormControl<Date | null>(null, [Validators.required]),
     },
     this.loValidationService.passwordMatch('password', 'passwordConfirm')
   )
@@ -50,7 +50,11 @@ export class RegisterComponent {
   }
 
   public onSubmit() {
+    this.registrationForm.markAllAsTouched();
+    
     if (this.registrationForm.valid) {
+       this.registrationForm.updateValueAndValidity();
+      this.registrationForm.disable();
       this.isSending = true;
       this.registration.username = this.registrationForm.value.username!;
       this.registration.password = this.registrationForm.value.password!;
@@ -62,10 +66,12 @@ export class RegisterComponent {
       this.registerService.register(this.registration).subscribe(
         (response) => {
           this.isSending = false;
+          this.registrationForm.enable();
           console.log(response);
         },
         (error) => {
           this.isSending = false;
+          this.registrationForm.enable();
           console.error(error);
         }
       );

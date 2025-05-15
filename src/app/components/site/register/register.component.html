@@ -14,7 +14,7 @@
         <div class="list">
             <ng-container *ngTemplateOutlet="formInput; context: { name: 'firstName', label: 'page.auth.registration.personalData.firstName.label' | translate }" />
             <ng-container *ngTemplateOutlet="formInput; context: { name: 'lastName', label: 'page.auth.registration.personalData.lastName.label' | translate }" />
-            <ng-container *ngTemplateOutlet="formInput; context: { name: 'birthdate', label: 'page.auth.registration.personalData.dateOfBirth.label' | translate, type: 'date' }" />
+            <ng-container *ngTemplateOutlet="formInput; context: { name: 'dateOfBirth', label: 'page.auth.registration.personalData.dateOfBirth.label' | translate, type: 'date' }" />
         </div>
     </div>
 
@@ -36,7 +36,7 @@
                 <label [for]="name">{{ label }}</label>
                 @if (type == 'text' || type == 'password' || type == undefined) {
                     <div class="input-content">
-                        <input [type]="type ? type : 'text'" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" #inputField [disabled]="isSending" />
+                        <input [type]="type ? type : 'text'" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" #inputField />
                         @if (type === 'password') {
                             <button (click)="inputField.type = inputField.type === 'password' ? 'text' : 'password'" type="button" [disabled]="isSending">
                                 <fa-icon [icon]="fa.faEye" *ngIf="inputField.type === 'password'"/>
@@ -46,11 +46,11 @@
                     </div>
                 } @else if (type == 'textarea') {
                     <div class="input-content">
-                        <textarea [id]="name" [name]="name" [formControlName]="name" autocomplete="off" [disabled]="isSending"></textarea>
+                        <textarea [id]="name" [name]="name" [formControlName]="name" autocomplete="off"></textarea>
                     </div>
                 } @else if (type == 'date') {
                     <div class="input-content">
-                        <input [type]="type" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" [disabled]="isSending" />
+                        <input [type]="type" [id]="name" [name]="name" [formControlName]="name" autocomplete="off" />
                     </div>
                 }
             </div>

@@ -14,6 +14,6 @@ export class RegisterService {
   ) { }
 
   public register(request: RegistrationRequest): Observable<any> {
-    return this.http.post<any>(`${environment.baseUrl}/auth/register`, request, { withCredentials: true });
+    return this.http.post<any>(`${environment.baseUrl}/register`, request, { withCredentials: true });
   }
 }
