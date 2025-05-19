@@ -1,0 +1,54 @@
+@if (group) {
+    <div
+        class="container"
+        [style.backgroundImage]="'url(\'' + group.banner + '\')'">
+        
+        <div class="content">
+            <header class="top">
+                <div class="avatar">
+                    <img [src]="group.avatar">
+                </div>
+                <div class="name">
+                    <h2>{{ group.name }}</h2>
+                </div>
+            </header>
+            <section>
+                <main>
+                    <!--
+                    Navigationsleiste zu:
+                    - Letztes Spiel dieser Gruppe (Standard)
+                    -->
+                </main>
+                <aside>
+                    <div>
+                        <h3>Mitglieder</h3>
+                        <div class="profile-list" [class.large]="isLargeMembersPreview">
+                            @for (profile of group.members | slice:0:(isLargeMembersPreview ? group.members.length : membersPreviewMax); track $index) {
+                                <span class="profile">
+                                    <a class="avatar" [routerLink]="[ '/' , 'profile', profile.username]">
+                                        <div class="avatar">
+                                            <img [src]="profile.avatar">
+                                        </div>
+                                        <p>{{ profile.username }}</p>
+                                    </a>
+                                </span>
+                            }
+                            <span class="profile extend" *ngIf="group.members.length > membersPreviewMax">
+                                <button (click)="isLargeMembersPreview = true" *ngIf="!isLargeMembersPreview">+{{ group.members.length - membersPreviewMax }}</button>
+                                <button (click)="isLargeMembersPreview = false" *ngIf="isLargeMembersPreview">-{{ group.members.length - membersPreviewMax }}</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Informationen</h3>
+                        <!--
+                        Erstelldatum
+                        letzte Aktivität
+                        -->
+                    </div>
+                </aside>
+            </section>
+        </div>
+
+    </div>
+}

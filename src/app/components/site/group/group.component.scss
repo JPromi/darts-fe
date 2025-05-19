@@ -1,0 +1,179 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100svh;
+    min-height: fit-content;
+
+    .container {
+        padding-top: calc(var(--nav-height) + 9rem);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background-color: var(--background-secondary);
+        background-size: cover;
+
+        .content {
+            background-color: var(--background);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            width: 100%;
+            max-width: 1280px;
+            border-radius: 1rem 1rem 0 0;
+
+            .top {
+                display: flex;
+                align-items: flex-end;
+                height: 6rem;
+                margin-left: 5rem;
+
+                .avatar {
+                    width: 12rem;
+                    height: 12rem;
+                    border-radius: 50%;
+                    margin-right: 1rem;
+                    border: 5px solid var(--background);
+                    box-sizing: border-box;
+                    position: relative;
+
+                    img {
+                        object-fit: cover;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                    }
+                }
+
+                .name {
+                    display: flex;
+                    height: 100%;
+                    align-items: center;
+
+                    h2 {
+                        font-size: 2rem;
+                        font-weight: 500;
+                        color: var(--text);
+                    }
+                }
+            }
+
+            & > section {
+                box-sizing: border-box;
+                padding: 1rem;
+                display: flex;
+                flex: 1;
+
+                main {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                aside {
+                    width: 20rem;
+                    border-left: 1px solid var(--border);
+                    padding-left: 1rem;
+
+                    & > div {
+                        display: flex;
+                        flex-direction: column;
+                        gap: .25rem;
+                        padding: .5rem 0;
+
+                        h3 {
+                            font-size: 1rem;
+                            font-weight: 500;
+                            color: var(--text);
+                        }
+
+                        .profile-list {
+                            display: flex;
+
+                            span {
+                                width: 1.5rem;
+                                transition: all 150ms ease-in-out;
+
+                                a, button {
+                                    border-radius: 10rem;
+                                    width: 2.5rem;
+                                    height: 2.5rem;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    overflow: hidden;
+                                    box-sizing: border-box;
+                                    border: 3px solid var(--background);
+                                    background-color: var(--background);
+                                    text-decoration: none;
+                                    color: var(--text);
+                                    cursor: pointer;
+                                    transition: all 150ms ease-in-out;
+
+                                    .avatar {
+                                        height: calc(2.5rem - 6px);
+                                        min-width: calc(2.5rem - 6px);
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        overflow: hidden;
+                                        border-radius: 10rem;
+
+                                        img {
+                                            width: 100%;
+                                            height: 100%;
+                                            object-fit: cover;
+                                        }
+                                    }
+
+                                    p {
+                                        width: 0;
+                                    }
+                                }
+
+                                button {
+                                    background: var(--border);
+                                    font-weight: 600;
+                                }
+                            }
+
+                            &.large {
+                                flex-wrap: wrap;
+                                gap: .5rem;
+                                justify-content: flex-start;
+
+                                span {
+                                    width: auto;
+
+                                    a {
+                                        width: auto;
+                                        border-color: var(--border);
+                                        background-color: var(--border);
+                                        gap: .5rem;
+
+                                        p {
+                                            width: 100%;
+                                            text-align: center;
+                                            font-size: .8rem;
+                                            font-weight: 500;
+                                            color: var(--text);
+                                            padding-right: .5rem;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: 1px solid var(--border);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

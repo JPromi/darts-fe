@@ -12,6 +12,7 @@ import { SettingAccountAccountComponent } from './components/site/setting-accoun
 import { GameInputComponent } from './components/site/game-input/game-input.component';
 import { GroupListComponent } from './components/site/group-list/group-list.component';
 import { RegisterComponent } from './components/site/register/register.component';
+import { GroupComponent } from './components/site/group/group.component';
 
 export const routes: Routes = [
     {
@@ -47,7 +48,7 @@ export const routes: Routes = [
                 ]
             },
             { path: "group", component: GroupListComponent, pathMatch: "full" },
-            { path: "group/:uuid", component: GroupListComponent, pathMatch: "full" },
+            { path: "group/:uuid", component: GroupComponent, pathMatch: "full" },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }
