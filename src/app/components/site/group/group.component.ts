@@ -29,7 +29,7 @@ export class GroupComponent implements OnInit {
       this.group = {
         uuid: '3',
         avatar: 'https://picsum.photos/200',
-        banner: "https://wallpapers.com/images/hd/retro-game-background-9mlhgnzp2db7mccd.jpg",
+        banner: "https://cdn.pixabay.com/photo/2025/05/04/11/13/california-9577976_1280.jpg",
         name: 'VAMED IT Market',
         description: 'Description',
         members: [
