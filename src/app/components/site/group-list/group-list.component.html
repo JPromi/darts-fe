@@ -1,12 +1,15 @@
 <header class="options">
-    <!--
-    - Search bar
-    - Create new group button
-    -->
     <div>
-        <div class="input">
-            <input type="search" name="searchGroup" />
-            <fa-icon [icon]="fa.faSearch"/>
+        <div class="search">
+            <input type="text" name="searchGroup" placeholder="Suchen..." [(ngModel)]="searchQuery"/>
+            <button [class.clear]="searchQuery.length > 0">
+                <div>
+                    <fa-icon [icon]="fa.faSearch"/>
+                </div>
+                <div>
+                    <fa-icon [icon]="fa.faXmark"/>
+                </div>
+            </button>
         </div>
     </div>
     <div>
@@ -24,10 +27,34 @@
         </button>
     </div>
 </header>
-<main class="list">
-    @for (group of groups; track $index) {
-        <a [routerLink]="[group.uuid]">
-            {{ group.name }}
-        </a>
-    }
+<main>
+    <div class="list">
+        @for (group of groups; track $index) {
+            <a [routerLink]="[ '/', 'group', group.uuid ]" class="group">
+                <div class="name">
+                    <div class="avatar">
+                        <img *ngIf="group.avatar" [src]="group.avatar">
+                    </div>
+                    <h2>{{ group.name }}</h2>
+                </div>
+
+                <div class="informations">
+                    <div class="box">
+                        <fa-icon [icon]="fa.faUser"/>
+                        <span class="number">
+                            {{ getMemberCount(group.membersTotal) }}
+                        </span>
+                    </div>
+                    <div class="box" *ngIf="group.isMember">
+                        <fa-icon [icon]="fa.faUserCheck"/>
+                    </div>
+                </div>
+
+                <div class="background">
+                    <img *ngIf="group.banner" [src]="group.banner">
+                    <span class="gradient"></span>
+                </div>
+            </a>
+        }
+    </div>
 </main>
