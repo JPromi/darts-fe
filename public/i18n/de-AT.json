@@ -165,6 +165,20 @@
                     }
                 }
             }
+        },
+        "group": {
+            "single": {
+                "nav": {
+                    "overview.label": "Übersicht",
+                    "games.label": "Spiele"
+                },
+                "aside": {
+                    "members.title": "Mitglieder",
+                    "informations": {
+                        "title": "Informationen"
+                    }
+                }
+            }
         }
     }
 }
