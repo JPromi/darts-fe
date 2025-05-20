@@ -1,7 +1,7 @@
 <header class="options">
     <div>
         <div class="search">
-            <input type="text" name="searchGroup" placeholder="Suchen..." [(ngModel)]="searchQuery"/>
+            <input type="text" name="searchGroup" placeholder="Suchen..." [(ngModel)]="searchQuery" (ngModelChange)="searchGroup()"/>
             <button [class.clear]="searchQuery.length > 0">
                 <div>
                     <fa-icon [icon]="fa.faSearch"/>

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { GroupService } from '../../../services/group.service';
+import { PageResponse } from '../../../dtos/PageResponse';
 
 @Component({
   selector: 'app-group-list',
@@ -31,8 +32,12 @@ export class GroupListComponent implements OnInit {
   public groups: GroupLightResponse[] = [];
   public searchQuery: string = '';
 
+  private lastKeyPress: Date = new Date();
+  private lastUpdateIntervall: number = .5; // seconds
+  private lastUpdateTimeout: any = null;
+
   ngOnInit(): void {
-    this.getGroups();
+    this._searchGroup();
   }
 
   public getMemberCount(total: number): string {
@@ -47,10 +52,21 @@ export class GroupListComponent implements OnInit {
     }
   }
 
-  private getGroups(): void {
-    this.groupService.getGroupList().subscribe(
-      (response: GroupLightResponse[]) => {
-        this.groups = response;
+  public searchGroup() {
+    if (!this.lastUpdateTimeout) {
+      this.lastUpdateTimeout = setTimeout(() => {
+        if (this.lastKeyPress.getTime() + this.lastUpdateIntervall * 1000 < new Date().getTime()) {
+          this._searchGroup();
+        }
+        this.lastUpdateTimeout = null;
+      }, this.lastUpdateIntervall * 1000);
+    }
+  }
+
+  private _searchGroup() {
+    this.groupService.serachGroup(this.searchQuery, this.searchQuery == "" ? true : null).subscribe(
+      (response: PageResponse<GroupLightResponse>) => {
+        this.groups = response.content;
       }
     );
   }
