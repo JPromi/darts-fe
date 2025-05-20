@@ -16,6 +16,10 @@ import { GroupComponent } from './components/site/group/group.component';
 import { GroupOverviewComponent } from './components/site/group-overview/group-overview.component';
 import { GroupGamesComponent } from './components/site/group-games/group-games.component';
 import { SettingGroupRouterComponent } from './components/routes/setting-group-router/setting-group-router.component';
+import { SettingGroupGeneralComponent } from './components/site/setting-group-general/setting-group-general.component';
+import { SettingGroupMembersComponent } from './components/site/setting-group-members/setting-group-members.component';
+import { SettingGroupInvitationsComponent } from './components/site/setting-group-invitations/setting-group-invitations.component';
+import { SettingGroupDangerZoneComponent } from './components/site/setting-group-danger-zone/setting-group-danger-zone.component';
 
 export const routes: Routes = [
     {
@@ -55,7 +59,11 @@ export const routes: Routes = [
                 path: "group/:uuid/settings",
                 component: SettingGroupRouterComponent,
                 children: [
-                    
+                    { path: "", redirectTo: "general", pathMatch: "full" },
+                    { path: "general", component: SettingGroupGeneralComponent, pathMatch: "full" },
+                    { path: "members", component: SettingGroupMembersComponent, pathMatch: "full" },
+                    { path: "invitations", component: SettingGroupInvitationsComponent, pathMatch: "full" },
+                    { path: "danger-zone", component: SettingGroupDangerZoneComponent, pathMatch: "full" },
                 ]
             },
             { 
