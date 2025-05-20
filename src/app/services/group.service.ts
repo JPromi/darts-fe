@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { GroupLightResponse } from '../dtos/groupLightResponse';
 import { environment } from '../../environments/environment';
 import { GroupResponse } from '../dtos/groupResponse';
-import { PageResponse } from '../dtos/PageResponse';
+import { PageResponse } from '../dtos/pageeResponse';
 
 @Injectable({
   providedIn: 'root'
