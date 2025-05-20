@@ -177,6 +177,10 @@
                     "informations": {
                         "title": "Informationen"
                     }
+                },
+                "private": {
+                    "title": "Private Gruppe",
+                    "disclaimer.text": "Diese Gruppe ist privat. Sie müssen Mitglied sein, um Informationen über diese Gruppe zu sehen."
                 }
             }
         }
