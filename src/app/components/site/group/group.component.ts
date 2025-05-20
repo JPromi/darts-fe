@@ -6,6 +6,7 @@ import { GroupResponse } from '../../../dtos/groupResponse';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { GroupService } from '../../../services/group.service';
 
 @Component({
   selector: 'app-group',
@@ -43,91 +44,50 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class GroupComponent implements OnInit {
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+    public activatedRoute: ActivatedRoute,
+    private router: Router,
+    private groupService: GroupService
   ) { }
 
   public membersPreviewMax: number = 5;
   public isLargeMembersPreview: Boolean = false;
   public activeSubMenu: string = '';
   public fa = fa;
-
+  public counter: number = 0;
   public group?: GroupResponse;
 
   ngOnInit(): void {
-      this.group = {
-        uuid: '3',
-        avatar: 'https://picsum.photos/200',
-        banner: "https://cdn.pixabay.com/photo/2025/05/04/11/13/california-9577976_1280.jpg",
-        name: 'VAMED IT Market',
-        description: 'Description',
-        members: [
-          {
-            uuid: '1',
-            username: 'test',
-            avatar: 'https://picsum.photos/64',
-            visibility: 'public',
-          },
-          {
-            uuid: '2',
-            username: 'test',
-            avatar: 'https://picsum.photos/65',
-            visibility: 'public',
-          },
-          {
-            uuid: '3',
-            username: 'test',
-            avatar: 'https://picsum.photos/66',
-            visibility: 'public',
-          },
-          {
-            uuid: '4',
-            username: 'test',
-            avatar: 'https://picsum.photos/67',
-            visibility: 'public',
-          },
-          {
-            uuid: '5',
-            username: 'test',
-            avatar: 'https://picsum.photos/67',
-            visibility: 'public',
-          },
-          {
-            uuid: '6',
-            username: 'testWithAVeryLongName',
-            avatar: 'https://picsum.photos/67',
-            visibility: 'public',
-          },
-          {
-            uuid: '7',
-            username: 'test',
-            avatar: 'https://picsum.photos/67',
-            visibility: 'public',
-          },
-          {
-            uuid: '8',
-            username: 'test',
-            avatar: 'https://picsum.photos/67',
-            visibility: 'public',
-          },
-          {
-            uuid: '9',
-            username: 'test',
-            avatar: 'https://picsum.photos/67',
-            visibility: 'public',
-          },
-
-        ],
-        isMember: true,
-        isPublic: false,
-        createdAt: new Date().toUTCString(),
-      }
-    
+    this.counter++;
+    console.log(this.counter);
     this.activatedRoute.url.subscribe(
       (url) => {
         this.activeSubMenu = url[2]?.path ?? '';
       }
     )
+
+    this.activatedRoute.params.subscribe(
+      (params) => {
+        const uuid = params['uuid'];
+        if (uuid) {
+          this.getGroup(uuid);
+        } else {
+          this.router.navigate(['/']);
+        }
+      }
+    );
+  }
+
+  private getGroup(uuid: string): void {
+    this.groupService.getGroup(uuid).subscribe(
+      (response: GroupResponse) => {
+        this.group = response;
+      }
+    );
+  }
+
+  navigateToNewRoute(event: any, newUrl: any) {
+    event.preventDefault(); // Verhindern, dass die Seite neu geladen wird
+    this.router.navigateByUrl(newUrl); // Navigiere zur neuen URL
   }
 
 }

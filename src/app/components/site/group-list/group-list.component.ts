@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
+import { GroupService } from '../../../services/group.service';
 
 @Component({
   selector: 'app-group-list',
@@ -21,7 +22,9 @@ import * as fa from '@fortawesome/free-solid-svg-icons';
 })
 export class GroupListComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private groupService: GroupService
+  ) { }
 
   fa = fa;
 
@@ -29,42 +32,7 @@ export class GroupListComponent implements OnInit {
   public searchQuery: string = '';
 
   ngOnInit(): void {
-    // tmp
-    this.groups = [
-      {
-        uuid: '1',
-        avatar: 'https://placehold.co/128',
-        banner: "https://static.vecteezy.com/system/resources/thumbnails/002/058/317/small_2x/retro-futuristic-80s-background-free-vector.jpg",
-        name: 'Group 1',
-        description: 'Description 1',
-        membersTotal: 1000,
-        isMember: true,
-        isPublic: true,
-        createdAt: new Date().toUTCString(),
-      },
-      {
-        uuid: '2',
-        avatar: 'https://picsum.photos/201',
-        banner: "https://static.vecteezy.com/system/resources/thumbnails/002/058/317/small_2x/retro-futuristic-80s-background-free-vector.jpg",
-        name: 'Group 2',
-        description: 'Description 2',
-        membersTotal: 20000000,
-        isMember: false,
-        isPublic: false,
-        createdAt: new Date().toUTCString(),
-      },
-      {
-        uuid: '3',
-        avatar: 'https://picsum.photos/200',
-        banner: "https://static.vecteezy.com/system/resources/thumbnails/002/058/317/small_2x/retro-futuristic-80s-background-free-vector.jpg",
-        name: 'VAMED IT Market',
-        description: 'Description',
-        membersTotal: 5,
-        isMember: true,
-        isPublic: false,
-        createdAt: new Date().toUTCString(),
-      }
-    ];
+    this.getGroups();
   }
 
   public getMemberCount(total: number): string {
@@ -77,5 +45,13 @@ export class GroupListComponent implements OnInit {
     } else {
       return '+ 100M';
     }
+  }
+
+  private getGroups(): void {
+    this.groupService.getGroupList().subscribe(
+      (response: GroupLightResponse[]) => {
+        this.groups = response;
+      }
+    );
   }
 }

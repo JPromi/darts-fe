@@ -30,18 +30,9 @@
                             </li>
                         </ul>
                     </nav>
-                    @switch (activeSubMenu) {
-                        @case ('') {
-                            <section class="overview">
-
-                            </section>
-                        }
-                        @case ('games') {
-                            <section class="games">
-                                <h1>Game</h1>
-                            </section>
-                        }
-                    }
+                    <section>
+                        <router-outlet />
+                    </section>
                 </main>
                 <aside>
                     <div>

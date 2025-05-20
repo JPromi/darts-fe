@@ -13,6 +13,8 @@ import { GameInputComponent } from './components/site/game-input/game-input.comp
 import { GroupListComponent } from './components/site/group-list/group-list.component';
 import { RegisterComponent } from './components/site/register/register.component';
 import { GroupComponent } from './components/site/group/group.component';
+import { GroupOverviewComponent } from './components/site/group-overview/group-overview.component';
+import { GroupGamesComponent } from './components/site/group-games/group-games.component';
 
 export const routes: Routes = [
     {
@@ -48,8 +50,14 @@ export const routes: Routes = [
                 ]
             },
             { path: "group", component: GroupListComponent, pathMatch: "full" },
-            { path: "group/:uuid", component: GroupComponent, pathMatch: "full" },
-            { path: "group/:uuid/games", component: GroupComponent, pathMatch: "full" },
+            { 
+                path: "group/:uuid",
+                component: GroupComponent,
+                children: [
+                    { path: "", component: GroupOverviewComponent, pathMatch: "full" },
+                    { path: "games", component: GroupGamesComponent, pathMatch: "full" },
+                ]    
+            },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }
