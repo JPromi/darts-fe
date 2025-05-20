@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { GroupService } from '../../../services/group.service';
-import { PageResponse } from '../../../dtos/pageeResponse';
+import { PageResponse } from '../../../dtos/pageResponse';
 
 @Component({
   selector: 'app-group-list',
