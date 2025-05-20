@@ -44,7 +44,7 @@ import { GroupService } from '../../../services/group.service';
 export class GroupComponent implements OnInit {
 
   constructor(
-    public activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private groupService: GroupService
   ) { }
@@ -53,12 +53,9 @@ export class GroupComponent implements OnInit {
   public isLargeMembersPreview: Boolean = false;
   public activeSubMenu: string = '';
   public fa = fa;
-  public counter: number = 0;
   public group?: GroupResponse;
 
   ngOnInit(): void {
-    this.counter++;
-    console.log(this.counter);
     this.activatedRoute.url.subscribe(
       (url) => {
         this.activeSubMenu = url[2]?.path ?? '';
