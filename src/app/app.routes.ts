@@ -49,6 +49,7 @@ export const routes: Routes = [
             },
             { path: "group", component: GroupListComponent, pathMatch: "full" },
             { path: "group/:uuid", component: GroupComponent, pathMatch: "full" },
+            { path: "group/:uuid/games", component: GroupComponent, pathMatch: "full" },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }

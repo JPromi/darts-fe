@@ -73,6 +73,32 @@
                     flex: 1;
                     display: flex;
                     flex-direction: column;
+
+                    nav {
+                        display: flex;
+                        width: 100%;
+                        padding-right: 1rem;
+                        box-sizing: border-box;
+                        
+                        ul {
+                            display: flex;
+                            gap: 1rem;
+                            list-style: none;
+                            border-bottom: 1px solid var(--border);
+
+                            li {
+                                a {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: .25rem;
+                                    padding: 0 0.75rem;
+                                    height: 2.5rem;
+                                    text-decoration: none;
+                                    color: var(--text);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 aside {
@@ -94,17 +120,17 @@
 
                         .profile-list {
                             display: flex;
+                            flex-wrap: wrap;
+                            transition: gap 150ms ease-in-out;
 
                             span {
-                                width: 1.5rem;
-                                transition: all 150ms ease-in-out;
 
                                 a, button {
                                     border-radius: 10rem;
-                                    width: 2.5rem;
+                                    min-width: 2.5rem;
+                                    max-width: 9rem;
                                     height: 2.5rem;
                                     display: flex;
-                                    justify-content: center;
                                     align-items: center;
                                     overflow: hidden;
                                     box-sizing: border-box;
@@ -113,7 +139,8 @@
                                     text-decoration: none;
                                     color: var(--text);
                                     cursor: pointer;
-                                    transition: all 150ms ease-in-out;
+                                    gap: .5rem;
+                                    transition: background-color 500ms ease-in-out, border-color 500ms ease-in-out;
 
                                     .avatar {
                                         height: calc(2.5rem - 6px);
@@ -132,7 +159,16 @@
                                     }
 
                                     p {
-                                        width: 0;
+                                        width: 100%;
+                                        text-align: center;
+                                        font-size: .8rem;
+                                        font-weight: 500;
+                                        color: var(--text);
+                                        padding-right: .5rem;
+                                        text-overflow: ellipsis;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        max-width: 100%;
                                     }
                                 }
 
@@ -140,30 +176,21 @@
                                     background: var(--border);
                                     font-weight: 600;
                                 }
+
+                                &.extend {
+                                    button {
+                                        justify-content: center;
+                                    }
+                                }
                             }
 
                             &.large {
-                                flex-wrap: wrap;
                                 gap: .5rem;
-                                justify-content: flex-start;
 
                                 span {
-                                    width: auto;
-
                                     a {
-                                        width: auto;
                                         border-color: var(--border);
                                         background-color: var(--border);
-                                        gap: .5rem;
-
-                                        p {
-                                            width: 100%;
-                                            text-align: center;
-                                            font-size: .8rem;
-                                            font-weight: 500;
-                                            color: var(--text);
-                                            padding-right: .5rem;
-                                        }
                                     }
                                 }
                             }
