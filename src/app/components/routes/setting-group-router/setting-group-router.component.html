@@ -1,0 +1,41 @@
+<aside>
+    <nav>
+        <h1>{{ 'page.group.single.settings.menu.title' | translate }}</h1>
+        <ul>
+            <li>
+                <a [routerLink]="['/', 'group', uuid, 'settings', 'general']" routerLinkActive="active">
+                    <fa-icon [icon]="fa.faGear" />
+                    <p>{{ 'page.group.single.settings.menu.general.label' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/', 'group', uuid, 'settings', 'members']" routerLinkActive="active">
+                    <fa-icon [icon]="fa.faUserFriends" />
+                    <p>{{ 'page.group.single.settings.menu.members.label' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/', 'group', uuid, 'settings', 'invitations']" routerLinkActive="active">
+                    <fa-icon [icon]="fa.faEnvelope" />
+                    <p>{{ 'page.group.single.settings.menu.invitations.label' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/', 'group', uuid, 'settings', 'danger-zone']" routerLinkActive="active">
+                    <fa-icon [icon]="fa.faCircleExclamation" />
+                    <p>{{ 'page.group.single.settings.menu.dangerZone.label' | translate }}</p>
+                </a>
+            </li>
+        </ul>
+
+        <div class="informations">
+            <h6>{{ 'page.settings.menu.informations.title' | translate }}</h6>
+            <!--
+            Creation date, creation user,..
+            -->
+        </div>
+    </nav>
+</aside>
+<main>
+    <router-outlet></router-outlet>
+</main>

@@ -181,6 +181,18 @@
                 "private": {
                     "title": "Private Gruppe",
                     "disclaimer.text": "Diese Gruppe ist privat. Sie müssen Mitglied sein, um Informationen über diese Gruppe zu sehen."
+                },
+                "settings": {
+                    "menu": {
+                        "title": "Einstellungen",
+                        "general.label": "Allgemein",
+                        "members.label": "Mitglieder",
+                        "invitations.label": "Einladungen",
+                        "dangerZone.label": "Gefahrenzone",
+                        "informations": {
+                            "title": "Informationen"
+                        }
+                    }
                 }
             }
         }

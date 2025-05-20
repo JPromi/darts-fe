@@ -15,6 +15,7 @@ import { RegisterComponent } from './components/site/register/register.component
 import { GroupComponent } from './components/site/group/group.component';
 import { GroupOverviewComponent } from './components/site/group-overview/group-overview.component';
 import { GroupGamesComponent } from './components/site/group-games/group-games.component';
+import { SettingGroupRouterComponent } from './components/routes/setting-group-router/setting-group-router.component';
 
 export const routes: Routes = [
     {
@@ -50,13 +51,20 @@ export const routes: Routes = [
                 ]
             },
             { path: "group", component: GroupListComponent, pathMatch: "full" },
+            {
+                path: "group/:uuid/settings",
+                component: SettingGroupRouterComponent,
+                children: [
+                    
+                ]
+            },
             { 
                 path: "group/:uuid",
                 component: GroupComponent,
                 children: [
                     { path: "", component: GroupOverviewComponent, pathMatch: "full" },
                     { path: "games", component: GroupGamesComponent, pathMatch: "full" },
-                ]    
+                ]
             },
         ]
     },
