@@ -1,17 +1,24 @@
 @if (profile) {
-    <section class="header">
-        <div class="banner">
-            <img [src]="profile.banner">
-        </div>
-        <div class="top">
-            <div class="avatar">
-                <img [src]="profile.avatar" *ngIf="profile.avatar"/>
+    <div class="container">
+        <section class="header">
+            <div class="banner">
+                <img [src]="profile.banner">
+                <div class="settings">
+                    <a [routerLink]="['/', 'settings', 'profile']">
+                        <fa-icon [icon]="fa.faGear"/>
+                    </a>
+                </div>
             </div>
-            <div class="name">
-                <h2>{{ profile.username }}</h2>
+            <div class="top">
+                <div class="avatar">
+                    <img [src]="profile.avatar" *ngIf="profile.avatar"/>
+                </div>
+                <div class="name">
+                    <h2>{{ profile.username }}</h2>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 }
 
 @if (errorCode) {
