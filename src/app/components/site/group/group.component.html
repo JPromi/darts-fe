@@ -36,7 +36,7 @@
                         </section>
                     </main>
                     <aside>
-                        <div *ngIf="group.members.length > 0">
+                        <div *ngIf="group.members && group.members.length > 0">
                             <h3>{{ 'page.group.single.aside.members.title' | translate }}</h3>
                             <div class="profile-list" [class.large]="isLargeMembersPreview">
                                 @for (profile of group.members; track $index) {
