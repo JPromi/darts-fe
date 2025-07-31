@@ -31,6 +31,7 @@ export class GroupListComponent implements OnInit {
 
   public groups: GroupLightResponse[] = [];
   public searchQuery: string = '';
+  public groupInvitationCount: number = 0;
 
   private lastKeyPress: Date = new Date();
   private lastUpdateIntervall: number = .5; // seconds
@@ -38,6 +39,7 @@ export class GroupListComponent implements OnInit {
 
   ngOnInit(): void {
     this._searchGroup();
+    this.getGroupInvitationCount();
   }
 
   public getMemberCount(total: number): string {
@@ -49,6 +51,21 @@ export class GroupListComponent implements OnInit {
       return Math.floor(total / 1000000) + 'M';
     } else {
       return '+ 100M';
+    }
+  }
+
+  public getInvitationCount(total: number): string {
+    if (total >= 10) {
+      return '+ 10';
+    } else {
+      return total.toString();
+    }
+  }
+
+  public clearSearch() {
+    if(this.searchQuery != "") {
+    this.searchQuery = '';
+    this._searchGroup();
     }
   }
 
@@ -67,6 +84,14 @@ export class GroupListComponent implements OnInit {
     this.groupService.serachGroup(this.searchQuery, this.searchQuery == "" ? true : null).subscribe(
       (response: PageResponse<GroupLightResponse>) => {
         this.groups = response.content;
+      }
+    );
+  }
+
+  private getGroupInvitationCount() {
+    this.groupService.countInvitationList().subscribe(
+      (response: number) => {
+        this.groupInvitationCount = response;
       }
     );
   }

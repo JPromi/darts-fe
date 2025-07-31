@@ -34,4 +34,13 @@ export class GroupService {
 
     return this.http.get<PageResponse<GroupLightResponse>>(`${environment.baseUrl}/group/search`, { withCredentials: true, params });
   }
+
+  // invitation
+  public getInvitationList(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.baseUrl}/group/invitation`, { withCredentials: true });
+  }
+
+  public countInvitationList(): Observable<number> {
+    return this.http.get<number>(`${environment.baseUrl}/group/invitation/count`, { withCredentials: true });
+  }
 }

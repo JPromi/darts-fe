@@ -86,6 +86,7 @@
                 background-color: transparent;
                 color: var(--text);
                 cursor: pointer;
+                position: relative;
 
                 &:hover {
                     color: var(--primary);
@@ -93,6 +94,24 @@
 
                 fa-icon {
                     font-size: 1rem;
+                }
+
+                span.notify {
+                    background-color: var(--tertiary);
+                    width: 1.1rem;
+                    height: 1.1rem;
+                    border-radius: 50%;
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    right: 0;
+                    top: 0;
+                    font-size: .65rem;
+                    line-height: .1rem;
+                    color: var(--text);
+                    border: 2px solid var(--background-secondary);
+                    box-sizing: border-box;
                 }
             }
         }

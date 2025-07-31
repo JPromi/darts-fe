@@ -2,7 +2,7 @@
     <div>
         <div class="search">
             <input type="text" name="searchGroup" placeholder="Suchen..." [(ngModel)]="searchQuery" (ngModelChange)="searchGroup()"/>
-            <button [class.clear]="searchQuery.length > 0">
+            <button [class.clear]="searchQuery.length > 0" (click)="clearSearch()">
                 <div>
                     <fa-icon [icon]="fa.faSearch"/>
                 </div>
@@ -20,6 +20,7 @@
         <button>
             <!-- <p>Ausstehende Einladungen</p> -->
             <fa-icon [icon]="fa.faClockRotateLeft"/>
+            <span class="notify" *ngIf="groupInvitationCount > 0">{{ getInvitationCount(groupInvitationCount) }}</span>
         </button>
         <button>
             <!-- <p>Gruppe mit eEinladungslink Beitreten</p> -->
