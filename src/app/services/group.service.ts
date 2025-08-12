@@ -23,7 +23,7 @@ export class GroupService {
     return this.http.get<GroupResponse>(`${environment.baseUrl}/group/${uuid}`, { withCredentials: true });
   }
 
-  public serachGroup(q: string, isMember: boolean | null = null, isPublic: boolean | null = null, page: number = 0, size: number = 36): Observable<PageResponse<GroupLightResponse>> {
+  public searchGroup(q: string, isMember: boolean | null = null, isPublic: boolean | null = null, page: number = 0, size: number = 36): Observable<PageResponse<GroupLightResponse>> {
     const params: any = {
       q: q,
       page: page,

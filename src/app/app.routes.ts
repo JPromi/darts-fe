@@ -20,6 +20,7 @@ import { SettingGroupGeneralComponent } from './components/site/setting-group-ge
 import { SettingGroupMembersComponent } from './components/site/setting-group-members/setting-group-members.component';
 import { SettingGroupInvitationsComponent } from './components/site/setting-group-invitations/setting-group-invitations.component';
 import { SettingGroupDangerZoneComponent } from './components/site/setting-group-danger-zone/setting-group-danger-zone.component';
+import { GameCreateComponent } from './components/site/game-create/game-create.component';
 
 export const routes: Routes = [
     {
@@ -74,6 +75,7 @@ export const routes: Routes = [
                     { path: "games", component: GroupGamesComponent, pathMatch: "full" },
                 ]
             },
+            { path: "game/new", component: GameCreateComponent, pathMatch: "full" },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }

@@ -81,7 +81,7 @@ export class GroupListComponent implements OnInit {
   }
 
   private _searchGroup() {
-    this.groupService.serachGroup(this.searchQuery, this.searchQuery == "" ? true : null).subscribe(
+    this.groupService.searchGroup(this.searchQuery, this.searchQuery == "" ? true : null).subscribe(
       (response: PageResponse<GroupLightResponse>) => {
         this.groups = response.content;
       }

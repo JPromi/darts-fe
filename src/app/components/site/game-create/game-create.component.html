@@ -1,0 +1,149 @@
+<header>
+    <!-- <h1>New Game</h1> -->
+</header>
+
+<main>
+    @switch (creationStep) {
+        @case (0) {
+            <!-- SELECT GROUP -->
+            <section class="group" [@stepAnimation]>
+                <h2>Gruppe Auswählen</h2>
+                <div class="group-list">
+                    <!-- <button class="group-item no-group" (click)="selectGroup(null)" [class.selected]="game.groupUuid === null">
+                        <h2>No group</h2>
+                    </button> -->
+                    @for (group of groups; track $index) {
+                        <button class="group-item" (click)="selectGroup(group)" [class.selected]="game.groupUuid === group.uuid">
+                            <div class="name">
+                                <div class="avatar">
+                                    <img *ngIf="group.avatar" [src]="group.avatar">
+                                </div>
+                                <h2>{{ group.name }}</h2>
+                            </div>
+
+                            <div class="background">
+                                <img *ngIf="group.banner" [src]="group.banner">
+                                <span class="gradient"></span>
+                            </div>
+                        </button>
+                    }
+                </div>
+            </section>
+        }
+        @case (1) {
+            <!-- SELECT LOCATION -->
+        }
+        @case (2) {
+            <!-- SELECT GAME TYPE -->
+            <section class="game-mode" [@stepAnimation]>
+                <h2>Spieltyp Auswählen</h2>
+                <div class="list">
+                    @for (gameMode of gameModes; track $index) {
+                        <button class="game-mode-item" [class.large]="gameMode.isPopular" [class.selected]="game.gameType === gameMode.name" (click)="selectGameMode(gameMode.name)">
+                            <h2>{{ gameMode.translationKey }}</h2>
+                            <div class="background">
+                                <img *ngIf="gameMode.icon" [src]="gameMode.icon">
+                            </div>
+                        </button>
+                    }
+                </div>
+            </section>
+        }
+        @case (3) {
+            <!-- GAME SETTINGS -->
+            <section class="game-settings" [@stepAnimation]>
+                <h2>Einstellungen</h2>
+                <div class="player-selection">
+                    <div class="search-container player-container">
+                        <div class="search">
+                            <input type="text" name="profileSearch" [(ngModel)]="searchQuery" (ngModelChange)="searchProfile()" placeholder="Spieler suchen...">
+                            <button [class.clear]="searchQuery.length > 0" (click)="clearSearchProfile()">
+                                <div>
+                                    <fa-icon [icon]="fa.faSearch"/>
+                                </div>
+                                <div>
+                                    <fa-icon [icon]="fa.faXmark"/>
+                                </div>
+                            </button>
+                        </div>
+                        <button (click)="selectProfileAsGuest()">Als Gast hinzufügen</button>
+                        <div class="list">
+                            @for (profile of profileSearchResults; track $index) {
+                                <button class="profile-item btn" (click)="selectProfile(profile)">
+                                    <div class="avatar">
+                                        <img *ngIf="profile.avatar" [src]="profile.avatar">
+                                    </div>
+                                    <p class="name">{{ profile.username }}</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="list-container player-container">
+                        <div class="list-header">
+                            <h2>Spieler</h2>
+                            <button (click)="randomizePlayers()">
+                                <fa-icon [icon]="fa.faShuffle"/>
+                            </button>
+                        </div>
+                        <div
+                            class="list"
+                            cdkDropList
+                            [cdkDropListData]="game.players"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (player of game.players; track player.username; let i = $index) {
+                                <div
+                                    class="profile-item"
+                                    cdkDrag
+                                    #profileItemContainer
+                                    (touchstart)="onTouchStart($event, profileItemContainer)"
+                                    (touchend)="onTouchEnd($event, profileItemContainer)"
+                                    [@playerDisappear]>
+                                    <span class="index">{{ i + 1 }}</span>
+                                    <div class="avatar">
+                                        <img *ngIf="player.avatar" [src]="player.avatar">
+                                    </div>
+                                    <p class="name">{{ player.username }}</p>
+                                    <button (click)="profileItemContainer.classList.toggle('delete-active')" class="delete">
+                                        <fa-icon [icon]="fa.faTrash" />
+                                    </button>
+                                    <span class="move-icon" cdkDragHandle>
+                                        <fa-icon [icon]="fa.faGripLines"/>
+                                    </span>
+
+                                    <button class="delete-confirm" (click)="deleteProfile(player)">
+                                        <fa-icon [icon]="fa.faTrash" />
+                                    </button>
+
+                                    <span class="background"></span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+    }
+
+    <div class="step-controls">
+        @if (creationStep > 0) {
+            <button class="back" (click)="previousStep()">Zurück</button>
+        }
+        @if (creationStep < 3) {
+            <button class="next primary large" (click)="nextStep()">
+                {{
+                    creationStep === 0 && game.groupUuid === null ? 'Weiter ohne Gruppe' :
+                    creationStep === 1 && game.locationUuid === null ? 'Weiter ohne Standort' :
+                    'Weiter'
+                }}
+            </button>
+        } @else {
+            <button class="create primary large">Starten</button>
+        }
+    </div>
+</main>
+
+<div class="step-status-box">
+    <div class="status">
+        <span [style.width.%]="creationStep / 3 * 100"></span>
+    </div>
+</div>
