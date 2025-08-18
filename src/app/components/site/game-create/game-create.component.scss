@@ -203,17 +203,22 @@
         }
 
         .game-settings {
-            display: flex;
             flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto 1fr 1fr;
+            gap: 1rem;
+
+            .header {
+                grid-area: span 1 / span 3;
+            }
 
             .player-selection {
+                grid-area: span 1 / span 2;
                 display: grid;
                 grid-template-columns: 2fr 3fr;
                 width: 100%;
-                max-width: 900px;
-                border: 1px solid var(--border);
-                border-radius: .5rem;
-                padding: 1rem;
+                // max-width: 900px;
                 box-sizing: border-box;
 
                 .search-container {
@@ -276,11 +281,30 @@
                         }
                     }
 
+                    .guest-btn {
+                        height: 2rem;
+                        width: 100%;
+                        border: 0;
+                        border-radius: 10rem;
+                        background-color: var(--background-secondary);
+                        border: 1px solid var(--border);
+                        color: var(--text);
+                        user-select: none;
+                        cursor: pointer;
+                    }
+
                     .list {
                         display: flex;
                         flex-direction: column;
                         gap: .5rem;
                         margin-top: 1rem;
+                    }
+
+                    asset-loading {
+                        flex: 1;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                     }
                     
                 }
@@ -314,6 +338,19 @@
                             white-space: nowrap;
                             max-width: 100%;
                             flex: 1;
+                            display: flex;
+                            align-items: center;
+                            gap: .75rem;
+
+                            span {
+                                font-size: .95rem;
+                                color: var(--text-secondary);
+                                font-weight: 400;
+
+                                &.error {
+                                    color: var(--error);
+                                }
+                            }
                         }
 
                         button {
@@ -361,6 +398,130 @@
                     }
                 }
             }
+
+            .box-border {
+                border: 1px solid var(--border);
+                border-radius: .5rem;
+                padding: 1rem;
+                box-sizing: border-box;
+            }
+
+            .game-information {
+                h2 {
+                    font-size: 1.25rem;
+                    font-weight: 500;
+                    color: var(--text);
+                    margin-bottom: .5rem;
+                }
+
+                p {
+                    white-space: pre-line;
+                    font-size: .9rem;
+                    text-align: justify;
+                }
+            }
+
+            .gamemode-settings {
+                grid-area: span 1 / span 3;
+                display: flex;
+                flex-direction: column;
+
+                h2 {
+                    font-size: 1.25rem;
+                    font-weight: 500;
+                    color: var(--text);
+                    margin-bottom: .5rem;
+                }
+
+                .gamemode-settings-content {
+                    display: flex;
+                    flex: 1;
+
+                    & > div {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        box-sizing: border-box;
+                        
+                        &:not(:nth-child(1)) {
+                            border-left: 1px solid var(--border);
+                            padding-left: 1rem;
+                        }
+
+                        &:not(:nth-last-child(1)) {
+                            padding-right: 1rem;
+                        }
+                        
+                        h3 {
+                            font-size: 1.25rem;
+                            font-weight: 500;
+                            color: var(--text);
+                            margin-bottom: .5rem;
+                        }
+
+                        .button-grid {
+                            display: grid;
+                            gap: 1rem;
+                            height: fit-content;
+                            margin: auto 0;
+
+                            @each $cols in 2, 3 {
+                                &.col-#{$cols} {
+                                    grid-template-columns: repeat($cols, 1fr);
+                                }
+                            }
+
+                            &.hide {
+                                display: none;
+                            }
+
+                            button {
+                                background-color: transparent;
+                                color: var(--text);
+                                border: 1px solid var(--border);
+                                border-radius: .25rem;
+                                padding: .5rem 1rem;
+                                cursor: pointer;
+                                transition: opacity 150ms ease-in-out;
+
+                                &:hover {
+                                    opacity: .5;
+                                }
+
+                                &.selected {
+                                    background-color: var(--primary);
+                                    color: var(--text-secondary);
+                                    border-color: var(--primary);
+                                }
+                            }
+
+                            .input {
+                                flex: 1;
+                                display: flex;
+
+                                input {
+                                    flex: 1;
+                                    padding: .25rem;
+                                    border: 1px solid var(--border);
+                                    border-radius: .25rem;
+                                    background-color: var(--background);
+                                    color: var(--text);
+                                    font-size: 1rem;
+                                    text-align: center;
+                                    outline: none;
+                                    
+                                    &::-webkit-inner-spin-button,
+                                    &::-webkit-outer-spin-button {
+                                        -webkit-appearance: none;
+                                        margin: 0;
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         .step-controls {
@@ -389,6 +550,7 @@
                 border-radius: .25rem;
                 background-color: var(--border);
                 color: var(--text);
+                box-shadow: 0 0 .5rem var(--shadow-background);
 
                 &.large {
                     width: 15rem;
@@ -396,6 +558,11 @@
 
                 &.primary {
                     background-color: var(--primary);
+                }
+
+                &:disabled {
+                    opacity: .5;
+                    cursor: not-allowed;
                 }
             }
         }
@@ -417,6 +584,7 @@
             border-radius: .25rem;
             overflow: hidden;
             background-color: var(--background-secondary);
+            box-shadow: 0 0 .5rem var(--shadow-background);
 
             span {
                 position: absolute;
@@ -593,26 +761,31 @@
 @media (max-width: 600px) {
     :host {
         main {
-            .game-settings .player-selection {
-                grid-template-columns: 1fr;
+            .game-settings {
+                display: flex;
+                flex-direction: column;
 
-                .player-container {
-                    box-sizing: border-box;
+                .player-selection {
+                    grid-template-columns: 1fr;
 
-                    &:nth-child(1) {
-                        height: 17rem;
-                    }
-                    
-                    &:not(:last-child) {
-                        padding: 0;
-                        border: 0;
-                        padding-bottom: 1rem;
-                        border-bottom: 1px solid var(--border);
-                    }
-                    
-                    &:last-child {
-                        padding: 0;
-                        padding-top: 1rem;
+                    .player-container {
+                        box-sizing: border-box;
+
+                        &:nth-child(1) {
+                            height: 17rem;
+                        }
+                        
+                        &:not(:last-child) {
+                            padding: 0;
+                            border: 0;
+                            padding-bottom: 1rem;
+                            border-bottom: 1px solid var(--border);
+                        }
+                        
+                        &:last-child {
+                            padding: 0;
+                            padding-top: 1rem;
+                        }
                     }
                 }
             }

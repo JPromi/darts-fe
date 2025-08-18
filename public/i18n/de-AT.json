@@ -164,6 +164,22 @@
                         "miss.text": "Miss"
                     }
                 }
+            },
+            "create": {
+                "game": {
+                    "CLASSIC": {
+                        "title": "Klassisch",
+                        "description": "Jeder Spieler startet mit einem festen Punktestand und muss durch abwechselndes Werfen exakt auf 0 kommen. Je nach Spielmodus muss der letzte Wurf dabei auf ein Doppelfeld (Double Out) erfolgen."
+                    },
+                    "CRICKET": {
+                        "title": "Cricket",
+                        "description": "Ein strategisches Spiel, bei dem Spieler bestimmte Felder treffen müssen, um Punkte zu sammeln und das Spiel zu gewinnen."
+                    },
+                    "COUNT_UP": {
+                        "title": "Count Up",
+                        "description": "Ein einfaches Spiel, bei dem Spieler so viele Punkte wie möglich in einer bestimmten Anzahl von Würfen sammeln."
+                    }
+                }
             }
         },
         "group": {

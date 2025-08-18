@@ -15,6 +15,10 @@ import { ProfileLightResponse } from '../../../dtos/profileLightResponse';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as fa from '@fortawesome/free-solid-svg-icons';
+import { LoadingComponent } from '../../assets/loading/loading.component';
+import { LoadingType } from '../../../enums/loadingType';
+import { GameThrowMultiplierEnum } from '../../../enums/gameThrowMultiplierEnum';
+import { max } from 'rxjs';
 
 @Component({
   selector: 'app-game-create',
@@ -24,7 +28,8 @@ import * as fa from '@fortawesome/free-solid-svg-icons';
     FormsModule,
     TranslateModule,
     FontAwesomeModule,
-    DragDropModule
+    DragDropModule,
+    LoadingComponent
   ],
   templateUrl: './game-create.component.html',
   styleUrl: './game-create.component.scss',
@@ -32,18 +37,24 @@ import * as fa from '@fortawesome/free-solid-svg-icons';
     // step Animation
     trigger('stepAnimation', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(-1.5rem)' }),
-        animate('200ms ease-in-out', style({ opacity: 1, transform: 'translateX(0)' }))
+        style({ opacity: 0, transform: 'translateX(-1.5rem)', width: '100%', maxWidth: '1280px', top: '0', position: 'absolute' }),
+        animate('200ms ease-in-out', style({ opacity: 1, transform: 'translateX(0)', width: '100%', maxWidth: '1280px', top: '0', position: 'absolute' }))
       ]),
       transition(':leave', [
-        style({ opacity: 1, transform: 'translateX(0)' }),
-        animate('200ms ease-in-out', style({ opacity: 0, transform: 'translateX(1.5rem)' }))
+        style({ opacity: 1, transform: 'translateX(0)', width: '100%', maxWidth: '1280px', top: '0', position: 'absolute' }),
+        animate('200ms ease-in-out', style({ opacity: 0, transform: 'translateX(1.5rem)', width: '100%', maxWidth: '1280px', top: '0', position: 'absolute' }))
       ])
     ]),
     trigger('playerDisappear', [
       transition(':leave', [
         style({ opacity: 1, transform: 'translateX(-3.5rem)' }),
         animate('200ms ease-out', style({ opacity: 0, transform: 'translateX(-5rem)' }))
+      ])
+    ]),
+    trigger('playerAppear', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(.5rem)' }),
+        animate('150ms ease-in', style({ opacity: 1, transform: 'translateX(0)' }))
       ])
     ])
   ]
@@ -58,9 +69,14 @@ export class GameCreateComponent implements OnInit {
 
   fa = fa;
 
+  LoadingType = LoadingType;
+  GameThrowMultiplierEnum = GameThrowMultiplierEnum;
+  GameTypeEnum = GameTypeEnum;
+
   public creationStep: number = 3; // 0: group, 1: location, 2: game Type, 3: settings
   public groups: GroupLightResponse[] = [];
   public profileSearchResults: ProfileLightResponse[] = [];
+  public profileSearchLoading: boolean = false;
   public game: GameNewRequest = new GameNewRequest();
   public paramsValue = {
     group: null as string | null,
@@ -147,30 +163,71 @@ export class GameCreateComponent implements OnInit {
   }
 
   public searchProfile() {
-    if (!this.lastUpdateTimeout) {
-      this.lastUpdateTimeout = setTimeout(() => {
-        if (this.lastKeyPress.getTime() + this.lastUpdateIntervall * 1000 < new Date().getTime()) {
-          this._searchProfile();
-        }
-        this.lastUpdateTimeout = null;
-      }, this.lastUpdateIntervall * 1000);
-    }
+    // if (!this.lastUpdateTimeout) {
+    //   this.lastUpdateTimeout = setTimeout(() => {
+    //     if (this.lastKeyPress.getTime() + this.lastUpdateIntervall * 1000 < new Date().getTime()) {
+    //       this._searchProfile();
+    //     }
+    //     this.lastUpdateTimeout = null;
+    //   }, this.lastUpdateIntervall * 1000);
+    // }
+    this.profileSearchLoading = true;
+    clearTimeout(this.lastUpdateTimeout);
+    this.lastUpdateTimeout = setTimeout(() => {
+      this._searchProfile();
+    }, 500);
   }
 
   public drop(event: CdkDragDrop<any[]>) {
     const newPlayers = [...this.game.players];
     moveItemInArray(newPlayers, event.previousIndex, event.currentIndex);
-    this.game.players = newPlayers; // neu zuweisen → Angular merkt die Änderung
+    this.game.players = newPlayers;
+  }
+
+  public checkPlayerIsSelected(username: string): boolean {
+    return this.game.players.some(player => player.username === username);
+  }
+
+  public checkCustomPoints() {
+    // if is below 1 set to 1
+    if (this.game.gameTypeClassicPoints !== null && this.game.gameTypeClassicPoints < 1) {
+      setTimeout(() => {this.game.gameTypeClassicPoints = 1; }, 0);
+    }
+    // if is above 9999 set to 9999
+    if (this.game.gameTypeClassicPoints !== null && this.game.gameTypeClassicPoints > 9999) {
+      setTimeout(() => {this.game.gameTypeClassicPoints = 9999; }, 0);
+    }
+  }
+
+  public getGameMode(): GameModes | null {
+    return this.gameModes.find(mode => mode.name === this.game.gameType) || null;
+  }
+
+  public validateForm(): boolean {
+    // check players
+    const gameType = this.gameModes.find(mode => mode.name === this.game.gameType);
+    if (!gameType) {
+      return false;
+    } else if (gameType.minPlayers > this.game.players.length) {
+      return false;
+    } else if (gameType.maxPlayers < this.game.players.length) {
+      return false;
+    }
+
+    return true;
   }
 
   private _searchProfile() {
+    this.profileSearchLoading = true;
     if (this.searchQuery.length == 0) {
       this.profileSearchResults = [];
+          this.profileSearchLoading = false;
       return;
     } else {
       this.profileService.searchProfile(this.searchQuery, 0, 5, true).subscribe(
         (response: PageResponse<ProfileLightResponse>) => {
           this.profileSearchResults = response.content;
+          this.profileSearchLoading = false;
         }
       );
     }
@@ -207,10 +264,12 @@ export class GameCreateComponent implements OnInit {
   swipeStartX = 0;
 
   onTouchStart(ev: TouchEvent, el: HTMLElement) {
+    if ((ev.target as HTMLElement).closest('[cdkDragHandle]')) return;
     this.swipeStartX = ev.touches[0].clientX;
   }
 
   onTouchEnd(ev: TouchEvent, el: HTMLElement) {
+    if ((ev.target as HTMLElement).closest('[cdkDragHandle]')) return;
     const deltaX = ev.changedTouches[0].clientX - this.swipeStartX;
     if (deltaX < -40) {
       el.classList.add('delete-active');
