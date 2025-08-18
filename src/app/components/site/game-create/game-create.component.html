@@ -196,7 +196,7 @@
                 }}
             </button>
         } @else {
-            <button class="create primary large" [disabled]="!validateForm()">Spiel Starten</button>
+            <button class="create primary large" [disabled]="!validateForm()" (click)="postForm()">Spiel Starten</button>
         }
     </div>
 </main>

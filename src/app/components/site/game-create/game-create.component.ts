@@ -20,6 +20,8 @@ import { LoadingType } from '../../../enums/loadingType';
 import { GameThrowMultiplierEnum } from '../../../enums/gameThrowMultiplierEnum';
 import { max } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
+import { GameService } from '../../../services/game.service';
+import { GameNew } from '../../../entities/gameNew';
 
 @Component({
   selector: 'app-game-create',
@@ -66,6 +68,7 @@ export class GameCreateComponent implements OnInit {
     private groupService: GroupService,
     private profileService: ProfileService,
     private authService: AuthService,
+    private gameService: GameService,
     private activatedRoute: ActivatedRoute,
   ) { }
 
@@ -79,7 +82,7 @@ export class GameCreateComponent implements OnInit {
   public groups: GroupLightResponse[] = [];
   public profileSearchResults: ProfileLightResponse[] = [];
   public profileSearchLoading: boolean = false;
-  public game: GameNewRequest = new GameNewRequest();
+  public game: GameNew = new GameNew();
   public paramsValue = {
     group: null as string | null,
     location: null as string | null,
@@ -138,7 +141,9 @@ export class GameCreateComponent implements OnInit {
 
   public selectProfile(profile: ProfileLightResponse | null): void {
     if (!this.game.players.some(player => player.username === profile?.username)) {
-      this.game.players.push(profile);
+      if (profile !== null) {
+        this.game.players.push(profile);
+      }
     }
   }
 
@@ -219,6 +224,14 @@ export class GameCreateComponent implements OnInit {
     }
 
     return true;
+  }
+
+  public postForm(): void {
+    this.gameService.createGame(GameNewRequest.fromGameNew(this.game)).subscribe(
+      (response: string) => {
+        console.log('Game created successfully:', response);
+      }
+    );
   }
 
   private _searchProfile() {
