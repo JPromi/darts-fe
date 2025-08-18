@@ -19,6 +19,7 @@ import { LoadingComponent } from '../../assets/loading/loading.component';
 import { LoadingType } from '../../../enums/loadingType';
 import { GameThrowMultiplierEnum } from '../../../enums/gameThrowMultiplierEnum';
 import { max } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-game-create',
@@ -64,6 +65,7 @@ export class GameCreateComponent implements OnInit {
   constructor(
     private groupService: GroupService,
     private profileService: ProfileService,
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute,
   ) { }
 
@@ -88,16 +90,18 @@ export class GameCreateComponent implements OnInit {
   private lastUpdateIntervall: number = .5; // seconds
   private lastUpdateTimeout: any = null;
   public searchQuery: string = '';
+  public userUuid: string | null = null;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['group']) {
-      this.paramsValue.group = params['group'].toString();
+        this.paramsValue.group = params['group'].toString();
       }
       if (params['location']) {
-      this.paramsValue.location = params['location'].toString();
+        this.paramsValue.location = params['location'].toString();
       }
       this._loadGroups();
+      this._addCurrentUserToPlayers();
     });
   }
 
@@ -258,6 +262,21 @@ export class GameCreateComponent implements OnInit {
       return null;
     }
     return this.groups.find(group => group.uuid === uuid) || null;
+  }
+
+  private _addCurrentUserToPlayers(): void {
+    this.authService.session().subscribe(
+      (session) => {
+        const currentUserProfile: ProfileLightResponse = {
+          uuid: session.uuid,
+          username: session.username,
+          avatar: session.avatar,
+          visibility: 'PUBLIC'
+        };
+        this.userUuid = session.uuid;
+        this.game.players.push(currentUserProfile);
+      }
+    );
   }
 
   // swipe logic

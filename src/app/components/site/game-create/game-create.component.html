@@ -100,8 +100,8 @@
                                     class="profile-item"
                                     cdkDrag
                                     #profileItemContainer
-                                    (touchstart)="onTouchStart($event, profileItemContainer)"
-                                    (touchend)="onTouchEnd($event, profileItemContainer)"
+                                    (touchstart)="userUuid !== player.uuid && onTouchStart($event, profileItemContainer)"
+                                    (touchend)="userUuid !== player.uuid && onTouchEnd($event, profileItemContainer)"
                                     [@playerDisappear]
                                     [@playerAppear]>
                                     <span class="index">{{ i + 1 }}</span>
@@ -109,14 +109,14 @@
                                         <img *ngIf="player.avatar" [src]="player.avatar">
                                     </div>
                                     <p class="name">{{ player.username }}</p>
-                                    <button (click)="profileItemContainer.classList.toggle('delete-active')" class="delete">
+                                    <button *ngIf="userUuid !== player.uuid" (click)="profileItemContainer.classList.toggle('delete-active')" class="delete">
                                         <fa-icon [icon]="fa.faTrash" />
                                     </button>
                                     <span class="move-icon" cdkDragHandle>
                                         <fa-icon [icon]="fa.faGripLines"/>
                                     </span>
 
-                                    <button class="delete-confirm" (click)="deleteProfile(player)">
+                                    <button *ngIf="userUuid !== player.uuid" class="delete-confirm" (click)="deleteProfile(player)">
                                         <fa-icon [icon]="fa.faTrash" />
                                     </button>
 
