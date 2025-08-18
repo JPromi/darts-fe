@@ -78,7 +78,7 @@ export class GameCreateComponent implements OnInit {
   GameThrowMultiplierEnum = GameThrowMultiplierEnum;
   GameTypeEnum = GameTypeEnum;
 
-  public creationStep: number = 3; // 0: group, 1: location, 2: game Type, 3: settings
+  public creationStep: number = 0; // 0: group, 1: location, 2: game Type, 3: settings
   public groups: GroupLightResponse[] = [];
   public profileSearchResults: ProfileLightResponse[] = [];
   public profileSearchLoading: boolean = false;
