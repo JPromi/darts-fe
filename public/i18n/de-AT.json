@@ -179,6 +179,40 @@
                         "title": "Count Up",
                         "description": "Ein einfaches Spiel, bei dem Spieler so viele Punkte wie möglich in einer bestimmten Anzahl von Würfen sammeln."
                     }
+                },
+                "settings": {
+                    "title": "Einstellungen",
+                    "players": {
+                        "title": "Spieler",
+                        "search.label": "Spieler suchen...",
+                        "addAsGuest.button": "Als Gast hinzufügen",
+                        "noPlayers.text": "Keine Spieler hinzugefügt"
+                    },
+                    "gameSettings": {
+                        "CLASSIC": {
+                            "inType": {
+                                "title": "Start",
+                                "options": {
+                                    "singleIn": "Single In",
+                                    "doubleIn": "Double In",
+                                    "tripleIn": "Triple In"
+                                }
+                            },
+                            "outType": {
+                                "title": "Ende",
+                                "options": {
+                                    "singleOut": "Single Out",
+                                    "doubleOut": "Double Out",
+                                    "tripleOut": "Triple Out"
+                                }
+                            },
+                            "points": {
+                                "title": "Punkte",
+                                "custom.button": "Benutzerdefiniert",
+                                "backToDefault.button": "Zurück zu Standard"
+                            }
+                        }
+                    }
                 }
             }
         },

@@ -56,7 +56,7 @@
                 <div class="player-selection box-border">
                     <div class="search-container player-container">
                         <div class="search">
-                            <input type="text" name="profileSearch" [(ngModel)]="searchQuery" (ngModelChange)="searchProfile()" placeholder="Spieler suchen...">
+                            <input type="text" name="profileSearch" [(ngModel)]="searchQuery" (ngModelChange)="searchProfile()" [placeholder]=" 'page.game.create.settings.players.search.label' | translate ">
                             <button [class.clear]="searchQuery.length > 0" (click)="clearSearchProfile()">
                                 <div>
                                     <fa-icon [icon]="fa.faSearch"/>
@@ -66,7 +66,7 @@
                                 </div>
                             </button>
                         </div>
-                        <button (click)="selectProfileAsGuest()" class="guest-btn" [disabled]="checkPlayerIsSelected(searchQuery)">Als Gast hinzufügen</button>
+                        <button (click)="selectProfileAsGuest()" class="guest-btn" [disabled]="checkPlayerIsSelected(searchQuery)">{{ 'page.game.create.settings.players.addAsGuest.button' | translate}}</button>
                         <div *ngIf="!profileSearchLoading" class="list">
                             @for (profile of profileSearchResults; track $index) {
                                 <button class="profile-item btn" [disabled]="checkPlayerIsSelected(profile.username)" (click)="selectProfile(profile)" @playerAppear>
@@ -77,12 +77,13 @@
                                 </button>
                             }
                         </div>
+                        <p *ngIf="!profileSearchResults.length && !profileSearchLoading" class="error">{{ 'page.game.create.settings.players.noPlayers.text' | translate }}</p>
                         <asset-loading *ngIf="profileSearchLoading" [type]="LoadingType.CIRCULAR"/>
                     </div>
                     <div class="list-container player-container">
                         <div class="list-header">
                             <h2>
-                                Spieler
+                                {{ 'page.game.create.settings.players.title' | translate}}
                                 <span [class.error]="game.players.length < (getGameMode()?.minPlayers ?? 0) || game.players.length > (getGameMode()?.maxPlayers ?? 0)">{{ game.players.length }}/{{ getGameMode()?.maxPlayers }}</span>
                             </h2>
                             <button (click)="randomizePlayers()">
@@ -134,29 +135,29 @@
                     <h2>{{ game.gameType }}</h2>
                     <div class="gamemode-settings-content">
                         <div>
-                            <h3>Start</h3>
+                            <h3>{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.title' | translate }}</h3>
                             <div class="button-grid col-3">
-                                <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.SINGLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.SINGLE">Single In</button>
-                                <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.DOUBLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.DOUBLE">Double In</button>
-                                <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.TRIPLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.TRIPLE">Tripple In</button>
+                                <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.SINGLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.SINGLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.options.singleIn' | translate }}</button>
+                                <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.DOUBLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.DOUBLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.options.doubleIn' | translate }}</button>
+                                <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.TRIPLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.TRIPLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.options.tripleIn' | translate }}</button>
                             </div>
                         </div>
                         <div>
-                            <h3>Ende</h3>
+                            <h3>{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.title' | translate }}</h3>
                             <div class="button-grid col-3">
-                                <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.DOUBLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.DOUBLE">Double Out</button>
-                                <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.SINGLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.SINGLE">Single Out</button>
-                                <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.TRIPLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.TRIPLE">Tripple Out</button>
+                                <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.DOUBLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.DOUBLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.options.doubleOut' | translate }}</button>
+                                <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.SINGLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.SINGLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.options.singleOut' | translate }}</button>
+                                <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.TRIPLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.TRIPLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.options.tripleOut' | translate }}</button>
                             </div>
                         </div>
                         <div>
-                            <h3>Punkte</h3>
+                            <h3>{{ 'page.game.create.settings.gameSettings.CLASSIC.points.title' | translate }}</h3>
                             <div class="button-grid col-2" #presetPointsContainer>
                                 @for (points of [301, 501, 1001]; track $index) {
                                     <button [class.selected]="game.gameTypeClassicPoints === points" (click)="game.gameTypeClassicPoints = points">{{ points }}</button>
                                 }
                                 <button (click)="customPointsInputContainer.classList.remove('hide'); presetPointsContainer.classList.add('hide')" [class.selected]="![301, 501, 1001].includes(game.gameTypeClassicPoints ?? 0)">
-                                    Custom
+                                    {{ 'page.game.create.settings.gameSettings.CLASSIC.points.custom.button' | translate }}
                                     <fa-icon [icon]="fa.faArrowRight"/>
                                 </button>
                             </div>
@@ -172,7 +173,7 @@
                                 </div>
                                 <button (click)="customPointsInputContainer.classList.add('hide'); presetPointsContainer.classList.remove('hide')">
                                     <fa-icon [icon]="fa.faArrowLeft"/>
-                                    Zurück zu Vorgaben
+                                    {{ 'page.game.create.settings.gameSettings.CLASSIC.points.backToDefault.button' | translate }}
                                 </button>
                             </div>
                         </div>
