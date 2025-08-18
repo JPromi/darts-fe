@@ -7,7 +7,7 @@
         @case (0) {
             <!-- SELECT GROUP -->
             <section class="group" [@stepAnimation]>
-                <h2>Gruppe Auswählen</h2>
+                <h2>{{ 'page.game.create.settings.selectGroup.title' | translate }}</h2>
                 <div class="group-list">
                     <!-- <button class="group-item no-group" (click)="selectGroup(null)" [class.selected]="game.groupUuid === null">
                         <h2>No group</h2>
@@ -36,7 +36,7 @@
         @case (2) {
             <!-- SELECT GAME TYPE -->
             <section class="game-mode" [@stepAnimation]>
-                <h2>Spieltyp Auswählen</h2>
+                <h2>{{ 'page.game.create.settings.gameMode.title' | translate }}</h2>
                 <div class="list">
                     @for (gameMode of gameModes; track $index) {
                         <button class="game-mode-item" [class.large]="gameMode.isPopular" [class.selected]="game.gameType === gameMode.name" (click)="selectGameMode(gameMode.name)">
@@ -52,7 +52,7 @@
         @case (3) {
             <!-- GAME SETTINGS -->
             <section class="game-settings" [@stepAnimation]>
-                <h2 class="header">Einstellungen</h2>
+                <h2 class="header">{{ 'page.game.create.settings.title' | translate }}</h2>
                 <div class="player-selection box-border">
                     <div class="search-container player-container">
                         <div class="search">

@@ -188,6 +188,12 @@
                         "addAsGuest.button": "Als Gast hinzufügen",
                         "noPlayers.text": "Keine Spieler hinzugefügt"
                     },
+                    "selectGroup": {
+                        "title": "Gruppe auswählen"
+                    },
+                    "gameMode": {
+                        "title": "Spielmodus Auswählen"
+                    },
                     "gameSettings": {
                         "CLASSIC": {
                             "inType": {
