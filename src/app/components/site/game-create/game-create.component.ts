@@ -5,7 +5,7 @@ import { GroupService } from '../../../services/group.service';
 import { GroupLightResponse } from '../../../dtos/groupLightResponse';
 import { PageResponse } from '../../../dtos/pageResponse';
 import { GameNewRequest } from '../../../dtos/gameNewRequest';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { GameModes } from '../../../entities/gameModes';
 import { GameTypeEnum } from '../../../enums/gameTypeEnum';
@@ -70,6 +70,7 @@ export class GameCreateComponent implements OnInit {
     private authService: AuthService,
     private gameService: GameService,
     private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   fa = fa;
@@ -229,7 +230,7 @@ export class GameCreateComponent implements OnInit {
   public postForm(): void {
     this.gameService.createGame(GameNewRequest.fromGameNew(this.game)).subscribe(
       (response: string) => {
-        console.log('Game created successfully:', response);
+        this.router.navigate(['/', 'game', 'active', response]);
       }
     );
   }
@@ -260,7 +261,8 @@ export class GameCreateComponent implements OnInit {
 
         // skip step if group is selected or if no group is available
         if (this.game.groupUuid || this.groups.length === 0) {
-          this.creationStep = 1;
+          // if no group there cannot be a location
+          this.creationStep = 2;
         }
       }
     );

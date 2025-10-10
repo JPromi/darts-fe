@@ -1,6 +1,6 @@
 export enum GameThrowTypeEnum {
     ABORT = "ABORT",
     MISS = "MISS",
-    POINTS = "POINTS",
+    THROW = "THROW",
     DISTANCE = "DISTANCE",
 }

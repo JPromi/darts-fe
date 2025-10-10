@@ -11,6 +11,10 @@ import { ActiveGamePlayerResponse } from '../../../dtos/activeGamePlayerResponse
 import { GameThrow } from '../../../entities/gameThrow';
 import { GameThrowTypeEnum } from '../../../enums/gameThtowTypeEnum';
 import { LoGameCalculationService } from '../../../services/local/lo-game-calculation.service';
+import { GameService } from '../../../services/game.service';
+import { ActivatedRoute } from '@angular/router';
+import { GameWsService } from '../../../services/game-ws.service';
+import { ActiveGameThrowRequest } from '../../../dtos/activeGameThrowRequest';
 
 @Component({
   selector: 'app-game-input',
@@ -27,7 +31,10 @@ export class GameInputComponent implements OnInit, OnDestroy {
 
   constructor(
     private loGameCalculationService: LoGameCalculationService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private gameService: GameService,
+    private activeRoute: ActivatedRoute,
+    private gameWsService: GameWsService
   ) { }
 
   fa = fa;
@@ -68,23 +75,13 @@ export class GameInputComponent implements OnInit, OnDestroy {
   currentGameTimeInterval: any = null;
 
   ngOnInit(): void {
-    // testing
-    this.game.uuid = "00000000-0000-0000-0000-000000000001";
-    this.game.gameStartTime = new Date(Date.now() - Math.random() * 100000);
-    this.game.currentTurn = 5;
-    this.game.gameType = GameTypeEnum.CLASSIC;
-    this.game.gameTypeClassicPoints = 101;
-    this.game.gameTypeClassicInType = "single";
-    this.game.gameTypeClassicOutType = "double";
-    this.game.players = [
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000001", 1, "Player 1 with a really long name", "https://placehold.co/128", [new GameThrow(1, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 158, 38.5, 150, false, false, false),
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000002", 2, "Player 2", "https://placehold.co/128", [new GameThrow(10, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS),new GameThrow(0, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.MISS),new GameThrow(0, GameThrowMultiplierEnum.NONE, 0, GameThrowTypeEnum.ABORT)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 456, 58.5, 3, true, false, false),
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000003", 3, "Player 3", "https://placehold.co/128", [new GameThrow(18, GameThrowMultiplierEnum.TRIPLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 65, 100.5, 180, false, true, false),
-    ]
-    this.sortPlayers();
-
-    this.checkIsFullscreen();
-    this.gameTime();
+    this.activeRoute.params.subscribe(params => {
+      const uuid = params['uuid'];
+      if (uuid) {
+        this.gameWsService.connect(uuid);
+        this._loadGame(uuid);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -103,12 +100,27 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   public pointsInput(keyValue: number): void {
+
     if(keyValue === 25 && this.multiplier === GameThrowMultiplierEnum.TRIPLE) {
       this.multiplier = GameThrowMultiplierEnum.SINGLE;
     }
     if(keyValue === 0) {
       this.multiplier = GameThrowMultiplierEnum.SINGLE;
     }
+
+    // send
+    const throwRequest = new ActiveGameThrowRequest(
+      "", // accountUUID
+      GameThrowTypeEnum.THROW,
+      keyValue,
+      this.multiplier,
+      0,
+      this.game.round,
+      this.game.players.find(player => player.isCurrentPlayer)?.throws.length || 0
+    )
+
+    this.gameWsService.sendThrow(this.game.uuid, throwRequest);
+
     this.multiplier = GameThrowMultiplierEnum.SINGLE;
   }
 
@@ -125,7 +137,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
   public getReadablePoints(gameThrow: GameThrow): string {
 
     switch (gameThrow.type) {
-      case GameThrowTypeEnum.POINTS:
+      case GameThrowTypeEnum.THROW:
         return `${this.loGameCalculationService.getThrowMultiplierChar(gameThrow.multiplier)}${gameThrow.point}`;
         break;
 
@@ -142,8 +154,9 @@ export class GameInputComponent implements OnInit, OnDestroy {
   private gameTime() {
     this.currentGameTimeInterval = setInterval(() => {
       const now = new Date();
-      if (this.game.gameStartTime) {
-        const elapsed = Math.floor((now.getTime() - this.game.gameStartTime.getTime()) / 1000);
+      if (this.game.startTime) {
+        const startTime = new Date(this.game.startTime);
+        const elapsed = Math.floor((now.getTime() - startTime.getTime()) / 1000);
         const time = new Date(elapsed * 1000);
         const hours = time.getUTCHours() > 0 ? time.getUTCHours() + ":" : "";
         const minutes = time.getUTCMinutes().toString().padStart(2, '0');
@@ -160,7 +173,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
       } else if (!a.isCurrentPlayer && b.isCurrentPlayer) {
         return 1;
       } else {
-        return a.order - b.order;
+        return a.orderIndex - b.orderIndex;
       }
     });
   }
@@ -171,5 +184,16 @@ export class GameInputComponent implements OnInit, OnDestroy {
     } else {
       this.isOnStartFullscreen = false;
     }
+  }
+
+  private _loadGame(uuid: string): void {
+    this.gameService.getGame(uuid).subscribe(
+      (response: ActiveGameResponse) => {
+        this.game = response;
+        this.sortPlayers();
+        this.checkIsFullscreen();
+        this.gameTime();
+      }
+    );
   }
 }

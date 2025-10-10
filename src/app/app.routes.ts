@@ -33,12 +33,7 @@ export const routes: Routes = [
             { path: "logout", component: LogoutComponent, pathMatch: "full" },
         ]
     },
-    {
-        path: "game/active",
-        children: [
-            { path: "", component: GameInputComponent, pathMatch: "full" },
-        ]
-    },
+    { path: "game/active/:uuid", component: GameInputComponent, pathMatch: "full" },
     {
         path: "",
         component: MainRouterComponent,
