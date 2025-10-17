@@ -31,10 +31,10 @@ export class GameWsService {
     });
 
     this.stompClient.onConnect = () => {
-      console.log('Connected to WS');
+      this.connected = true;
 
       this.stompClient?.subscribe(
-        `/response/game/${gameUuid}/throw`,
+        `/response/game/${gameUuid}`,
         (message: IMessage) => {
           const body: ActiveGamePlayerResponse = JSON.parse(message.body);
           this.gamePlayerSubject.next(body);
@@ -43,9 +43,12 @@ export class GameWsService {
     };
 
     this.stompClient.onStompError = frame => {
-      console.error('Broker error:', frame.headers['message']);
-      console.error('Details:', frame.body);
+      this.connected = false;
     };
+
+    this.stompClient.onWebSocketClose = () => {
+      this.connected = false;
+    }
 
     this.stompClient.activate();
   }

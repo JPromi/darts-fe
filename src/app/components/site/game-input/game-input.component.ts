@@ -110,13 +110,9 @@ export class GameInputComponent implements OnInit, OnDestroy {
 
     // send
     const throwRequest = new ActiveGameThrowRequest(
-      "", // accountUUID
       GameThrowTypeEnum.THROW,
       keyValue,
-      this.multiplier,
-      0,
-      this.game.round,
-      this.game.players.find(player => player.isCurrentPlayer)?.throws.length || 0
+      this.multiplier
     )
 
     this.gameWsService.sendThrow(this.game.uuid, throwRequest);
