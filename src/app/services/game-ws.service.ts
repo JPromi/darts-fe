@@ -34,7 +34,7 @@ export class GameWsService {
       this.connected = true;
 
       this.stompClient?.subscribe(
-        `/response/game/${gameUuid}`,
+        `/response/game/${gameUuid}/player`,
         (message: IMessage) => {
           const body: ActiveGamePlayerResponse = JSON.parse(message.body);
           this.gamePlayerSubject.next(body);
