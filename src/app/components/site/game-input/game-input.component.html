@@ -38,10 +38,10 @@
                         @for (_ of [].constructor(3); track $index) {
                             <div class="throw">
                                 <span class="field">{{ $index + 1 }}</span>
-                                @if (player.throws && player.throws.length > $index) {
-                                    @switch (player.throws[$index].type) {
+                                @if (player.throwList && player.throwList.length > $index) {
+                                    @switch (player.throwList[$index].type) {
                                         @case (gameThrowTypeEnum.THROW) {
-                                            <p>{{ getReadablePoints(player.throws[$index]) }}</p>
+                                            <p>{{ getReadablePoints(player.throwList[$index]) }}</p>
                                         }
                                         @case (gameThrowTypeEnum.MISS) {
                                             <p>{{ 'page.game.active.player.points.miss.text' | translate }}</p>
@@ -84,7 +84,7 @@
                     <button>
                         <fa-icon [icon]="fa.faXmark" />
                     </button>
-                    <button>
+                    <button (click)="undoLastThrow()">
                         <fa-icon [icon]="fa.faRotateLeft" />
                     </button>
                     <button *ngIf="!isOnStartFullscreen" (click)="toggleFullscreen()">

@@ -6,7 +6,7 @@ export class ActiveGamePlayerResponse {
         public name: string = "",
         public orderIndex: number = 0,
         public avatar: string | null = null,
-        public throws: GameThrow[] = [],
+        public throwList: GameThrow[] = [],
         public hints: GameThrow[] = [],
         public score: number | null = null,
         public highscore: number | null = null,

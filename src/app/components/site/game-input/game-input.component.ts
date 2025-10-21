@@ -120,6 +120,18 @@ export class GameInputComponent implements OnInit, OnDestroy {
     this.multiplier = GameThrowMultiplierEnum.SINGLE;
   }
 
+  public undoLastThrow(): void {
+    
+    const throwRequest = new ActiveGameThrowRequest(
+      GameThrowTypeEnum.THROW,
+      0,
+      null,
+      true
+    )
+
+    this.gameWsService.sendThrow(this.game.uuid, throwRequest);
+  }
+
   public toggleFullscreen() {
     if (document.fullscreenElement) {
       document.exitFullscreen();
@@ -131,10 +143,9 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   public getReadablePoints(gameThrow: GameThrow): string {
-
     switch (gameThrow.type) {
       case GameThrowTypeEnum.THROW:
-        return `${this.loGameCalculationService.getThrowMultiplierChar(gameThrow.multiplier)}${gameThrow.point}`;
+        return `${this.loGameCalculationService.getThrowMultiplierChar(gameThrow.multiplier)}${gameThrow.score}`;
         break;
 
       case GameThrowTypeEnum.MISS:
@@ -186,6 +197,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
     this.gameService.getGame(uuid).subscribe(
       (response: ActiveGameResponse) => {
         this.game = response;
+        console.log("Loaded game:", this.game.players);
         this.sortPlayers();
         this.checkIsFullscreen();
         this.gameTime();

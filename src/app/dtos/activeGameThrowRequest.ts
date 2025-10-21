@@ -5,7 +5,7 @@ export class ActiveGameThrowRequest {
     constructor(
         public type: GameThrowTypeEnum = GameThrowTypeEnum.THROW,
         public point: number = 0,
-        public multiplier: GameThrowMultiplierEnum = GameThrowMultiplierEnum.NONE,
+        public multiplier: GameThrowMultiplierEnum | null = GameThrowMultiplierEnum.NONE,
         public isUndo: boolean = false
     ) { }
 }
