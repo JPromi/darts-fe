@@ -110,7 +110,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
 
     // send
     const throwRequest = new ActiveGameThrowRequest(
-      GameThrowTypeEnum.THROW,
+      keyValue === 0 ? GameThrowTypeEnum.MISS : GameThrowTypeEnum.THROW,
       keyValue,
       this.multiplier
     )
