@@ -80,6 +80,11 @@ export class GameInputComponent implements OnInit, OnDestroy {
       if (uuid) {
         this.gameWsService.connect(uuid);
         this._loadGame(uuid);
+
+        // WS Player Update
+        this.gameWsService.game$.subscribe((gameUpdate: ActiveGameResponse) => {
+          this.game = gameUpdate;
+        });
       }
     });
   }

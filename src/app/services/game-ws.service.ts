@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { ActiveGamePlayerResponse } from '../dtos/activeGamePlayerResponse';
 import { environment } from '../../environments/environment';
 import { ActiveGameThrowRequest } from '../dtos/activeGameThrowRequest';
+import { ActiveGameResponse } from '../dtos/activeGameResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,8 @@ export class GameWsService {
   private stompClient: Client | null = null;
   private connected = false;
 
-  private gamePlayerSubject = new Subject<ActiveGamePlayerResponse>();
-  public gamePlayer$ = this.gamePlayerSubject.asObservable();
+  private gameSubject = new Subject<ActiveGameResponse>();
+  public game$ = this.gameSubject.asObservable();
 
   public connect(gameUuid: string): void {
     if (this.stompClient) {
@@ -34,10 +35,10 @@ export class GameWsService {
       this.connected = true;
 
       this.stompClient?.subscribe(
-        `/response/game/${gameUuid}/player`,
+        `/response/game/${gameUuid}`,
         (message: IMessage) => {
-          const body: ActiveGamePlayerResponse = JSON.parse(message.body);
-          this.gamePlayerSubject.next(body);
+          const body: ActiveGameResponse = JSON.parse(message.body);
+          this.gameSubject.next(body);
         }
       );
     };
