@@ -16,4 +16,8 @@ export class RegisterService {
   public register(request: RegistrationRequest): Observable<any> {
     return this.http.post<any>(`${environment.baseUrl}/register`, request, { withCredentials: true });
   }
+
+  public validateToken(token: string): Observable<string> {
+    return this.http.put<string>(`${environment.baseUrl}/register/validate`, token, { withCredentials: true });
+  }
 }

@@ -21,6 +21,8 @@ import { SettingGroupMembersComponent } from './components/site/setting-group-me
 import { SettingGroupInvitationsComponent } from './components/site/setting-group-invitations/setting-group-invitations.component';
 import { SettingGroupDangerZoneComponent } from './components/site/setting-group-danger-zone/setting-group-danger-zone.component';
 import { GameCreateComponent } from './components/site/game-create/game-create.component';
+import { GroupCreateComponent } from './components/site/group-create/group-create.component';
+import { RegisterTokenComponent } from './components/site/register-token/register-token.component';
 
 export const routes: Routes = [
     {
@@ -28,6 +30,7 @@ export const routes: Routes = [
         component: AuthRouterComponent,
         children: [
             { path: "register", component: RegisterComponent, pathMatch: "full" },
+            { path: "register/:token", component: RegisterTokenComponent, pathMatch: "full" },
             { path: "login", component: LoginComponent, pathMatch: "full" },
             { path: "login/totp", component: TotpComponent, pathMatch: "full" },
             { path: "logout", component: LogoutComponent, pathMatch: "full" },
@@ -51,6 +54,7 @@ export const routes: Routes = [
                 ]
             },
             { path: "group", component: GroupListComponent, pathMatch: "full" },
+            { path: "group/new", component: GroupCreateComponent, pathMatch: "full" },
             {
                 path: "group/:uuid/settings",
                 component: SettingGroupRouterComponent,

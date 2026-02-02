@@ -86,6 +86,13 @@
                     "passwordConfirm.label": "Passwort bestätigen"
                 },
                 "submit.button": "Registrieren"
+            },
+            "validateToken": {
+                "title": "Konto aktivieren",
+                "loading.text": "Token wird überprüft...",
+                "invalidToken.text": "Der Aktivierungstoken ist ungültig.",
+                "validToken.text": "Hallo {{username}}, dein Konto wurde erfolgreich aktiviert! Du kannst dich jetzt anmelden.",
+                "login.button": "Zur Anmeldung"
             }
         },
         "settings": {
@@ -248,6 +255,24 @@
                         "informations": {
                             "title": "Informationen"
                         }
+                    }
+                }
+            },
+            "settings": {
+                "create": {
+                    "title": "Gruppe erstellen",
+                    "general": {
+                        "title": "Allgemeine Informationen",
+                        "name.label": "Gruppenname",
+                        "description.label": "Beschreibung"
+                    },
+                    "visibility": {
+                        "title": "Sichtbarkeit",
+                        "public.label": "Öffentlich",
+                        "private.label": "Privat"
+                    },
+                    "buttons": {
+                        "create.button": "Gruppe erstellen"
                     }
                 }
             }
