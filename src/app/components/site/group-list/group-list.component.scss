@@ -79,7 +79,7 @@
                 }
             }
 
-            & > button {
+            & > button, & > a {
                 height: 2rem;
                 width: 2rem;
                 border: none;
@@ -87,6 +87,9 @@
                 color: var(--text);
                 cursor: pointer;
                 position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
                 &:hover {
                     color: var(--primary);

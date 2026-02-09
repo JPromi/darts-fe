@@ -5,6 +5,7 @@ import { GroupLightResponse } from '../dtos/groupLightResponse';
 import { environment } from '../../environments/environment';
 import { GroupResponse } from '../dtos/groupResponse';
 import { PageResponse } from '../dtos/pageResponse';
+import { GroupEditRequest } from '../dtos/groupEditRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,10 @@ export class GroupService {
 
   public countInvitationList(): Observable<number> {
     return this.http.get<number>(`${environment.baseUrl}/group/invitation/count`, { withCredentials: true });
+  }
+
+  // edit
+  public createGroup(data: GroupEditRequest): Observable<GroupResponse> {
+    return this.http.post<GroupResponse>(`${environment.baseUrl}/group`, data, { withCredentials: true });
   }
 }
