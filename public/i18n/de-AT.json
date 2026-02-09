@@ -86,7 +86,11 @@
                     "password.label": "Passwort",
                     "passwordConfirm.label": "Passwort bestätigen"
                 },
-                "submit.button": "Registrieren"
+                "submit.button": "Registrieren",
+                "success": {
+                    "title": "Registrierung erfolgreich",
+                    "message": "Deine Registrierung war erfolgreich! Bitte überprüfe deine E-Mails, um dein Konto zu aktivieren. Solltest du keine E-Mail erhalten haben, überprüfe bitte auch deinen Spam-Ordner."
+                }
             },
             "validateToken": {
                 "title": "Konto aktivieren",

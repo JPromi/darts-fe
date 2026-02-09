@@ -1,4 +1,4 @@
-<form [formGroup]="registrationForm">
+<form *ngIf="!isRegistrationSuccess" [formGroup]="registrationForm">
     <h1>{{ 'page.auth.registration.title' | translate }}</h1>
 
     <div class="group">
@@ -60,3 +60,8 @@
         </div>
     </ng-template>
 </form>
+
+<section *ngIf="isRegistrationSuccess" class="success-message">
+    <h1>{{ 'page.auth.registration.success.title' | translate }}</h1>
+    <p>{{ 'page.auth.registration.success.message' | translate }}</p>
+</section>

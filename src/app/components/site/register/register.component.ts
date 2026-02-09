@@ -45,6 +45,7 @@ export class RegisterComponent {
 
   isSending: boolean = false;
   errorCode: number | null = null;
+  isRegistrationSuccess: boolean = false;
 
   ngOnInit(): void {
     
@@ -69,7 +70,7 @@ export class RegisterComponent {
           this.isSending = false;
           this.errorCode = null;
           this.registrationForm.enable();
-          console.log(response);
+          this.isRegistrationSuccess = true;
         },
         (error) => {
           this.isSending = false;
