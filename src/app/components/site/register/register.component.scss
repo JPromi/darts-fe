@@ -133,6 +133,11 @@
             &:hover {
                 opacity: .9;
             }
+
+            &:disabled {
+                opacity: .5;
+                cursor: not-allowed;
+            }
         }
     }
 }

@@ -44,6 +44,7 @@ export class RegisterComponent {
   registration: RegistrationRequest = new RegistrationRequest();
 
   isSending: boolean = false;
+  errorCode: number | null = null;
 
   ngOnInit(): void {
     
@@ -66,12 +67,15 @@ export class RegisterComponent {
       this.registerService.register(this.registration).subscribe(
         (response) => {
           this.isSending = false;
+          this.errorCode = null;
           this.registrationForm.enable();
           console.log(response);
         },
         (error) => {
           this.isSending = false;
+          this.errorCode = error.status;
           this.registrationForm.enable();
+          this.httpErrorHandeling(error.status);
           console.error(error);
         }
       );
@@ -84,6 +88,14 @@ export class RegisterComponent {
       return errors ? Object.keys(errors)[0] : null;
     } else {
       return null;
+    }
+  }
+
+  private httpErrorHandeling(errorCode: number): void {
+    switch (errorCode) {
+      case 409:
+        this.registrationForm.get('username')?.setErrors({ userExistsAlready: true });
+        break;
     }
   }
 }

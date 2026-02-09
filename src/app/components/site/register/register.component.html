@@ -27,7 +27,7 @@
     </div>
 
 
-    <button type="submit" [disabled]="registrationForm.invalid && isSending" (click)="onSubmit()">{{ 'page.auth.registration.submit.button' | translate }}</button>
+    <button type="submit" [disabled]="registrationForm.invalid || isSending" (click)="onSubmit()">{{ 'page.auth.registration.submit.button' | translate }}</button>
 
     <!-- TEMPLATE -->
     <ng-template #formInput let-name="name" let-label="label" let-type="type">
