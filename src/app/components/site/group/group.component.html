@@ -1,9 +1,17 @@
 @if (group) {
-    <div
-        class="container"
-        [style.backgroundImage]="'url(\'' + group.banner + '\')'">
+    <div class="container">
         
+        <img *ngIf="group.banner" [src]="group.banner" class="background">
+
         <div class="content">
+            <div class="options">
+                <button>
+                    <fa-icon [icon]="fa.faUserPlus"/>
+                </button>
+                <button>
+                    <fa-icon [icon]="fa.faGear"/>
+                </button>
+            </div>
             <header class="top">
                 <div class="avatar">
                     <img [src]="group.avatar">
