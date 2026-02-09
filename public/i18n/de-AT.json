@@ -258,7 +258,8 @@
                         "invitations.label": "Einladungen",
                         "dangerZone.label": "Gefahrenzone",
                         "informations": {
-                            "title": "Informationen"
+                            "title": "Informationen",
+                            "creationDate": "Erstellt am"
                         }
                     }
                 }

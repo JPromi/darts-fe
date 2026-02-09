@@ -9,6 +9,8 @@ export class GroupResponse {
         public banner: string | null = null,
         public members: ProfileLightResponse[] = [],
         public isMember: boolean = false,
+        public isAdmin: boolean = false,
+        public isOwner: boolean = false,
         public isPublic: boolean = false,
         public createdAt: string | null = null,
   ) { }

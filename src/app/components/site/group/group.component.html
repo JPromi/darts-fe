@@ -5,12 +5,14 @@
 
         <div class="content">
             <div class="options">
-                <button>
-                    <fa-icon [icon]="fa.faUserPlus"/>
-                </button>
-                <button>
-                    <fa-icon [icon]="fa.faGear"/>
-                </button>
+                @if (group.isAdmin || group.isOwner) {
+                    <a [routerLink]="[ '/', 'group', group.uuid, 'settings' ]">
+                        <fa-icon [icon]="fa.faGear"/>
+                    </a>
+                    <a [routerLink]="[ '/', 'group', group.uuid, 'settings', 'members' ]">
+                        <fa-icon [icon]="fa.faUserPlus"/>
+                    </a>
+                }
             </div>
             <header class="top">
                 <div class="avatar">
