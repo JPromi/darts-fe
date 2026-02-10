@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
         this.isSavedUser = true;
       }
     }
-    // const lastUsers = localStorage.getItem('b2h.darts.lastUsers');
+    // const lastUsers = localStorage.getItem('dcn.lastUsers');
     // if (lastUsers) {
     //   const lastUsersArray = JSON.parse(lastUsers);
     //   if (lastUsersArray.length > 0) {
@@ -102,8 +102,8 @@ export class LoginComponent implements OnInit {
   }
 
   private setSession(loginResponse: LoginResponse) {
-    document.cookie = `b2h.darts.session=${loginResponse.token};domain=${environment.rootUrl};path=/;max-age=${60*60*24*365};secure=true;SameSite=Lax`;
-    localStorage.setItem('b2h.darts.session', loginResponse.token);
+    document.cookie = `dcn.session=${loginResponse.token};domain=${environment.rootUrl};path=/;max-age=${60*60*24*365};secure=true;SameSite=Lax`;
+    localStorage.setItem('dcn.session', loginResponse.token);
   }
 
   private getSession() {

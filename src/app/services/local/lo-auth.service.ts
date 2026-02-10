@@ -27,11 +27,11 @@ export class LoAuthService {
     if (lastUsers.length > 5) {
       lastUsers.shift();
     }
-    localStorage.setItem('b2h.darts.lastUsers', JSON.stringify(lastUsers));
+    localStorage.setItem('dcn.lastUsers', JSON.stringify(lastUsers));
   }
 
   public getLastUsers() {
-    const _lastUsers = localStorage.getItem('b2h.darts.lastUsers');
+    const _lastUsers = localStorage.getItem('dcn.lastUsers');
     var lastUsers: PastUser[] = [];
     if(_lastUsers) {
       lastUsers = JSON.parse(_lastUsers);
@@ -40,7 +40,7 @@ export class LoAuthService {
   }
 
   public isRememberMeTmp(): boolean {
-    const remmember = localStorage.getItem('b2h.darts.tmp.rememberMe');
+    const remmember = localStorage.getItem('dcn.tmp.rememberMe');
     if(remmember) {
       return remmember === 'true';
     } else {
@@ -50,9 +50,9 @@ export class LoAuthService {
 
   public setRememberMeTmp(status: boolean) {
     if(status) {
-      localStorage.setItem('b2h.darts.tmp.rememberMe', status.toString());
+      localStorage.setItem('dcn.tmp.rememberMe', status.toString());
     } else {
-      localStorage.removeItem('b2h.darts.tmp.rememberMe');
+      localStorage.removeItem('dcn.tmp.rememberMe');
     }
   }
 }

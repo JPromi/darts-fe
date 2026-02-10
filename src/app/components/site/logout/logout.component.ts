@@ -33,7 +33,7 @@ export class LogoutComponent implements OnInit {
   public logout() {
     this.authService.logout().subscribe(
       (response) => {
-        document.cookie = `b2h.darts.session=;domain=${environment.rootUrl};path=/;max-age=${0};secure=true;SameSite=Lax`;
+        document.cookie = `dcn.session=;domain=${environment.rootUrl};path=/;max-age=${0};secure=true;SameSite=Lax`;
         this.loStorageService.setSessionAccount(null);
         this.router.navigate(['/barrier/login']);
       },
