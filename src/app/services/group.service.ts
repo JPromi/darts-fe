@@ -6,6 +6,8 @@ import { environment } from '../../environments/environment';
 import { GroupResponse } from '../dtos/groupResponse';
 import { PageResponse } from '../dtos/pageResponse';
 import { GroupEditRequest } from '../dtos/groupEditRequest';
+import { GroupInvitationResponse } from '../dtos/groupInvitationResponse';
+import { InvitationStatusAccountEnum } from '../enums/invitationStatusAccountEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +39,16 @@ export class GroupService {
   }
 
   // invitation
-  public getInvitationList(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.baseUrl}/group/invitation`, { withCredentials: true });
+  public getInvitationList(): Observable<GroupInvitationResponse[]> {
+    return this.http.get<GroupInvitationResponse[]>(`${environment.baseUrl}/group/invitation`, { withCredentials: true });
   }
 
   public countInvitationList(): Observable<number> {
     return this.http.get<number>(`${environment.baseUrl}/group/invitation/count`, { withCredentials: true });
+  }
+
+  public sendInvitationResponse(invitationUuid: string, response: InvitationStatusAccountEnum): Observable<void> {
+    return this.http.put<void>(`${environment.baseUrl}/group/invitation/${invitationUuid}`, JSON.stringify(response), { withCredentials: true, headers: { 'Content-Type': 'application/json' } });
   }
 
   // edit

@@ -8,6 +8,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { GroupService } from '../../../services/group.service';
 import { PageResponse } from '../../../dtos/pageResponse';
+import { GroupInvitationResponse } from '../../../dtos/groupInvitationResponse';
+import { InvitationStatusAccountEnum } from '../../../enums/invitationStatusAccountEnum';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-group-list',
@@ -19,7 +22,21 @@ import { PageResponse } from '../../../dtos/pageResponse';
     FontAwesomeModule
   ],
   templateUrl: './group-list.component.html',
-  styleUrl: './group-list.component.scss'
+  styleUrl: './group-list.component.scss',
+  animations: [
+    trigger(
+      'fade', [
+        transition(':enter', [
+          style({ opacity: 0, transform: 'translateY(98%)' }),
+          animate('100ms', style({ opacity: 1, transform: 'translateY(100%)' }))
+        ]),
+        transition(':leave', [
+          style({ opacity: 1, transform: 'translateY(100%)' }),
+          animate('150ms', style({ opacity: 0, transform: 'translateY(98%)' }))
+        ])
+      ]
+    )
+  ]
 })
 export class GroupListComponent implements OnInit {
 
@@ -32,6 +49,8 @@ export class GroupListComponent implements OnInit {
   public groups: GroupLightResponse[] = [];
   public searchQuery: string = '';
   public groupInvitationCount: number = 0;
+  public groupInvitation: GroupInvitationResponse[] = [];
+  public isInvitePopupOpen: boolean = false;
 
   private lastKeyPress: Date = new Date();
   private lastUpdateIntervall: number = .5; // seconds
@@ -80,6 +99,15 @@ export class GroupListComponent implements OnInit {
     }
   }
 
+  public sendInvitationResponse(invitation: GroupInvitationResponse, accept: boolean) {
+    this.groupService.sendInvitationResponse(invitation.uuid!, accept ? InvitationStatusAccountEnum.ACCEPTED : InvitationStatusAccountEnum.DECLINED).subscribe(
+      () => {
+        this.getGroupInvitationCount();
+        this._searchGroup();
+      }
+    )
+  }
+
   private _searchGroup() {
     this.groupService.searchGroup(this.searchQuery, this.searchQuery == "" ? true : null).subscribe(
       (response: PageResponse<GroupLightResponse>) => {
@@ -89,9 +117,10 @@ export class GroupListComponent implements OnInit {
   }
 
   private getGroupInvitationCount() {
-    this.groupService.countInvitationList().subscribe(
-      (response: number) => {
-        this.groupInvitationCount = response;
+    this.groupService.getInvitationList().subscribe(
+      (response: GroupInvitationResponse[]) => {
+        this.groupInvitationCount = response.length;
+        this.groupInvitation = response;
       }
     );
   }

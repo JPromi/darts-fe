@@ -17,11 +17,46 @@
             <!-- <p>Neue Gruppe</p> -->
             <fa-icon [icon]="fa.faAdd"/>
         </a>
-        <button>
-            <!-- <p>Ausstehende Einladungen</p> -->
-            <fa-icon [icon]="fa.faClockRotateLeft"/>
-            <span class="notify" *ngIf="groupInvitationCount > 0">{{ getInvitationCount(groupInvitationCount) }}</span>
-        </button>
+
+        <div class="container">
+            <button (click)="isInvitePopupOpen = !isInvitePopupOpen">
+                <!-- <p>Ausstehende Einladungen</p> -->
+                <fa-icon [icon]="fa.faInbox"/>
+                <span class="notify" *ngIf="groupInvitationCount > 0">{{ getInvitationCount(groupInvitationCount) }}</span>
+            </button>
+
+            <span class="popup" *ngIf="isInvitePopupOpen" (blur)="isInvitePopupOpen = false">
+                <h1>Einladungen</h1>
+
+                <div class="list">
+                    @for (invitation of groupInvitation; track $index) {
+                        <div class="element">
+                            <div>
+                                <img [src]="invitation.group?.avatar" class="avatar">
+                                <div class="info">
+                                    <a [routerLink]="[ '/', 'group', invitation.group?.uuid ]">
+                                        <h3>{{ invitation.group?.name }}</h3>
+                                    </a>
+                                    <a [routerLink]="[ '/', 'profile', invitation.inviter?.username ]">
+                                        <i>{{ invitation.inviter?.username }}</i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button (click)="sendInvitationResponse(invitation, true)">
+                                    <fa-icon [icon]="fa.faCheck"/>
+                                </button>
+                                <button (click)="sendInvitationResponse(invitation, false)">
+                                    <fa-icon [icon]="fa.faXmark"/>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </span>
+        </div>
+
         <button>
             <!-- <p>Gruppe mit eEinladungslink Beitreten</p> -->
             <fa-icon [icon]="fa.faUserPlus"/>
