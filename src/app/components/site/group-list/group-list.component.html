@@ -25,7 +25,9 @@
                 <span class="notify" *ngIf="groupInvitationCount > 0">{{ getInvitationCount(groupInvitationCount) }}</span>
             </button>
 
-            <span class="popup" *ngIf="isInvitePopupOpen" (blur)="isInvitePopupOpen = false">
+            <div
+                class="popup"
+                *ngIf="isInvitePopupOpen">
                 <h1>{{ 'page.group.list.invitations' | translate }}</h1>
 
                 @if (groupInvitation.length > 0) {
@@ -58,7 +60,7 @@
                 } @else {
                     <p class="disclaimer">{{ 'page.group.list.noPendingInvitations' | translate }}</p>
                 }
-            </span>
+            </div>
         </div>
 
         <button>

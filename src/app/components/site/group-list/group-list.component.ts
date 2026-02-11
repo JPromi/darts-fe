@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { GroupLightResponse } from '../../../dtos/groupLightResponse';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -41,7 +41,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class GroupListComponent implements OnInit {
 
   constructor(
-    private groupService: GroupService
+    private groupService: GroupService,
+    private elementRef: ElementRef
   ) { }
 
   fa = fa;
@@ -55,6 +56,13 @@ export class GroupListComponent implements OnInit {
   private lastKeyPress: Date = new Date();
   private lastUpdateIntervall: number = .5; // seconds
   private lastUpdateTimeout: any = null;
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.isInvitePopupOpen = false;
+    }
+  }
 
   ngOnInit(): void {
     this._searchGroup();
