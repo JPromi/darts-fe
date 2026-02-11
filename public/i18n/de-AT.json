@@ -281,6 +281,12 @@
                         "create.button": "Gruppe erstellen"
                     }
                 }
+            },
+            "list": {
+                "search": "Suchen...",
+                "invitations": "Einladungen",
+                "noPendingInvitations": "Keine ausstehenden Einladungen",
+                "acceptInvitationFrom": "Einladung von {{username}} annehmen?"
             }
         }
     }

@@ -1,5 +1,5 @@
 export enum InvitationStatusAccountEnum {
     ACCEPTED = "ACCEPTED",
-    DECLINED = "DECLINED",
+    REJECTED = "REJECTED",
     PENDING = "PENDING"
 }

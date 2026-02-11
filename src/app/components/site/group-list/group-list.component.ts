@@ -100,12 +100,21 @@ export class GroupListComponent implements OnInit {
   }
 
   public sendInvitationResponse(invitation: GroupInvitationResponse, accept: boolean) {
-    this.groupService.sendInvitationResponse(invitation.uuid!, accept ? InvitationStatusAccountEnum.ACCEPTED : InvitationStatusAccountEnum.DECLINED).subscribe(
+    this.groupService.sendInvitationResponse(invitation.uuid!, accept ? InvitationStatusAccountEnum.ACCEPTED : InvitationStatusAccountEnum.REJECTED).subscribe(
       () => {
         this.getGroupInvitationCount();
         this._searchGroup();
       }
     )
+  }
+
+  public findActiveInvitationForGroup(groupUuid: string): GroupInvitationResponse | null {
+    for (let invitation of this.groupInvitation) {
+      if (invitation.group?.uuid == groupUuid && invitation.status == InvitationStatusAccountEnum.PENDING) {
+        return invitation;
+      }
+    }
+    return null;
   }
 
   private _searchGroup() {

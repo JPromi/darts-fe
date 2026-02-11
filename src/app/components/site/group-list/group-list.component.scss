@@ -212,6 +212,14 @@
                             }
                         }
                     }
+
+                    p.disclaimer {
+                        font-size: .9rem;
+                        color: var(--text);
+                        opacity: .5;
+                        text-align: center;
+                        padding: 1rem;
+                    }
                 }
             }
         }
@@ -233,12 +241,90 @@
                 border-radius: .5rem;
                 padding: .75rem;
                 position: relative;
-                overflow: hidden;
+                // overflow: hidden;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 z-index: 1;
                 height: 7rem;
+
+                & > a {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                }
+
+                .invitation {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    gap: .5rem;
+                    right: .75rem;
+                    top: -.75rem;
+
+                    & > button {
+                        border: none;
+                        background-color: var(--background);
+                        color: var(--text);
+                        cursor: pointer;
+                        height: 2rem;
+                        width: 2rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border: 1px solid var(--border);
+                        padding: .5rem;
+                        border-radius: .25rem;
+
+                        &:hover {
+                            color: var(--primary);
+                        }
+                    }
+
+                    .content {
+                        display: none;
+                        background-color: var(--background);
+                        box-shadow: 0 0 1rem var(--shadow-background);
+                        flex-direction: column;
+                        gap: .5rem;
+                        padding: .5rem;
+                        border-radius: .25rem;
+
+                        h3 {
+                            font-size: .9rem;
+                            font-weight: 500;
+                            color: var(--text);
+                            margin: 0;
+                        }
+
+                        &.active {
+                            display: flex;
+                        }
+
+                        .options {
+                            display: flex;
+                            gap: .5rem;
+                            justify-content: center;
+
+                            button {
+                                border: none;
+                                background-color: transparent;
+                                color: var(--text);
+                                cursor: pointer;
+                                height: 2rem;
+                                width: 2.25rem;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                &:hover {
+                                    color: var(--primary);
+                                }
+                            }
+                        }
+                    }
+                }
 
                 .name {
                     display: flex;
@@ -315,6 +401,8 @@
                     width: 100%;
                     height: 100%;
                     z-index: -1;
+                    border-radius: .5rem 0 0 .5rem;
+                    overflow: hidden;
 
                     img {
                         width: 100%;
