@@ -280,6 +280,7 @@
                 flex-direction: column;
                 gap: 1rem;
                 width: 25rem;
+                height: 25rem;
 
                 .search {
                     display: flex;
@@ -391,6 +392,18 @@
                             background-color: var(--background-secondary);
                         }
                     }
+                }
+
+                p.disclaimer {
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: var(--text);
+                    font-size: .9rem;
+                    margin-top: -1rem;
+                    opacity: .8;
+                    text-align: center;
                 }
             }
         }

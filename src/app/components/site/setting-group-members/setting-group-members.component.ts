@@ -84,6 +84,11 @@ export class SettingGroupMembersComponent implements OnInit {
     // TODO
   }
 
+  public closeMemberPopup() {
+    this.selectedMember = null;
+    this.removeMember = false;
+  }
+
   public invitePlayer(profile: ProfileLightResponse) {
     if (!this.groupData) return;
 

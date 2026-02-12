@@ -44,6 +44,13 @@
                 "title": "Gateway Timeout",
                 "message": "Der Server hat nicht rechtzeitig auf die Anfrage geantwortet."
             }
+        },
+        "enum": {
+            "invitationStatusAccount" : {
+                "PENDING": "Ausstehend",
+                "ACCEPTED": "Akzeptiert",
+                "REJECTED": "Abgelehnt"
+            }
         }
     },
     "page": {
@@ -260,6 +267,38 @@
                         "informations": {
                             "title": "Informationen",
                             "creationDate": "Erstellt am"
+                        }
+                    },
+                    "edit": {
+                        "member": {
+                            "invite": {
+                                "title": "Einladen",
+                                "search.placeholder": "Suchen...",
+                                "noQuery.text": "Kein Suchbegriff eingegeben",
+                                "noResults.text": "Keine Spieler gefunden",
+                                "invite.tooltip": "Einladen"
+                            },
+                            "memberSettings": {
+                                "title": "Bearbeiten",
+                                "rejected.text": "Dieser Benutzer hat die Einladung abgelehnt.",
+                                "pending.text": "Dieser Benutzer hat die Einladung noch nicht angenommen.",
+                                "permissions": {
+                                    "title": "Berechtigungen",
+                                    "admin.label": "Admin",
+                                    "owner.label": "Besitzer"
+                                },
+                                "remove": {
+                                    "title": "Entfernen",
+                                    "confirmation.text": "Möchtest du {{username}} wirklich aus der Gruppe entfernen?",
+                                    "remove.button": "Entfernen",
+                                    "cancel.button": "Abbrechen"
+                                },
+                                "buttons": {
+                                    "save.button": "Speichern",
+                                    "cancel.button": "Abbrechen",
+                                    "remove.button": "Entfernen"
+                                }
+                            }
                         }
                     }
                 }
