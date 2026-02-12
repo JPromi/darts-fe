@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
   public sessionAccount: SessionAccountResponse | null = null;
   public errorCode!: number;
   public profile!: ProfileResponse;
+  public isCurrentUser = false;
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
@@ -64,6 +65,10 @@ export class ProfileComponent implements OnInit {
     this.profileService.getProfile(username).subscribe(
       (response) => {
         this.profile = response;
+
+        if (this.sessionAccount) {
+          this.isCurrentUser = this.sessionAccount.username === this.profile.username;
+        }
       },
       (error) => {
         console.error(error);

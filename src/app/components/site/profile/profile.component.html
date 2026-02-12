@@ -3,7 +3,7 @@
         <section class="header">
             <div class="banner">
                 <img [src]="profile.banner">
-                <div class="settings">
+                <div class="settings" *ngIf="isCurrentUser">
                     <a [routerLink]="['/', 'settings', 'profile']">
                         <fa-icon [icon]="fa.faGear"/>
                     </a>
