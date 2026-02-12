@@ -50,7 +50,7 @@ export class GroupService {
   }
 
   public sendInvitationResponse(invitationUuid: string, response: InvitationStatusAccountEnum): Observable<void> {
-    return this.http.put<void>(`${environment.baseUrl}/group/invitation/${invitationUuid}`, JSON.stringify(response), { withCredentials: true });
+    return this.http.put<void>(`${environment.baseUrl}/group/invitation/${invitationUuid}`, JSON.stringify(response), { withCredentials: true, headers: { 'Content-Type': 'application/json' } });
   }
 
   // edit
