@@ -8,6 +8,8 @@ import { PageResponse } from '../dtos/pageResponse';
 import { GroupEditRequest } from '../dtos/groupEditRequest';
 import { GroupInvitationResponse } from '../dtos/groupInvitationResponse';
 import { InvitationStatusAccountEnum } from '../enums/invitationStatusAccountEnum';
+import { GroupAdminMember } from '../dtos/groupAdminMember';
+import { GroupMemberAdminRequest } from '../dtos/groupMemberAdminRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -48,11 +50,31 @@ export class GroupService {
   }
 
   public sendInvitationResponse(invitationUuid: string, response: InvitationStatusAccountEnum): Observable<void> {
-    return this.http.put<void>(`${environment.baseUrl}/group/invitation/${invitationUuid}`, JSON.stringify(response), { withCredentials: true, headers: { 'Content-Type': 'application/json' } });
+    return this.http.put<void>(`${environment.baseUrl}/group/invitation/${invitationUuid}`, JSON.stringify(response), { withCredentials: true });
   }
 
   // edit
   public createGroup(data: GroupEditRequest): Observable<GroupResponse> {
     return this.http.post<GroupResponse>(`${environment.baseUrl}/group`, data, { withCredentials: true });
+  }
+
+  public getAdminGroupMembers(groupUuid: string): Observable<GroupAdminMember[]> {
+    return this.http.get<GroupAdminMember[]>(`${environment.baseUrl}/group/${groupUuid}/members`, { withCredentials: true });
+  }
+
+  public inviteMember(groupUuid: string, memberUuid: string): Observable<void> {
+    return this.http.post<void>(`${environment.baseUrl}/group/${groupUuid}/invite`, JSON.stringify(memberUuid), { withCredentials: true, headers: { 'Content-Type': 'application/json' } });
+  }
+
+  public saveMemberChanges(groupUuid: string, memberUuid: string, request: GroupMemberAdminRequest): Observable<void> {
+    return this.http.put<void>(`${environment.baseUrl}/group/${groupUuid}/members/${memberUuid}`, request, { withCredentials: true });
+  }
+
+  public removeMemberFromGroup(groupUuid: string, memberUuid: string): Observable<void> {
+    return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}/members/${memberUuid}`, { withCredentials: true });
+  }
+
+  public removeInvitation(groupUuid: string, memberUuid: string): Observable<void> {
+    return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}/invitation/${memberUuid}`, { withCredentials: true });
   }
 }

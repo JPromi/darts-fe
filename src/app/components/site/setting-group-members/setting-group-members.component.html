@@ -1,1 +1,147 @@
-<p>setting-group-members works!</p>
+@if (groupData) {
+    <main>
+        <div class="options">
+            <button class="primary" (click)="showInviteMembers = true">
+                <p>Einladen</p>
+            </button>
+        </div>
+
+        <div class="list">
+            @for (member of groupMembers; track $index) {
+                <div class="member">
+                    <div class="options">
+                        <button (click)="selectedMember = member">
+                            <fa-icon [icon]="fa.faGear" />
+                        </button>
+                        @if (member.status != 'ACCEPTED') {
+                            <span class="status" [class.pending]="member.status == 'PENDING'" [class.rejected]="member.status == 'REJECTED'">{{ member.status }}</span>
+                        }
+                    </div>
+
+                    <img [src]="member.avatar" class="avatar">
+                    <div class="text">
+                        <p>{{ member.username }}</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Edit Member -->
+        <div class="popup" *ngIf="selectedMember">
+            <span class="void" (click)="selectedMember = null" ></span>
+
+            <div class="container">
+                <span class="title">Bearbeiten</span>
+
+                <form class="content member" (submit)="saveMemberChanges(); $event.preventDefault();">
+
+                    <div class="header">
+                        <img [src]="selectedMember.avatar" class="avatar">
+
+                        <div class="text">
+                            <h2>{{ selectedMember.username }}</h2>
+                            <p>XX.XX.XXXX XX:XX</p>
+                        </div>
+                    </div>
+
+                    @if (selectedMember.status != 'ACCEPTED') {
+                        @switch (selectedMember.status) {
+                            @case ('REJECTED') {
+                                <p class="disclaimer">Dieser Benutzer hat die Einladung abgelehnt.</p>
+                            }
+                            @case ('PENDING') {
+                                <p class="disclaimer">Dieser Benutzer hat die Einladung noch nicht angenommen.</p>
+                            }
+                        }
+                    } @else {
+                        <div class="main">
+                            <div>
+                                <h3>Berechtiungen</h3>
+                                
+                                <div class="form-group">
+                                    <p>Admin</p>
+                                    <input-checkbox-slider [(checked)]="selectedMember.isAdmin" [disabled]="selectedMember.isOwner"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <p>Besitzer</p>
+                                    <input-checkbox-slider [checked]="selectedMember.isOwner" [disabled]="true"/>
+                                </div>
+                            </div>
+                            <div class="dangerzone">
+                                <h3>Entfernen</h3>
+                                
+                                @if (!removeMember) {
+                                    <button class="danger" type="button" (click)="removeMember = true" [disabled]="selectedMember.isOwner">Entfernen</button>
+                                } @else {
+                                    <p>Möchtest du diesen Benutzer wirklich entfernen?</p>
+                                    <div class="button-group">
+                                        <button class="danger" type="button" (click)="removeMemberFromGroup()">Ja</button>
+                                        <button type="button" (click)="removeMember = false">Nein</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <div class="footer">
+                        <button type="button" (click)="selectedMember = null">Abbrechen</button>
+                        @if (selectedMember.status != 'ACCEPTED') {
+                            <button type="button" class="danger" (click)="removeInvitation()">Entfernen</button>
+                        } @else {
+                            <button type="submit" class="primary">Speichern</button>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Invite Member -->
+        <div class="popup" *ngIf="showInviteMembers">
+            <span class="void" (click)="showInviteMembers = false" ></span>
+
+            <div class="container">
+                <span class="title">Einladen</span>
+
+                <div class="content invite">
+                    
+                    <div class="search">
+                        <input type="text" name="searchGroup" placeholder="Suchen..." [(ngModel)]="inviteSearchTerm" (ngModelChange)="searchProfileInvitation()"/>
+                        <button [class.clear]="inviteSearchTerm.length > 0" (click)="clearSearchProfileInvitation()">
+                            <div>
+                                <fa-icon [icon]="fa.faSearch"/>
+                            </div>
+                            <div>
+                                <fa-icon [icon]="fa.faXmark"/>
+                            </div>
+                        </button>
+                    </div>
+
+                    @if (invitationSearchResults == null) {
+                        <p class="disclaimer">Kein Suchbegriff eingegeben.</p>
+                    } @else if (invitationSearchResults.content.length == 0) {
+                        <p class="disclaimer">Keine Benutzer gefunden.</p>
+                    } @else {
+                        <div class="list">
+                            @for (player of invitationSearchResults.content; track $index) {
+                                <div class="player">
+                                    <div>
+                                        <img [src]="player.avatar" class="avatar">
+                                        <p>{{ player.username }}</p>
+                                    </div>
+                                    <div>
+                                        <button (click)="invitePlayer(player)">
+                                            <fa-icon [icon]="fa.faPlus"/>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
+} @else {
+    <p>Loading...</p>
+}
