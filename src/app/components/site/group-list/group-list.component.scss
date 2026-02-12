@@ -266,7 +266,7 @@
 
                     & > button {
                         border: none;
-                        background-color: var(--background);
+                        background-color: var(--primary);
                         color: var(--text);
                         cursor: pointer;
                         height: 2rem;
@@ -274,12 +274,11 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        border: 1px solid var(--border);
                         padding: .5rem;
                         border-radius: .25rem;
 
                         &:hover {
-                            color: var(--primary);
+                            opacity: .8;
                         }
                     }
 
