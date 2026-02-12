@@ -68,7 +68,7 @@ export class SettingGroupMembersComponent implements OnInit {
     this.groupService.saveMemberChanges(this.groupData.uuid, this.selectedMember.uuid, request).subscribe({
       next: () => {
         this._loadGroupData(this.groupData?.uuid!);
-        this.selectedMember = null;
+        this.closeMemberPopup();
       },
       error: (error) => {
         console.error(error);
@@ -77,11 +77,31 @@ export class SettingGroupMembersComponent implements OnInit {
   }
 
   public removeMemberFromGroup() {
-    // TODO
+    if (!this.selectedMember || !this.groupData) return;
+
+    this.groupService.removeMemberFromGroup(this.groupData.uuid, this.selectedMember.uuid).subscribe({
+      next: () => {
+        this._loadGroupData(this.groupData?.uuid!);
+        this.closeMemberPopup();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
   public removeInvitation() {
-    // TODO
+    if (!this.selectedMember || !this.groupData) return;
+
+    this.groupService.removeInvitationFromGroup(this.groupData.uuid, this.selectedMember.uuid).subscribe({
+      next: () => {
+        this._loadGroupData(this.groupData?.uuid!);
+        this.closeMemberPopup();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
   public closeMemberPopup() {

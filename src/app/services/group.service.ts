@@ -74,7 +74,7 @@ export class GroupService {
     return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}/members/${memberUuid}`, { withCredentials: true });
   }
 
-  public removeInvitation(groupUuid: string, memberUuid: string): Observable<void> {
-    return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}/invitation/${memberUuid}`, { withCredentials: true });
+  public removeInvitationFromGroup(groupUuid: string, memberUuid: string): Observable<void> {
+    return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}/invite/${memberUuid}`, { withCredentials: true });
   }
 }
