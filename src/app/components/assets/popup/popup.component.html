@@ -7,11 +7,11 @@
         <div class="btns">
             @switch (type) {
                 @case ('info') {
-                    <button type="button" class="primary" (click)="submit(true)">{{ 'OK' | translate }}</button>
+                    <button type="button" class="primary" (click)="submit(true)">{{ 'asset.popup.ok' | translate }}</button>
                 }
                 @case ('delete') {
-                    <button type="button" (click)="submit(false)">{{ 'Abbrechen' | translate }}</button>
-                    <button type="button" class="danger" (click)="submit(true)">{{ 'Löschen' | translate }}</button>
+                    <button type="button" (click)="submit(false)">{{ 'asset.popup.cancel' | translate }}</button>
+                    <button type="button" class="danger" (click)="submit(true)">{{ 'asset.popup.delete' | translate }}</button>
                 }
             }
         </div>

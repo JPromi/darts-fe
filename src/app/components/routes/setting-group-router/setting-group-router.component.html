@@ -15,14 +15,12 @@
                         <p>{{ 'page.group.single.settings.menu.members.label' | translate }}</p>
                     </a>
                 </li>
-                @if (group.isOwner) {
-                    <li>
-                        <a [routerLink]="['/', 'group', uuid, 'settings', 'danger-zone']" routerLinkActive="active">
-                            <fa-icon [icon]="fa.faCircleExclamation" />
-                            <p>{{ 'page.group.single.settings.menu.dangerZone.label' | translate }}</p>
-                        </a>
-                    </li>
-                }
+                <li>
+                    <a [routerLink]="['/', 'group', uuid]">
+                        <fa-icon [icon]="fa.faArrowLeft" />
+                        <p>{{ 'page.group.single.settings.menu.back.label' | translate }}</p>
+                    </a>
+                </li>
             </ul>
 
             <div class="informations">

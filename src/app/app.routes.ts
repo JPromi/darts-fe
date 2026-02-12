@@ -18,7 +18,6 @@ import { GroupGamesComponent } from './components/site/group-games/group-games.c
 import { SettingGroupRouterComponent } from './components/routes/setting-group-router/setting-group-router.component';
 import { SettingGroupGeneralComponent } from './components/site/setting-group-general/setting-group-general.component';
 import { SettingGroupMembersComponent } from './components/site/setting-group-members/setting-group-members.component';
-import { SettingGroupDangerZoneComponent } from './components/site/setting-group-danger-zone/setting-group-danger-zone.component';
 import { GameCreateComponent } from './components/site/game-create/game-create.component';
 import { GroupCreateComponent } from './components/site/group-create/group-create.component';
 import { RegisterTokenComponent } from './components/site/register-token/register-token.component';
@@ -60,8 +59,7 @@ export const routes: Routes = [
                 children: [
                     { path: "", redirectTo: "general", pathMatch: "full" },
                     { path: "general", component: SettingGroupGeneralComponent, pathMatch: "full" },
-                    { path: "members", component: SettingGroupMembersComponent, pathMatch: "full" },
-                    { path: "danger-zone", component: SettingGroupDangerZoneComponent, pathMatch: "full" },
+                    { path: "members", component: SettingGroupMembersComponent, pathMatch: "full" }
                 ]
             },
             { 

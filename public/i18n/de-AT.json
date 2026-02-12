@@ -51,6 +51,11 @@
                 "ACCEPTED": "Akzeptiert",
                 "REJECTED": "Abgelehnt"
             }
+        },
+        "popup": {
+            "ok": "OK",
+            "cancel": "Abbrechen",
+            "delete": "Löschen"
         }
     },
     "page": {
@@ -263,13 +268,36 @@
                         "general.label": "Allgemein",
                         "members.label": "Mitglieder",
                         "invitations.label": "Einladungen",
-                        "dangerZone.label": "Gefahrenzone",
+                        "back.label": "Zurück",
                         "informations": {
                             "title": "Informationen",
                             "creationDate": "Erstellt am"
                         }
                     },
                     "edit": {
+                        "general": {
+                            "informations": {
+                                "title": "Informationen",
+                                "name.label": "Gruppenname",
+                                "description.label": "Beschreibung"
+                            },
+                            "visibility": {
+                                "title": "Sichtbarkeit",
+                                "public.label": "Öffentlich",
+                                "private.label": "Privat"
+                            },
+                            "dangerZone": {
+                                "title": "Gefahrenzone",
+                                "delete": {
+                                    "title": "Gruppe löschen",
+                                    "button": "Gruppe löschen",
+                                    "confirmation.text": "Möchtest du diese Gruppe wirklich löschen?\nDieser Vorgang kann nicht rückgängig gemacht werden."
+                                }
+                            },
+                            "buttons": {
+                                "save.button": "Speichern"
+                            }
+                        },
                         "member": {
                             "invite": {
                                 "title": "Einladen",

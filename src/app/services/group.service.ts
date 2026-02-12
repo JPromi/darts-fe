@@ -10,6 +10,7 @@ import { GroupInvitationResponse } from '../dtos/groupInvitationResponse';
 import { InvitationStatusAccountEnum } from '../enums/invitationStatusAccountEnum';
 import { GroupAdminMember } from '../dtos/groupAdminMember';
 import { GroupMemberAdminRequest } from '../dtos/groupMemberAdminRequest';
+import { GroupSettingsGeneral } from '../entities/groupSettingsGeneral';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,14 @@ export class GroupService {
     return this.http.post<GroupResponse>(`${environment.baseUrl}/group`, data, { withCredentials: true });
   }
 
+  public getGeneralGroupSettings(groupUuid: string): Observable<GroupSettingsGeneral> {
+    return this.http.get<GroupSettingsGeneral>(`${environment.baseUrl}/group/${groupUuid}/general`, { withCredentials: true });
+  }
+
+  public saveGeneralGroupSettings(group: GroupSettingsGeneral): Observable<GroupSettingsGeneral> {
+    return this.http.put<GroupSettingsGeneral>(`${environment.baseUrl}/group/${group.uuid}/general`, group, { withCredentials: true });
+  }
+
   public getAdminGroupMembers(groupUuid: string): Observable<GroupAdminMember[]> {
     return this.http.get<GroupAdminMember[]>(`${environment.baseUrl}/group/${groupUuid}/members`, { withCredentials: true });
   }
@@ -76,5 +85,9 @@ export class GroupService {
 
   public removeInvitationFromGroup(groupUuid: string, memberUuid: string): Observable<void> {
     return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}/invite/${memberUuid}`, { withCredentials: true });
+  }
+
+  public deleteGroup(groupUuid: string): Observable<void> {
+    return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}`, { withCredentials: true });
   }
 }
