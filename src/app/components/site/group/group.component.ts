@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { GroupService } from '../../../services/group.service';
+import { PopupComponent } from '../../assets/popup/popup.component';
 
 @Component({
   selector: 'app-group',
@@ -14,7 +15,8 @@ import { GroupService } from '../../../services/group.service';
     CommonModule,
     TranslateModule,
     RouterModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    PopupComponent
   ],
   templateUrl: './group.component.html',
   styleUrl: './group.component.scss',
@@ -55,6 +57,8 @@ export class GroupComponent implements OnInit {
   public fa = fa;
   public group?: GroupResponse;
 
+  public showLeaveGroupPopup: boolean = false;
+
   ngOnInit(): void {
     this.activatedRoute.url.subscribe(
       (url) => {
@@ -70,6 +74,18 @@ export class GroupComponent implements OnInit {
         } else {
           this.router.navigate(['/']);
         }
+      }
+    );
+  }
+
+  leaveGroup(confirmed: boolean) {
+    if (!this.group?.isMember || this.group?.isOwner) return;
+    if (!confirmed) return;
+
+
+    this.groupService.leaveGroup(this.group.uuid).subscribe(
+      () => {
+        this.router.navigate(['/group']);
       }
     );
   }

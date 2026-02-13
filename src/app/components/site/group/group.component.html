@@ -13,6 +13,18 @@
                         <fa-icon [icon]="fa.faUserPlus"/>
                     </a>
                 }
+                @if (group.isMember && !group.isOwner) {
+                    <button (click)="showLeaveGroupPopup = true" title="{{ 'page.group.single.options.leaveGroup.tooltip' | translate }}">
+                        <fa-icon [icon]="fa.faArrowRightFromBracket"/>
+                    </button>
+
+                    <asset-popup
+                        [title]="'page.group.single.options.leaveGroup.title' | translate"
+                        [description]="'page.group.single.options.leaveGroup.confirmation.text' | translate:{ groupName: group.name }"
+                        [type]="'leave'"
+                        [(show)]="showLeaveGroupPopup"
+                        (close)="leaveGroup($event)" />
+                }
             </div>
             <header class="top">
                 <div class="avatar">

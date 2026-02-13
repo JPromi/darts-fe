@@ -30,7 +30,7 @@ export class PopupComponent {
 
   @Input() title: string = "";
   @Input() description: string = ""
-  @Input() type: 'info' | 'delete' = 'info';
+  @Input() type: 'info' | 'delete' | 'leave' = 'info';
 
   @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
 

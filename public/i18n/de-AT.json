@@ -55,7 +55,8 @@
         "popup": {
             "ok": "OK",
             "cancel": "Abbrechen",
-            "delete": "Löschen"
+            "delete": "Löschen",
+            "leave": "Verlassen"
         }
     },
     "page": {
@@ -261,6 +262,13 @@
                 "private": {
                     "title": "Private Gruppe",
                     "disclaimer.text": "Diese Gruppe ist privat. Sie müssen Mitglied sein, um Informationen über diese Gruppe zu sehen."
+                },
+                "options": {
+                    "leaveGroup": {
+                        "tooltip": "Gruppe verlassen",
+                        "title": "Gruppe verlassen",
+                        "confirmation.text": "Möchtest du die Gruppe \"{{groupName}}\" wirklich verlassen?"
+                    }
                 },
                 "settings": {
                     "menu": {

@@ -90,4 +90,9 @@ export class GroupService {
   public deleteGroup(groupUuid: string): Observable<void> {
     return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}`, { withCredentials: true });
   }
+
+  // member settings
+  public leaveGroup(groupUuid: string): Observable<void> {
+    return this.http.delete<void>(`${environment.baseUrl}/group/${groupUuid}/leave`, { withCredentials: true });
+  }
 }
