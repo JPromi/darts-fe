@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../../services/profile.service';
 import { ProfileLightResponse } from '../../../dtos/profileLightResponse';
 import { PageResponse } from '../../../dtos/pageResponse';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-setting-group-members',
@@ -24,7 +25,21 @@ import { PageResponse } from '../../../dtos/pageResponse';
     FormsModule
   ],
   templateUrl: './setting-group-members.component.html',
-  styleUrl: './setting-group-members.component.scss'
+  styleUrl: './setting-group-members.component.scss',
+  animations: [
+    trigger(
+      'fade', [
+        transition(':enter', [
+          style({ opacity: 0 }),
+          animate('100ms', style({ opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ opacity: 1 }),
+          animate('150ms', style({ opacity: 0 }))
+        ])
+      ]
+    )
+  ]
 })
 export class SettingGroupMembersComponent implements OnInit {
   constructor(

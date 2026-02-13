@@ -27,7 +27,7 @@
         </div>
 
         <!-- Edit Member -->
-        <div class="popup" *ngIf="selectedMember">
+        <div class="popup" *ngIf="selectedMember" [@fade]>
             <span class="void" (click)="closeMemberPopup()" ></span>
 
             <div class="container">
@@ -96,7 +96,7 @@
         </div>
 
         <!-- Invite Member -->
-        <div class="popup" *ngIf="showInviteMembers">
+        <div class="popup" *ngIf="showInviteMembers" [@fade]>
             <span class="void" (click)="showInviteMembers = false" ></span>
 
             <div class="container">
