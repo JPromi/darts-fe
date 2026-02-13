@@ -103,9 +103,13 @@
                 <div class="informations">
                     <div class="box">
                         <fa-icon [icon]="fa.faUser"/>
-                        <span class="number">
-                            {{ getMemberCount(group.membersTotal) }}
-                        </span>
+                        @if (group.isPublic || group.isMember) {
+                            <span class="number">
+                                {{ getMemberCount(group.membersTotal) }}
+                            </span>
+                        } @else {
+                            <span class="number anonym">XXX</span>
+                        }
                     </div>
                     <div class="box" *ngIf="group.isMember">
                         <fa-icon [icon]="fa.faUserCheck"/>
