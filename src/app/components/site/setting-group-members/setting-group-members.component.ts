@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Host, HostListener, OnInit } from '@angular/core';
 import { GroupService } from '../../../services/group.service';
 import { GroupAdminMember } from '../../../dtos/groupAdminMember';
 import { ActivatedRoute } from '@angular/router';
@@ -195,5 +195,11 @@ export class SettingGroupMembersComponent implements OnInit {
         console.error(error);
       }
     });
+  }
+
+  @HostListener('keydown.escape')
+  onKeydownHandler() {
+    this.closeMemberPopup();
+    this.showInviteMembers = false;
   }
 }

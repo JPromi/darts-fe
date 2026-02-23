@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -42,6 +42,11 @@ export class PopupComponent {
   submit(confirmed: boolean) {
     this.showChange.emit(false);
     this.close.emit(confirmed);
+  }
+
+  @HostListener('window:keydown.escape')
+  onKeydownHandler() {
+    this.submit(false);
   }
 
 }
