@@ -14,6 +14,27 @@
         & > .options {
             display: flex;
             gap: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 1rem;
+            background-color: var(--background-secondary);
+            border-radius: .5rem;
+
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: transparent;
+                border: none;
+                color: var(--text);
+                cursor: pointer;
+                height: 2rem;
+                width: 2rem;
+
+                &:hover {
+                    color: var(--primary);
+                }
+            }
         }
 
         .list {
