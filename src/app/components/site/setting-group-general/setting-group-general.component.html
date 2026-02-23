@@ -12,7 +12,31 @@
                     <input #uploadBanner type="file" name="banner" id="banner" accept="image/*" (change)="updateBanner($event)" [disabled]="isUpdating">
                 </div>
                 <div class="container">
-                    <img *ngIf="group.banner" [src]="group.banner.url">
+                    <img
+                        *ngIf="group.banner"
+                        [src]="group.banner.url"
+                        (load)="uploadProgressBanner.isLoading=false"
+                        (error)="uploadProgressBanner.isLoading=false"
+                        (show)="uploadProgressBanner.isLoading=true"/>
+                </div>
+                <div class="waiting" *ngIf="uploadProgressBanner.isLoading || uploadProgressBanner.isUploading">
+                    @if (uploadProgressBanner.isUploading) {
+                        <div class="progress">
+                            <div>
+                                <p>{{ uploadProgressBanner.uploadFilename }}</p>
+                            </div>
+                            <span class="bar">
+                                <span [style.width.%]="uploadProgressBanner.progress"></span>
+                            </span>
+                            <div>
+                                <p>{{ getSizeString(uploadProgressBanner.uploadSize) }}</p>
+                                <p>{{ uploadProgressBanner.progress }}%</p>
+                            </div>
+                        </div>
+                    }
+                    @if (uploadProgressBanner.isLoading) {
+                        <asset-loading />
+                    }
                 </div>
             </div>
             <div class="avatar">
@@ -26,7 +50,31 @@
                     <input #avatarBanner type="file" name="avatar" id="avatar" accept="image/*" (change)="updateAvatar($event)" [disabled]="isUpdating">
                 </div>
                 <div class="container">
-                    <img *ngIf="group.avatar" [src]="group.avatar.url">
+                    <img
+                        *ngIf="group.avatar"
+                        [src]="group.avatar.url"
+                        (load)="uploadProgressAvatar.isLoading=false"
+                        (error)="uploadProgressAvatar.isLoading=false"
+                        (show)="uploadProgressAvatar.isLoading=true"/>
+                </div>
+                <div class="waiting" *ngIf="uploadProgressAvatar.isLoading || uploadProgressAvatar.isUploading">
+                    @if (uploadProgressAvatar.isUploading) {
+                        <div class="progress">
+                            <div>
+                                <p>{{ uploadProgressAvatar.uploadFilename }}</p>
+                            </div>
+                            <span class="bar">
+                                <span [style.width.%]="uploadProgressAvatar.progress"></span>
+                            </span>
+                            <div>
+                                <p>{{ getSizeString(uploadProgressAvatar.uploadSize) }}</p>
+                                <p>{{ uploadProgressAvatar.progress }}%</p>
+                            </div>
+                        </div>
+                    }
+                    @if (uploadProgressAvatar.isLoading) {
+                        <asset-loading />
+                    }
                 </div>
             </div>
         </div>

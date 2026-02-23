@@ -38,6 +38,66 @@
                         object-fit: cover;
                     }
                 }
+
+                .waiting {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #00000075;
+                    backdrop-filter: blur(5px);
+                    top: 0;
+                    left: 0;
+
+                    .progress {
+                        width: 15rem;
+                        gap: .25rem;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+
+                        span.bar {
+                            content: "";
+                            display: block;
+                            width: 100%;
+                            height: .45rem;
+                            background-color: var(--background);
+                            border-radius: .25rem;
+                            transition: width 150ms ease-in-out;
+                            position: relative;
+
+                            span {
+                                content: "";
+                                display: block;
+                                height: 100%;
+                                background-color: var(--primary);
+                                border-radius: .25rem;
+                                width: calc(var(--progress) * 1%);
+                                transition: width 150ms ease-in-out;
+                            }
+                        }
+
+                        div {
+                            display: flex;
+                            justify-content: space-between;
+                            width: 100%;
+
+                            p {
+                                font-size: .75rem;
+                                color: var(--text);
+                                font-weight: 500;
+                                max-width: 100%;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+                        }
+                    }
+                }
             }
 
             .avatar {
@@ -63,6 +123,66 @@
                         width: 100%;
                         height: 100%;
                         object-fit: cover;
+                    }
+                }
+
+                .waiting {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #00000075;
+                    backdrop-filter: blur(5px);
+                    top: 0;
+                    left: 0;
+
+                    .progress {
+                        width: 8rem;
+                        gap: .25rem;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+
+                        span.bar {
+                            content: "";
+                            display: block;
+                            width: 100%;
+                            height: .45rem;
+                            background-color: var(--background);
+                            border-radius: .25rem;
+                            transition: width 150ms ease-in-out;
+                            position: relative;
+
+                            span {
+                                content: "";
+                                display: block;
+                                height: 100%;
+                                background-color: var(--primary);
+                                border-radius: .25rem;
+                                width: calc(var(--progress) * 1%);
+                                transition: width 150ms ease-in-out;
+                            }
+                        }
+
+                        div {
+                            display: flex;
+                            justify-content: space-between;
+                            width: 100%;
+
+                            p {
+                                font-size: .75rem;
+                                color: var(--text);
+                                font-weight: 500;
+                                max-width: 100%;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+                        }
                     }
                 }
             }

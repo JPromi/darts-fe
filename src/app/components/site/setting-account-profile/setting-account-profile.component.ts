@@ -9,6 +9,7 @@ import { SettingsService } from '../../../services/settings.service';
 import { SettingProfile } from '../../../entities/settingProfile';
 import { Observable } from 'rxjs';
 import { FileService } from '../../../services/file.service';
+import { LoadingComponent } from '../../assets/loading/loading.component';
 
 @Component({
   selector: 'app-setting-account-profile',
@@ -17,7 +18,8 @@ import { FileService } from '../../../services/file.service';
     CommonModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    LoadingComponent
   ],
   templateUrl: './setting-account-profile.component.html',
   styleUrl: './setting-account-profile.component.scss'
@@ -36,6 +38,21 @@ export class SettingAccountProfileComponent implements OnInit {
   profile: SettingProfile = new SettingProfile();
   isLoaded: boolean = false;
   isUpdating: boolean = false;
+
+  public uploadProgressBanner = {
+    progress: 0,
+    isUploading: false,
+    uploadFilename: "",
+    uploadSize: 0,
+    isLoading: false
+  };
+  public uploadProgressAvatar = {
+    progress: 0,
+    isUploading: false,
+    uploadFilename: "",
+    uploadSize: 0,
+    isLoading: false
+  };
 
   form: FormGroup = new FormGroup(
     {
@@ -57,17 +74,52 @@ export class SettingAccountProfileComponent implements OnInit {
     this.getProfile();
   }
 
+  getSizeString(size: number): string {
+    if(size < 1024) {
+      return size + " B";
+    } else if(size < 1024 * 1024) {
+      return (size / 1024).toFixed(2) + " KB";
+    } else if(size < 1024 * 1024 * 1024) {
+      return (size / (1024 * 1024)).toFixed(2) + " MB";
+    } else {
+      return (size / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+    }
+  }
+
   updateAvatar(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
+    this.uploadProgressAvatar.uploadFilename = file?.name ?? "";
+    this.uploadProgressAvatar.uploadSize = file?.size ?? 0;
     if(file) {
-      this.fileService.uploadImage(file, 512).subscribe(
-        (response) => {
-          this.profile.avatar = response;
+      this.fileService.uploadImage(file, 512).subscribe({
+        next: (response) => {
+          if (response.progress) {
+            this.uploadProgressAvatar.progress = response.progress;
+            this.uploadProgressAvatar.isUploading = true;
+            this.uploadProgressAvatar.isLoading = false;
+          } else {
+            this.uploadProgressAvatar.progress = 100;
+            this.uploadProgressAvatar.isUploading = false;
+            this.uploadProgressAvatar.isLoading = true;
+          }
+          if(this.profile) {
+            if (response.result) {
+              this.profile.avatar = response.result;
+              this.uploadProgressAvatar.progress = 0;
+              this.uploadProgressAvatar.isUploading = false;
+              this.uploadProgressAvatar.isLoading = true;
+            }
+          }
         },
-        (error) => {
+        error: (error) => {
           console.error("Error uploading file", error);
+          this.uploadProgressAvatar.progress = 0;
+          this.uploadProgressAvatar.isUploading = false;
+          this.uploadProgressAvatar.isLoading = false;
+          this.uploadProgressAvatar.uploadFilename = "";
+          this.uploadProgressAvatar.uploadSize = 0;
         }
-      );
+      });
     }
   }
 
@@ -80,15 +132,38 @@ export class SettingAccountProfileComponent implements OnInit {
 
   updateBanner(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
+    this.uploadProgressBanner.uploadFilename = file?.name ?? "";
+    this.uploadProgressBanner.uploadSize = file?.size ?? 0;
     if(file) {
-      this.fileService.uploadImage(file).subscribe(
-        (response) => {
-          this.profile.banner = response;
+      this.fileService.uploadImage(file).subscribe({
+        next: (response) => {
+          if (response.progress) {
+            this.uploadProgressBanner.progress = response.progress;
+            this.uploadProgressBanner.isUploading = true;
+            this.uploadProgressBanner.isLoading = false;
+          } else {
+            this.uploadProgressBanner.progress = 100;
+            this.uploadProgressBanner.isUploading = false;
+            this.uploadProgressBanner.isLoading = true;
+          }
+          if(this.profile) {
+            if (response.result) {
+              this.profile.banner = response.result;
+              this.uploadProgressBanner.progress = 0;
+              this.uploadProgressBanner.isUploading = false;
+              this.uploadProgressBanner.isLoading = true;
+            }
+          }
         },
-        (error) => {
+        error: (error) => {
           console.error("Error uploading file", error);
+          this.uploadProgressBanner.progress = 0;
+          this.uploadProgressBanner.isUploading = false;
+          this.uploadProgressBanner.isLoading = false;
+          this.uploadProgressBanner.uploadFilename = "";
+          this.uploadProgressBanner.uploadSize = 0;
         }
-      );
+      });
     }
   }
 
