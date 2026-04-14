@@ -69,7 +69,7 @@
                         </div>
                         <div class="block">
                             <h3>{{ 'page.game.active.player.extendedInformations.average.label' | translate }}</h3>
-                            <p>{{ player.average }}</p>
+                            <p>{{ toFixedNumber(player.average, 2) }}</p>
                         </div>
                     </div>
                 </div>

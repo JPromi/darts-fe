@@ -163,6 +163,14 @@ export class GameInputComponent implements OnInit, OnDestroy {
     }
   }
 
+  public toFixedNumber(value: number | null, digits: number): string {
+    if(value === null) {
+      return "-";
+    } else {
+      return parseFloat(value.toFixed(digits)).toString();
+    }
+  }
+
   private gameTime() {
     this.currentGameTimeInterval = setInterval(() => {
       const now = new Date();
