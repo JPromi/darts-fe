@@ -18,8 +18,8 @@
 
     <main>
         <div class="players">
-            @for (player of game.players; track player.playerUuid) {
-                <div class="player" [class.current]="player.isCurrentPlayer" [class.disabled]="player.isEliminated">
+            @for (player of playerDisplayList; track player.playerUuid) {
+                <div class="player" [attr.data-player-uuid]="player.playerUuid" [class.current]="player.isCurrentPlayer" [class.disabled]="player.isEliminated">
                     <div class="top">
                         <div class="profile">
                             <div class="avatar">

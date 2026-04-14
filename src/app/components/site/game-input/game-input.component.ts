@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ActiveGameResponse } from '../../../dtos/activeGameResponse';
@@ -34,7 +34,9 @@ export class GameInputComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private gameService: GameService,
     private activeRoute: ActivatedRoute,
-    private gameWsService: GameWsService
+    private gameWsService: GameWsService,
+    private elementRef: ElementRef<HTMLElement>,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   fa = fa;
@@ -42,6 +44,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
   gameThrowTypeEnum = GameThrowTypeEnum;
 
   game: ActiveGameResponse = new ActiveGameResponse();
+  playerDisplayList: ActiveGamePlayerResponse[] = [];
 
   currentGameTime = "";
   inputType = "keys"; // keys, board
@@ -83,7 +86,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
 
         // WS Player Update
         this.gameWsService.game$.subscribe((gameUpdate: ActiveGameResponse) => {
-          this.game = gameUpdate;
+          this.applyGameUpdate(gameUpdate);
         });
       }
     });
@@ -187,7 +190,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   private sortPlayers() {
-    this.game.players.sort((a, b) => {
+    return [...this.game.players].sort((a, b) => {
       if (a.isCurrentPlayer && !b.isCurrentPlayer) {
         return -1;
       } else if (!a.isCurrentPlayer && b.isCurrentPlayer) {
@@ -195,6 +198,69 @@ export class GameInputComponent implements OnInit, OnDestroy {
       } else {
         return a.orderIndex - b.orderIndex;
       }
+    });
+  }
+
+  private applyGameUpdate(gameUpdate: ActiveGameResponse): void {
+    const previousPositions = this.getPlayerTopPositions();
+    this.game = gameUpdate;
+    this.playerDisplayList = this.sortPlayers();
+    this.changeDetectorRef.detectChanges();
+
+    requestAnimationFrame(() => {
+      this.animatePlayerReorder(previousPositions);
+    });
+  }
+
+  private getPlayerTopPositions(): Map<string, number> {
+    const positions = new Map<string, number>();
+    const playerElements = this.elementRef.nativeElement.querySelectorAll<HTMLElement>('.players .player[data-player-uuid]');
+
+    playerElements.forEach((element) => {
+      const playerUuid = element.dataset['playerUuid'];
+      if (playerUuid) {
+        positions.set(playerUuid, element.getBoundingClientRect().top);
+      }
+    });
+
+    return positions;
+  }
+
+  private animatePlayerReorder(previousPositions: Map<string, number>): void {
+    if (previousPositions.size === 0) {
+      return;
+    }
+
+    const playerElements = this.elementRef.nativeElement.querySelectorAll<HTMLElement>('.players .player[data-player-uuid]');
+
+    playerElements.forEach((element) => {
+      const playerUuid = element.dataset['playerUuid'];
+      if (!playerUuid) {
+        return;
+      }
+
+      const previousTop = previousPositions.get(playerUuid);
+      if (previousTop === undefined) {
+        return;
+      }
+
+      const currentTop = element.getBoundingClientRect().top;
+      const deltaY = previousTop - currentTop;
+
+      if (Math.abs(deltaY) < 1) {
+        return;
+      }
+
+      element.animate(
+        [
+          { transform: `translateY(${deltaY}px)` },
+          { transform: 'translateY(0)' }
+        ],
+        {
+          duration: 280,
+          easing: 'ease'
+        }
+      );
     });
   }
 
@@ -209,9 +275,7 @@ export class GameInputComponent implements OnInit, OnDestroy {
   private _loadGame(uuid: string): void {
     this.gameService.getGame(uuid).subscribe(
       (response: ActiveGameResponse) => {
-        this.game = response;
-        console.log("Loaded game:", this.game.players);
-        this.sortPlayers();
+        this.applyGameUpdate(response);
         this.checkIsFullscreen();
         this.gameTime();
       }
