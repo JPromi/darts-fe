@@ -20,4 +20,8 @@ export class GameService {
   public getGame(uuid: string): Observable<any> {
     return this.http.get<any>(`${environment.baseUrl}/game/${uuid}`, { withCredentials: true });
   }
+
+  public endGame(uuid: string): Observable<void> {
+    return this.http.delete<void>(`${environment.baseUrl}/game/${uuid}`, { withCredentials: true });
+  }
 }

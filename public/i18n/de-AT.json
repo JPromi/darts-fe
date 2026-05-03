@@ -189,6 +189,12 @@
                     "points": {
                         "miss.text": "Miss"
                     }
+                },
+                "popup": {
+                    "endGame": {
+                        "title": "Spiel beenden",
+                        "message": "Möchtest du das Spiel wirklich beenden?"
+                    }
                 }
             },
             "create": {

@@ -12,9 +12,10 @@ import { GameThrow } from '../../../entities/gameThrow';
 import { GameThrowTypeEnum } from '../../../enums/gameThtowTypeEnum';
 import { LoGameCalculationService } from '../../../services/local/lo-game-calculation.service';
 import { GameService } from '../../../services/game.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameWsService } from '../../../services/game-ws.service';
 import { ActiveGameThrowRequest } from '../../../dtos/activeGameThrowRequest';
+import { PopupComponent } from '../../assets/popup/popup.component';
 
 @Component({
   selector: 'app-game-input',
@@ -22,7 +23,8 @@ import { ActiveGameThrowRequest } from '../../../dtos/activeGameThrowRequest';
     CommonModule,
     FormsModule,
     TranslateModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    PopupComponent
   ],
   templateUrl: './game-input.component.html',
   styleUrl: './game-input.component.scss'
@@ -36,7 +38,8 @@ export class GameInputComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute,
     private gameWsService: GameWsService,
     private elementRef: ElementRef<HTMLElement>,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   fa = fa;
@@ -45,6 +48,8 @@ export class GameInputComponent implements OnInit, OnDestroy {
 
   game: ActiveGameResponse = new ActiveGameResponse();
   playerDisplayList: ActiveGamePlayerResponse[] = [];
+
+  popupEndGameShow: boolean = false;
 
   currentGameTime = "";
   inputType = "keys"; // keys, board
@@ -171,6 +176,23 @@ export class GameInputComponent implements OnInit, OnDestroy {
       return "-";
     } else {
       return parseFloat(value.toFixed(digits)).toString();
+    }
+  }
+
+  public endGame(isConfirmed: boolean): void {
+    if(isConfirmed) {
+      this.gameService.endGame(this.game.uuid).subscribe(
+        {
+          next: () => {
+            this.gameWsService.disconnect();
+            this.router.navigate(['/']);
+          },
+          error: () => {
+            this.gameWsService.disconnect();
+            this.router.navigate(['/']);
+          }
+        }
+      );
     }
   }
 

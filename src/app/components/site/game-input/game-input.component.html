@@ -81,7 +81,7 @@
         <div class="content">
             <div class="options">
                 <div>
-                    <button>
+                    <button (click)="popupEndGameShow = true">
                         <fa-icon [icon]="fa.faXmark" />
                     </button>
                     <button (click)="undoLastThrow()">
@@ -285,3 +285,11 @@
         </button>
     </div>
 </ng-template>
+
+<asset-popup
+    #endGamePopup
+    [title]="'page.game.active.popup.endGame.title' | translate"
+    [description]="'page.game.active.popup.endGame.message' | translate"
+    [type]="'leave'"
+    [(show)]="popupEndGameShow"
+    (close)="endGame($event)"/>
