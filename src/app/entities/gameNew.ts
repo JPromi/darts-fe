@@ -9,7 +9,7 @@ export class GameNew {
     public players: ProfileLightResponse[] = [],
     public gameType: GameTypeEnum = GameTypeEnum.CLASSIC,
     public gameTypeClassicPoints: number | null = 301,
-    public gameTypeClassicIn: GameThrowMultiplierEnum = GameThrowMultiplierEnum.SINGLE,
-    public gameTypeClassicOut: GameThrowMultiplierEnum = GameThrowMultiplierEnum.DOUBLE,
+    public gameTypeClassicIn: GameThrowMultiplierEnum | null = null,
+    public gameTypeClassicOut: GameThrowMultiplierEnum | null = GameThrowMultiplierEnum.DOUBLE,
   ) { }
 }

@@ -227,7 +227,8 @@
                                 "options": {
                                     "singleIn": "Single In",
                                     "doubleIn": "Double In",
-                                    "tripleIn": "Triple In"
+                                    "tripleIn": "Triple In",
+                                    "all": "Alle"
                                 }
                             },
                             "outType": {
@@ -235,7 +236,8 @@
                                 "options": {
                                     "singleOut": "Single Out",
                                     "doubleOut": "Double Out",
-                                    "tripleOut": "Triple Out"
+                                    "tripleOut": "Triple Out",
+                                    "all": "Alle"
                                 }
                             },
                             "points": {

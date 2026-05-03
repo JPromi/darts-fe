@@ -10,8 +10,8 @@ export class GameNewRequest {
     public players: GameNewPlayerRequest[] = [],
     public gameType: GameTypeEnum = GameTypeEnum.CLASSIC,
     public gameTypeClassicPoints: number | null = 301,
-    public gameTypeClassicIn: GameThrowMultiplierEnum = GameThrowMultiplierEnum.SINGLE,
-    public gameTypeClassicOut: GameThrowMultiplierEnum = GameThrowMultiplierEnum.DOUBLE,
+    public gameTypeClassicIn: GameThrowMultiplierEnum | null = GameThrowMultiplierEnum.SINGLE,
+    public gameTypeClassicOut: GameThrowMultiplierEnum | null = GameThrowMultiplierEnum.DOUBLE,
   ) { }
 
   public static fromGameNew(gameNew: GameNew): GameNewRequest {

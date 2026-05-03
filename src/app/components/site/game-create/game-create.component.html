@@ -136,7 +136,8 @@
                     <div class="gamemode-settings-content">
                         <div>
                             <h3>{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.title' | translate }}</h3>
-                            <div class="button-grid col-3">
+                            <div class="button-grid col-2">
+                                <button [class.selected]="game.gameTypeClassicIn === null" (click)="game.gameTypeClassicIn = null">{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.options.all' | translate }}</button>
                                 <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.SINGLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.SINGLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.options.singleIn' | translate }}</button>
                                 <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.DOUBLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.DOUBLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.options.doubleIn' | translate }}</button>
                                 <button [class.selected]="game.gameTypeClassicIn === GameThrowMultiplierEnum.TRIPLE" (click)="game.gameTypeClassicIn = GameThrowMultiplierEnum.TRIPLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.inType.options.tripleIn' | translate }}</button>
@@ -144,7 +145,8 @@
                         </div>
                         <div>
                             <h3>{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.title' | translate }}</h3>
-                            <div class="button-grid col-3">
+                            <div class="button-grid col-2">
+                                <button [class.selected]="game.gameTypeClassicOut === null" (click)="game.gameTypeClassicOut = null">{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.options.all' | translate }}</button>
                                 <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.DOUBLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.DOUBLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.options.doubleOut' | translate }}</button>
                                 <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.SINGLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.SINGLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.options.singleOut' | translate }}</button>
                                 <button [class.selected]="game.gameTypeClassicOut === GameThrowMultiplierEnum.TRIPLE" (click)="game.gameTypeClassicOut = GameThrowMultiplierEnum.TRIPLE">{{ 'page.game.create.settings.gameSettings.CLASSIC.outType.options.tripleOut' | translate }}</button>
