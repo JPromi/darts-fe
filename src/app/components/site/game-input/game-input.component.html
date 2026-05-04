@@ -6,7 +6,7 @@
     <div class="information">
         <div class="block">
             <h3>{{ 'page.game.active.input.round.label' | translate }}</h3>
-            <p>{{ game.currentTurn }}</p>
+            <p>{{ game.round + 1 }}</p>
         </div>
         <div class="block">
             <h3>{{ 'page.game.active.input.gameTime.label' | translate }}</h3>
@@ -18,16 +18,16 @@
 
     <main>
         <div class="players">
-            @for (player of game.players; track $index) {
-                <div class="player" [class.current]="player.isCurrentPlayer" [class.disabled]="player.isEliminated">
+            @for (player of playerDisplayList; track player.playerUuid) {
+                <div class="player" [attr.data-player-uuid]="player.playerUuid" [class.current]="player.isCurrentPlayer" [class.disabled]="player.isEliminated">
                     <div class="top">
                         <div class="profile">
                             <div class="avatar">
                                 <img [src]="player.avatar">
                             </div>
                             <div class="name">
-                                <h1>{{ player.username }}</h1>
-                                <h3>{{ player.order }}</h3>
+                                <h1>{{ player.name }}</h1>
+                                <h3>{{ player.orderIndex + 1 }}</h3>
                             </div>
                         </div>
                         <div class="score">
@@ -38,10 +38,10 @@
                         @for (_ of [].constructor(3); track $index) {
                             <div class="throw">
                                 <span class="field">{{ $index + 1 }}</span>
-                                @if (player.throws[$index]) {
-                                    @switch (player.throws[$index].type) {
-                                        @case (gameThrowTypeEnum.POINTS) {
-                                            <p>{{ getReadablePoints(player.throws[$index]) }}</p>
+                                @if (player.throwList && player.throwList.length > $index) {
+                                    @switch (player.throwList[$index].type) {
+                                        @case (gameThrowTypeEnum.THROW) {
+                                            <p>{{ getReadablePoints(player.throwList[$index]) }}</p>
                                         }
                                         @case (gameThrowTypeEnum.MISS) {
                                             <p>{{ 'page.game.active.player.points.miss.text' | translate }}</p>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="block">
                             <h3>{{ 'page.game.active.player.extendedInformations.average.label' | translate }}</h3>
-                            <p>{{ player.average }}</p>
+                            <p>{{ toFixedNumber(player.average, 2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -81,10 +81,10 @@
         <div class="content">
             <div class="options">
                 <div>
-                    <button>
+                    <button (click)="popupEndGameShow = true">
                         <fa-icon [icon]="fa.faXmark" />
                     </button>
-                    <button>
+                    <button (click)="undoLastThrow()">
                         <fa-icon [icon]="fa.faRotateLeft" />
                     </button>
                     <button *ngIf="!isOnStartFullscreen" (click)="toggleFullscreen()">
@@ -285,3 +285,11 @@
         </button>
     </div>
 </ng-template>
+
+<asset-popup
+    #endGamePopup
+    [title]="'page.game.active.popup.endGame.title' | translate"
+    [description]="'page.game.active.popup.endGame.message' | translate"
+    [type]="'leave'"
+    [(show)]="popupEndGameShow"
+    (close)="endGame($event)"/>

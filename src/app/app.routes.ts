@@ -12,6 +12,15 @@ import { SettingAccountAccountComponent } from './components/site/setting-accoun
 import { GameInputComponent } from './components/site/game-input/game-input.component';
 import { GroupListComponent } from './components/site/group-list/group-list.component';
 import { RegisterComponent } from './components/site/register/register.component';
+import { GroupComponent } from './components/site/group/group.component';
+import { GroupOverviewComponent } from './components/site/group-overview/group-overview.component';
+import { GroupGamesComponent } from './components/site/group-games/group-games.component';
+import { SettingGroupRouterComponent } from './components/routes/setting-group-router/setting-group-router.component';
+import { SettingGroupGeneralComponent } from './components/site/setting-group-general/setting-group-general.component';
+import { SettingGroupMembersComponent } from './components/site/setting-group-members/setting-group-members.component';
+import { GameCreateComponent } from './components/site/game-create/game-create.component';
+import { GroupCreateComponent } from './components/site/group-create/group-create.component';
+import { RegisterTokenComponent } from './components/site/register-token/register-token.component';
 
 export const routes: Routes = [
     {
@@ -19,17 +28,13 @@ export const routes: Routes = [
         component: AuthRouterComponent,
         children: [
             { path: "register", component: RegisterComponent, pathMatch: "full" },
+            { path: "register/:token", component: RegisterTokenComponent, pathMatch: "full" },
             { path: "login", component: LoginComponent, pathMatch: "full" },
             { path: "login/totp", component: TotpComponent, pathMatch: "full" },
             { path: "logout", component: LogoutComponent, pathMatch: "full" },
         ]
     },
-    {
-        path: "game/active",
-        children: [
-            { path: "", component: GameInputComponent, pathMatch: "full" },
-        ]
-    },
+    { path: "game/active/:uuid", component: GameInputComponent, pathMatch: "full" },
     {
         path: "",
         component: MainRouterComponent,
@@ -47,7 +52,25 @@ export const routes: Routes = [
                 ]
             },
             { path: "group", component: GroupListComponent, pathMatch: "full" },
-            { path: "group/:uuid", component: GroupListComponent, pathMatch: "full" },
+            { path: "group/new", component: GroupCreateComponent, pathMatch: "full" },
+            {
+                path: "group/:uuid/settings",
+                component: SettingGroupRouterComponent,
+                children: [
+                    { path: "", redirectTo: "general", pathMatch: "full" },
+                    { path: "general", component: SettingGroupGeneralComponent, pathMatch: "full" },
+                    { path: "members", component: SettingGroupMembersComponent, pathMatch: "full" }
+                ]
+            },
+            { 
+                path: "group/:uuid",
+                component: GroupComponent,
+                children: [
+                    { path: "", component: GroupOverviewComponent, pathMatch: "full" },
+                    { path: "games", component: GroupGamesComponent, pathMatch: "full" },
+                ]
+            },
+            { path: "game/new", component: GameCreateComponent, pathMatch: "full" },
         ]
     },
     { path: "**", redirectTo: "", pathMatch: "full" }

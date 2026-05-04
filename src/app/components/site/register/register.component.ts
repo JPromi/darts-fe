@@ -36,7 +36,7 @@ export class RegisterComponent {
       email: new FormControl<string>("", [Validators.required, Validators.email]),
       firstName: new FormControl<string>("", [Validators.required]),
       lastName: new FormControl<string>("", [Validators.required]),
-      dateOfBirth: new FormControl<Date>(new Date(), [Validators.required]),
+      dateOfBirth: new FormControl<Date | null>(null, [Validators.required]),
     },
     this.loValidationService.passwordMatch('password', 'passwordConfirm')
   )
@@ -44,13 +44,19 @@ export class RegisterComponent {
   registration: RegistrationRequest = new RegistrationRequest();
 
   isSending: boolean = false;
+  errorCode: number | null = null;
+  isRegistrationSuccess: boolean = false;
 
   ngOnInit(): void {
     
   }
 
   public onSubmit() {
+    this.registrationForm.markAllAsTouched();
+    
     if (this.registrationForm.valid) {
+       this.registrationForm.updateValueAndValidity();
+      this.registrationForm.disable();
       this.isSending = true;
       this.registration.username = this.registrationForm.value.username!;
       this.registration.password = this.registrationForm.value.password!;
@@ -62,10 +68,15 @@ export class RegisterComponent {
       this.registerService.register(this.registration).subscribe(
         (response) => {
           this.isSending = false;
-          console.log(response);
+          this.errorCode = null;
+          this.registrationForm.enable();
+          this.isRegistrationSuccess = true;
         },
         (error) => {
           this.isSending = false;
+          this.errorCode = error.status;
+          this.registrationForm.enable();
+          this.httpErrorHandeling(error.status);
           console.error(error);
         }
       );
@@ -78,6 +89,14 @@ export class RegisterComponent {
       return errors ? Object.keys(errors)[0] : null;
     } else {
       return null;
+    }
+  }
+
+  private httpErrorHandeling(errorCode: number): void {
+    switch (errorCode) {
+      case 409:
+        this.registrationForm.get('username')?.setErrors({ userExistsAlready: true });
+        break;
     }
   }
 }

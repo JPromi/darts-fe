@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ActiveGameResponse } from '../../../dtos/activeGameResponse';
@@ -11,6 +11,11 @@ import { ActiveGamePlayerResponse } from '../../../dtos/activeGamePlayerResponse
 import { GameThrow } from '../../../entities/gameThrow';
 import { GameThrowTypeEnum } from '../../../enums/gameThtowTypeEnum';
 import { LoGameCalculationService } from '../../../services/local/lo-game-calculation.service';
+import { GameService } from '../../../services/game.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GameWsService } from '../../../services/game-ws.service';
+import { ActiveGameThrowRequest } from '../../../dtos/activeGameThrowRequest';
+import { PopupComponent } from '../../assets/popup/popup.component';
 
 @Component({
   selector: 'app-game-input',
@@ -18,7 +23,8 @@ import { LoGameCalculationService } from '../../../services/local/lo-game-calcul
     CommonModule,
     FormsModule,
     TranslateModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    PopupComponent
   ],
   templateUrl: './game-input.component.html',
   styleUrl: './game-input.component.scss'
@@ -27,7 +33,13 @@ export class GameInputComponent implements OnInit, OnDestroy {
 
   constructor(
     private loGameCalculationService: LoGameCalculationService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private gameService: GameService,
+    private activeRoute: ActivatedRoute,
+    private gameWsService: GameWsService,
+    private elementRef: ElementRef<HTMLElement>,
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   fa = fa;
@@ -35,6 +47,9 @@ export class GameInputComponent implements OnInit, OnDestroy {
   gameThrowTypeEnum = GameThrowTypeEnum;
 
   game: ActiveGameResponse = new ActiveGameResponse();
+  playerDisplayList: ActiveGamePlayerResponse[] = [];
+
+  popupEndGameShow: boolean = false;
 
   currentGameTime = "";
   inputType = "keys"; // keys, board
@@ -68,23 +83,18 @@ export class GameInputComponent implements OnInit, OnDestroy {
   currentGameTimeInterval: any = null;
 
   ngOnInit(): void {
-    // testing
-    this.game.uuid = "00000000-0000-0000-0000-000000000001";
-    this.game.gameStartTime = new Date(Date.now() - Math.random() * 100000);
-    this.game.currentTurn = 5;
-    this.game.gameType = GameTypeEnum.CLASSIC;
-    this.game.gameTypeClassicPoints = 101;
-    this.game.gameTypeClassicInType = "single";
-    this.game.gameTypeClassicOutType = "double";
-    this.game.players = [
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000001", 1, "Player 1 with a really long name", "https://placehold.co/128", [new GameThrow(1, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 158, 38.5, 150, false, false, false),
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000002", 2, "Player 2", "https://placehold.co/128", [new GameThrow(10, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.POINTS),new GameThrow(0, GameThrowMultiplierEnum.SINGLE, 0, GameThrowTypeEnum.MISS),new GameThrow(0, GameThrowMultiplierEnum.NONE, 0, GameThrowTypeEnum.ABORT)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 456, 58.5, 3, true, false, false),
-      new ActiveGamePlayerResponse("00000000-0000-0000-0000-000000000003", 3, "Player 3", "https://placehold.co/128", [new GameThrow(18, GameThrowMultiplierEnum.TRIPLE, 0, GameThrowTypeEnum.POINTS)], [new GameThrow(20, GameThrowMultiplierEnum.DOUBLE, 0, GameThrowTypeEnum.POINTS)], 65, 100.5, 180, false, true, false),
-    ]
-    this.sortPlayers();
+    this.activeRoute.params.subscribe(params => {
+      const uuid = params['uuid'];
+      if (uuid) {
+        this.gameWsService.connect(uuid);
+        this._loadGame(uuid);
 
-    this.checkIsFullscreen();
-    this.gameTime();
+        // WS Player Update
+        this.gameWsService.game$.subscribe((gameUpdate: ActiveGameResponse) => {
+          this.applyGameUpdate(gameUpdate);
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -103,13 +113,36 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   public pointsInput(keyValue: number): void {
+
     if(keyValue === 25 && this.multiplier === GameThrowMultiplierEnum.TRIPLE) {
       this.multiplier = GameThrowMultiplierEnum.SINGLE;
     }
     if(keyValue === 0) {
       this.multiplier = GameThrowMultiplierEnum.SINGLE;
     }
+
+    // send
+    const throwRequest = new ActiveGameThrowRequest(
+      keyValue === 0 ? GameThrowTypeEnum.MISS : GameThrowTypeEnum.THROW,
+      keyValue,
+      this.multiplier
+    )
+
+    this.gameWsService.sendThrow(this.game.uuid, throwRequest);
+
     this.multiplier = GameThrowMultiplierEnum.SINGLE;
+  }
+
+  public undoLastThrow(): void {
+    
+    const throwRequest = new ActiveGameThrowRequest(
+      GameThrowTypeEnum.THROW,
+      0,
+      null,
+      true
+    )
+
+    this.gameWsService.sendThrow(this.game.uuid, throwRequest);
   }
 
   public toggleFullscreen() {
@@ -123,10 +156,9 @@ export class GameInputComponent implements OnInit, OnDestroy {
   }
 
   public getReadablePoints(gameThrow: GameThrow): string {
-
     switch (gameThrow.type) {
-      case GameThrowTypeEnum.POINTS:
-        return `${this.loGameCalculationService.getThrowMultiplierChar(gameThrow.multiplier)}${gameThrow.point}`;
+      case GameThrowTypeEnum.THROW:
+        return `${this.loGameCalculationService.getThrowMultiplierChar(gameThrow.multiplier)}${gameThrow.score}`;
         break;
 
       case GameThrowTypeEnum.MISS:
@@ -139,29 +171,118 @@ export class GameInputComponent implements OnInit, OnDestroy {
     }
   }
 
+  public toFixedNumber(value: number | null, digits: number): string {
+    if(value === null) {
+      return "-";
+    } else {
+      return parseFloat(value.toFixed(digits)).toString();
+    }
+  }
+
+  public endGame(isConfirmed: boolean): void {
+    if(isConfirmed) {
+      this.gameService.endGame(this.game.uuid).subscribe(
+        {
+          next: () => {
+            this.gameWsService.disconnect();
+            this.router.navigate(['/']);
+          },
+          error: () => {
+            this.gameWsService.disconnect();
+            this.router.navigate(['/']);
+          }
+        }
+      );
+    }
+  }
+
   private gameTime() {
     this.currentGameTimeInterval = setInterval(() => {
       const now = new Date();
-      if (this.game.gameStartTime) {
-        const elapsed = Math.floor((now.getTime() - this.game.gameStartTime.getTime()) / 1000);
-        const time = new Date(elapsed * 1000);
-        const hours = time.getUTCHours() > 0 ? time.getUTCHours() + ":" : "";
-        const minutes = time.getUTCMinutes().toString().padStart(2, '0');
-        const seconds = time.getUTCSeconds().toString().padStart(2, '0');
-        this.currentGameTime = hours + minutes + ":" + seconds;
+      if (this.game.startTime) {
+        const startTime = new Date(this.game.startTime);
+        const endTime = this.game.endTime ? new Date(this.game.endTime) : now;
+        const seconds = Math.floor((endTime.getTime() - startTime.getTime()) / 1000);
+        const outputHours = Math.floor(seconds / 3600);
+        const outputMinutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+        const outputSeconds = (seconds % 60).toString().padStart(2, '0');
+        this.currentGameTime = (outputHours > 0 ? outputHours + ':' : '') + outputMinutes + ':' + outputSeconds;
       }
     }, 1000);
   }
 
   private sortPlayers() {
-    this.game.players.sort((a, b) => {
+    return [...this.game.players].sort((a, b) => {
       if (a.isCurrentPlayer && !b.isCurrentPlayer) {
         return -1;
       } else if (!a.isCurrentPlayer && b.isCurrentPlayer) {
         return 1;
       } else {
-        return a.order - b.order;
+        return a.orderIndex - b.orderIndex;
       }
+    });
+  }
+
+  private applyGameUpdate(gameUpdate: ActiveGameResponse): void {
+    const previousPositions = this.getPlayerTopPositions();
+    this.game = gameUpdate;
+    this.playerDisplayList = this.sortPlayers();
+    this.changeDetectorRef.detectChanges();
+
+    requestAnimationFrame(() => {
+      this.animatePlayerReorder(previousPositions);
+    });
+  }
+
+  private getPlayerTopPositions(): Map<string, number> {
+    const positions = new Map<string, number>();
+    const playerElements = this.elementRef.nativeElement.querySelectorAll<HTMLElement>('.players .player[data-player-uuid]');
+
+    playerElements.forEach((element) => {
+      const playerUuid = element.dataset['playerUuid'];
+      if (playerUuid) {
+        positions.set(playerUuid, element.getBoundingClientRect().top);
+      }
+    });
+
+    return positions;
+  }
+
+  private animatePlayerReorder(previousPositions: Map<string, number>): void {
+    if (previousPositions.size === 0) {
+      return;
+    }
+
+    const playerElements = this.elementRef.nativeElement.querySelectorAll<HTMLElement>('.players .player[data-player-uuid]');
+
+    playerElements.forEach((element) => {
+      const playerUuid = element.dataset['playerUuid'];
+      if (!playerUuid) {
+        return;
+      }
+
+      const previousTop = previousPositions.get(playerUuid);
+      if (previousTop === undefined) {
+        return;
+      }
+
+      const currentTop = element.getBoundingClientRect().top;
+      const deltaY = previousTop - currentTop;
+
+      if (Math.abs(deltaY) < 1) {
+        return;
+      }
+
+      element.animate(
+        [
+          { transform: `translateY(${deltaY}px)` },
+          { transform: 'translateY(0)' }
+        ],
+        {
+          duration: 280,
+          easing: 'ease'
+        }
+      );
     });
   }
 
@@ -171,5 +292,15 @@ export class GameInputComponent implements OnInit, OnDestroy {
     } else {
       this.isOnStartFullscreen = false;
     }
+  }
+
+  private _loadGame(uuid: string): void {
+    this.gameService.getGame(uuid).subscribe(
+      (response: ActiveGameResponse) => {
+        this.applyGameUpdate(response);
+        this.checkIsFullscreen();
+        this.gameTime();
+      }
+    );
   }
 }

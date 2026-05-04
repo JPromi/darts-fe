@@ -2,7 +2,7 @@
     display: flex;
 
     .bouncing-dots {
-        width: 5rem;
+        // width: 5rem;
         display: flex;
         gap: 1rem;
 
@@ -35,6 +35,47 @@
             }
             50% {
                 transform: translateY(-.5rem);
+            }
+        }
+    }
+
+    .circular {
+        span {
+            width: 30px;
+            height: 30px;
+            content: '';
+            position: relative;
+            display: flex;
+            animation: rotate 1s linear infinite;
+
+            &::before {
+                width: 30px;
+                height: 30px;
+                content: "";
+                box-sizing: border-box;
+                position: absolute;
+                inset: 0px;
+                border-radius: 50%;
+                border: 3px solid #FFF;
+                animation: pathSpinner 2s linear infinite alternate;
+            }
+
+            @keyframes pathSpinner {
+                0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+                25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+                50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+                75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+                100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+            }
+
+            @keyframes rotate {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
             }
         }
     }
